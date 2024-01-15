@@ -1,0 +1,31 @@
+RewriteEngine on
+Options +Multiviews
+
+# Error Documents
+ErrorDocument 400 /public/index.php?error=400
+ErrorDocument 401 /public/index.php?error=401
+ErrorDocument 403 /public/index.php?error=403
+ErrorDocument 404 /public/index.php?error=404
+ErrorDocument 500 /public/index.php?error=405
+
+# Prevent viewing of .htaccess file
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>
+
+# Prevent directory listings
+Options All -Indexes
+
+# Redirecting Conditions
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule !.(js|css|ico|gif|jpg|png)$ public/index.php [L]
+
+# Cache Settings
+#<FilesMatch "\.(jpg|jpeg|png|gif|swf|css|js)$">
+#    Header set Cache-Control "max-age=31536000000, public"
+#</FilesMatch>
+
+#RewriteRule ^product/([0-9]+)$ viewProduct.php?id=$1 [NC]

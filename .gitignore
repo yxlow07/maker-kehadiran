@@ -1,0 +1,5 @@
+#.env
+node_modules
+vendor
+.idea
+#tailwind.config.js
