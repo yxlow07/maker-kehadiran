@@ -10,5 +10,6 @@ $routes::GET("/admin/all", 'admin');
 $routes::GET('/register',[AuthController::class, 'renderRegisterPage']);
 $routes::GET('/login',[AuthController::class, 'renderLoginPage']);
 $routes::POST('/login', [AuthController::class, 'login']);
+$routes::GET('/logout', [AuthController::class, 'logout']);
 
 return $routes;

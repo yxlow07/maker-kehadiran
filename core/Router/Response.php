@@ -13,9 +13,9 @@ class Response
         http_response_code($code);
     }
 
-    public function redirect(string $location, int $status = 200)
+    public function redirect(string $location, int $status = 200): void
     {
-        // TODO: Allow redirect from routers or something of similar nature
-        header("Location: ./$location", response_code: $status);
+        $absolutePath = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . "/$location";
+        header("Location: $absolutePath", true, $status);
     }
 }

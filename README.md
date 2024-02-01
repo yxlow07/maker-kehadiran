@@ -8,7 +8,7 @@
 - [ ] Optimising Autoloading https://getcomposer.org/doc/articles/autoloader-optimization.md
 
 ## Simple features to be implemented
-- [ ] Uploading to github
+- [x] Uploading to github
 - [ ] Reusable form components
 
 ## Frequent Questions

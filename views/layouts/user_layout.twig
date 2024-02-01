@@ -21,12 +21,25 @@
         <!-- Right side - Login/Register links -->
         <div id="navbar-collapse-with-animation" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block">
 
-            <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
+{#            <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">#}
 {#                <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="users_admin.html">users_admin</a>#}
-                <a class="font-semibold text-white focus:outline-none focus:ring-1 focus:ring-gray-600" href="/" aria-current="page">Home</a>
-                <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="login">Login</a>
-                <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="register">Register</a>
-            </div>
+{#                <a class="font-semibold text-white focus:outline-none focus:ring-1 focus:ring-gray-600" href="/" aria-current="page">Home</a>#}
+{#                <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="login">Login</a>#}
+{#                <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="register">Register</a>#}
+{#            </div>#}
+
+            {% if app.loggedIn %}
+                <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
+                    <a class="font-semibold text-white focus:outline-none focus:ring-1 focus:ring-gray-600" href="/" aria-current="page">Home</a>
+                    <a class="font-semibold text-white focus:outline-none focus:ring-1 focus:ring-gray-600" href="/logout" aria-current="page">Logout</a>
+                </div>
+            {% else %}
+                <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
+                    {# <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="users_admin.html">users_admin</a> #}
+                    <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="login">Login</a>
+                    <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="register">Register</a>
+                </div>
+            {% endif %}
 
         </div>
 

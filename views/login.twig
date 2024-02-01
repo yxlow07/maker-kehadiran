@@ -5,12 +5,12 @@
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form class="space-y-6" action="" method="POST">
             <div>
-                <label for="email" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Email / Username</label>
+                <label for="email" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">ID Murid</label>
                 <div class="mt-2">
-                    <input name="usernameOrEmail" value="{{ model.usernameOrEmail ?? '' }}" type="text" autocomplete="on" class="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-black shadow-sm ring-1 ring-inset {{ model.errors.usernameOrEmail is not empty ? 'ring-red-500' : 'ring-gray-300' }} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:{{ model.errors.usernameOrEmail is not empty ? 'ring-red-500' : 'ring-indigo-600' }} sm:text-sm sm:leading-6">
-                    {# Check if there are errors for the usernameOrEmail field #}
-                    {% if model.errors.usernameOrEmail is not empty %}
-                        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.usernameOrEmail[0] }}</div>
+                    <input name="idMurid" value="{{ model.idMurid ?? '' }}" type="text" autocomplete="on" class="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-black shadow-sm ring-1 ring-inset {{ model.errors.idMurid is not empty ? 'ring-red-500' : 'ring-gray-300' }} placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:{{ model.errors.idMurid is not empty ? 'ring-red-500' : 'ring-indigo-600' }} sm:text-sm sm:leading-6">
+                    {# Check if there are errors for the idMurid field #}
+                    {% if model.errors.idMurid is not empty %}
+                        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.idMurid[0] }}</div>
                     {% endif %}
                 </div>
             </div>

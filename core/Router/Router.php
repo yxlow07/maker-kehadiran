@@ -3,27 +3,46 @@
 namespace core\Router;
 
 use core\App;
+use core\Exceptions\MiddlewareException;
 use core\Exceptions\RouteNotFoundException;
 use core\Exceptions\ViewNotFoundException;
+use core\Middleware\MiddlewareHandler;
 use core\View;
 
 class Router
 {
+    public MiddlewareHandler $middlewareHandler;
+
     public function __construct(
         public Response $response,
         public Request $request,
         public RoutesCollector $routesCollector,
     )
-    {}
+    {
+        $this->middlewareHandler = new MiddlewareHandler(App::$app->config['middlewares']);
+    }
 
-    public function run(): void
+    /**
+     * @throws ViewNotFoundException
+     */
+    public function dispatch(): void
     {
         $method = Request::method();
         $url = $this->request->path();
 
+        // Run middlewares
+        try {
+            $this->middlewareHandler->handleMiddlewares();
+            $this->middlewareHandler->runMiddlewares();
+        } catch (MiddlewareException|\Exception $e) {
+            echo View::make()->renderView('error', ['error' => $e]);
+            exit();
+        }
+
+        // Middlewares passed, test for url
         try {
             echo $this->resolve($url, $method);
-        } catch (RouteNotFoundException|ViewNotFoundException $e) {
+        } catch (RouteNotFoundException|ViewNotFoundException|\Exception $e) {
             echo View::make()->renderView('error', ['error' => $e]);
         }
     }

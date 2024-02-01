@@ -16,7 +16,7 @@ abstract class ValidationModel extends BaseModel
         self::RULE_MIN => '{field} must be at least {min} characters',
         self::RULE_MAX => '{field} must be at most {max} characters',
         self::RULE_EMAIL => '{field} must be a valid email',
-        self::RULE_MATCH => '{field} must match {match}',
+        self::RULE_MATCH => '{field} {match}',
         self::RULE_UNIQUE => 'Record with this {field} already exists'
     ];
 
@@ -25,9 +25,11 @@ abstract class ValidationModel extends BaseModel
     abstract public function rules(): array;
     abstract public function fieldNames(): array;
 
-    public function validate(): bool
+    public function validate($rulesArray = []): bool
     {
-        foreach ($this->rules() as $attribute => $rules) {
+        $rules_model = empty($rulesArray) ? $this->rules() : $rulesArray;
+
+        foreach ($rules_model as $attribute => $rules) {
             $value = $this->{$attribute};
 
             foreach ($rules as $rule) {
