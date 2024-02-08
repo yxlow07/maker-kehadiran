@@ -3,13 +3,14 @@
 namespace app\Models;
 
 use core\App;
+use core\Cookies;
 
 class User
 {
     public string $idMurid = '';
     public string $noTel = '';
     public string $kLMurid = '';
-    public string $infoLogMasuk = '';
+    public ?string $infoLogMasuk = '';
     public ?array $infoMurid = [];
 
     public function __construct()
@@ -21,8 +22,8 @@ class User
     {
         $sessionID = App::$app->session->generateSessionID();
 
-        setcookie('idMurid', $this->idMurid, time() + 2630000);
-        setcookie('sessionID', $sessionID, time() + 2630000);
+        Cookies::setCookie('idMurid', $this->idMurid);
+        Cookies::setCookie('sessionID', $sessionID);
 
         $this->infoMurid['sessionID'] = $sessionID;
         App::$app->database->update('murid', ['infoLogMasuk'], ['infoLogMasuk' => json_encode($this->infoMurid)], ['idMurid' => $this->idMurid]);

@@ -46,7 +46,8 @@ abstract class ValidationModel extends BaseModel
             self::RULE_REQUIRED => $this->addError(!empty($value), $attribute, $ruleName),
             self::RULE_EMAIL => $this->addError(filter_var($value, FILTER_VALIDATE_EMAIL), $attribute, $ruleName),
             self::RULE_MIN => $this->addError(strlen($value) >= $rule['min'], $attribute, $ruleName, ['min', $rule['min']]),
-            self::RULE_MAX => $this->addError(strlen($value) <= $rule['max'], $attribute, $rule, ['max', $rule['max']]),
+            self::RULE_MAX => $this->addError(strlen($value) <= $rule['max'], $attribute, $ruleName, ['max', $rule['max']]),
+            self::RULE_MATCH => $this->addError($value == $this->{$rule['match']}, $attribute, $ruleName, ['match', $rule['matchMsg']]),
             default => $this->addError(false, $attribute, $ruleName),
         };
     }

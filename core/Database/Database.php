@@ -4,6 +4,7 @@ namespace core\Database;
 
 use app\Models\LoginModel;
 use app\Models\User;
+use core\Models\BaseModel;
 
 class Database
 {
@@ -24,15 +25,18 @@ class Database
         return $this->pdo->prepare($sql);
     }
 
-    public function insert(string $table, array $attributes, array $values): bool
+    public function insert(string $table, array $attributes, array|object $values): bool
     {
         $params = implode(',', array_map(fn($attr) => ":$attr", $attributes));
         $attributes = implode(',', $attributes);
 
+
         $statement = $this->prepare("INSERT INTO $table ($attributes) VALUES ($params)");
 
+
         foreach (explode(',', $attributes) as $attribute) {
-            $statement->bindParam(":$attribute", $values[$attribute]);
+            $value = !($values instanceof BaseModel) ? $values[$attribute] : $values->{$attribute};
+            $statement->bindValue(":$attribute", $value);
         }
 
         return $statement->execute();
@@ -46,12 +50,12 @@ class Database
         $statement = $this->prepare("UPDATE $table SET $updateFields WHERE $selectConditions");
 
         // Bind values
-        foreach ($values as $attribute => $value) {
+        foreach ($values as $attribute => &$value) {
             $statement->bindParam(":$attribute", $value);
         }
 
         // Bind conditions
-        foreach ($conditions as $attribute => $condition) {
+        foreach ($conditions as $attribute => &$condition) {
             $statement->bindParam(":$attribute", $condition);
         }
 

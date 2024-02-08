@@ -34,7 +34,7 @@ class LoginModel extends ValidationModel
         ];
     }
 
-    public function verifyUser()
+    public function verifyUser(): bool
     {
         /** @var User $user */
         $user = App::$app->database->findOne('murid', conditions: ['idMurid' => $this->idMurid], class: User::class);

@@ -46,7 +46,13 @@
     </nav>
 
     <!-- Horizontal Line -->
-    <hr class="my-3 mb-10 border-gray-300 dark:border-gray-600">
+    <hr class="my-3 mb-10 border-gray-300 dark:border-gray-600 p-4">
+    {% if app.session.getFlashMessage('success') is not empty %}
+        <div class="bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500 mb-3 font-bold" role="alert">
+            {{ app.session.getFlashMessage('success').value }}
+        </div>
+    {% endif %}
+
     {% block content %} {% endblock %}
     {#    <h2 class="text-3xl font-bold text-center mb-6 text-white">Users</h2>#}
 </div>

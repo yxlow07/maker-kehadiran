@@ -3,6 +3,7 @@
 namespace app\Controllers;
 
 use app\Models\LoginModel;
+use app\Models\RegisterModel;
 use app\Models\User;
 use core\App;
 use core\Controller;
@@ -16,14 +17,26 @@ class AuthController extends Controller
         echo "";
     }
 
-    public function renderRegisterPage(): void
+    public function renderRegisterPage(?RegisterModel $registerModel = null): void
     {
-        echo View::make()->renderView('register');
+        echo View::make()->renderView('register', ['model' => $registerModel, 'app' => App::$app]);
     }
 
     public function renderLoginPage(?LoginModel $loginModel = null): void
     {
-        echo View::make()->renderView('login', ['model' => $loginModel]);
+        echo View::make()->renderView('login', ['model' => $loginModel, 'app' => App::$app]);
+    }
+
+    public function register()
+    {
+        $data = App::$app->request->data();
+        $model = new RegisterModel($data);
+        if ($model->validate() && $model->verifyNoDuplicate() && $model->registerUser()) {
+            App::$app->session->setFlashMessage('success', 'Successfully registered user. Login now!');
+            header('Location: /login');
+        }
+
+        $this->renderRegisterPage($model);
     }
 
     public function login(): void
@@ -33,7 +46,7 @@ class AuthController extends Controller
 
         if ($model->validate() && $model->verifyUser()) {
             App::$app->session->set('user', App::$app->user);
-            App::$app->session->setFlashMessage('loginSuccess', 'Login successfully');
+            App::$app->session->setFlashMessage('success', 'Login successfully');
 
             if ($model->rememberMe) {
                 App::$app->user->setCookies();
@@ -46,8 +59,15 @@ class AuthController extends Controller
 
     public function logout()
     {
-        App::$app->session->setFlashMessage('loginSuccess', 'Logout successful');
+        App::$app->session->setFlashMessage('success', 'Logout successful');
         App::$app->session->delete('user');
+
+        $sessionID = Cookies::getCookie('sessionID');
+        if (!is_null($sessionID) && $sessionID == App::$app->user->infoMurid['sessionID']) {
+            unset(App::$app->user->infoMurid['sessionID']);
+            App::$app->database->update('murid', ['infoLogMasuk'], ['infoLogMasuk' => json_encode(App::$app->user->infoMurid)], ['idMurid' => App::$app->user->idMurid]);
+        }
+
         Cookies::unsetCookies(['idMurid', 'sessionID']);
         header('Location: /');
     }
