@@ -1,0 +1,26 @@
+{#{% extends 'user_layout.twig' %}#}
+{#{% block title %}Profile Page{% endblock %}#}
+{#{% block content %}#}
+{#    #}
+{#{% endblock %}#}
+<form action="" method="POST">
+    <label for="idMurid">ID Murid</label>
+    <input type="text" name="idMurid" value="{{ model.idMurid }}"><br>
+    {% if model.errors.idMurid is not empty %}
+        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.idMurid[0] }}</div>
+    {% endif %}
+
+    <label for="noTel">No Telefon</label>
+    <input type="tel" name="noTel" value="{{ model.noTel }}"><br>
+    {% if model.errors.noTel is not empty %}
+        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.noTel[0] }}</div>
+    {% endif %}
+
+    <label for="nama">Nama Murid</label>
+    <input type="text" name="namaM" value="{{ model.namaM }}"><br>
+    {% if model.errors.namaM is not empty %}
+        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.namaM[0] }}</div>
+    {% endif %}
+
+    <button type="submit">Update Profile</button>
+</form>

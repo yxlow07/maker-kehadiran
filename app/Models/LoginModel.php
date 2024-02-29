@@ -34,24 +34,32 @@ class LoginModel extends ValidationModel
         ];
     }
 
-    public function verifyUser(): bool
+    public function verifyUser(bool $isLogin = true): bool
     {
         /** @var User $user */
-        $user = App::$app->database->findOne('murid', conditions: ['idMurid' => $this->idMurid], class: User::class);
+        $user = self::getUserFromDB($this->idMurid);
 
-        if (!$user) {
-            $this->addError(false, 'idMurid', self::RULE_MATCH, ['match', 'must be a valid existing ID']);
-            return false;
-        }
+        if ($isLogin) {
+            if (!$user) {
+                $this->addError(false, 'idMurid', self::RULE_MATCH, ['match', 'must be a valid existing ID']);
+                return false;
+            }
 
-        if (!password_verify($this->password, $user->kLMurid)) {
-            $this->addError(false, 'password', self::RULE_MATCH, ['match', 'is incorrect']);
-            return false;
+            if (!password_verify($this->password, $user->kLMurid)) {
+                $this->addError(false, 'password', self::RULE_MATCH, ['match', 'is incorrect']);
+                return false;
+            }
         }
 
         App::$app->user = $user;
+        $user->getNameFromDatabase();
 
         return true;
+    }
+
+    public static function getUserFromDB(string $idMurid)
+    {
+        return App::$app->database->findOne('murid', conditions: ['idMurid' => $idMurid], class: User::class);
     }
 
     public function getUserData(): array

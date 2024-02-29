@@ -4,6 +4,14 @@
 @tailwind forms;
 @tailwind variants;
 
+* {
+    color: snow;
+}
+
+input {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;

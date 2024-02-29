@@ -19,12 +19,12 @@ class AuthController extends Controller
 
     public function renderRegisterPage(?RegisterModel $registerModel = null): void
     {
-        echo View::make()->renderView('register', ['model' => $registerModel, 'app' => App::$app]);
+        echo View::make()->renderView('register', ['model' => $registerModel]);
     }
 
     public function renderLoginPage(?LoginModel $loginModel = null): void
     {
-        echo View::make()->renderView('login', ['model' => $loginModel, 'app' => App::$app]);
+        echo View::make()->renderView('login', ['model' => $loginModel]);
     }
 
     public function register()

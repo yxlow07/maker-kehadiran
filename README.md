@@ -7,7 +7,27 @@
 - [ ] PHP Unit Testing https://www.freecodecamp.org/news/test-php-code-with-phpunit/
 - [ ] Optimising Autoloading https://getcomposer.org/doc/articles/autoloader-optimization.md
 
-## Simple features to be implemented
+## Pages for website
+- Users
+  - [x] Login / Register
+  - [ ] Profile Page
+  - [ ] Check Attendance Page
+  - [ ] Forgot Password Page
+  - [ ] Reset Password Page
+  - [ ] Email verification page
+  - [ ] Announcement Page
+- Admins
+  - [ ] CRUD Users
+  - [ ] Upload attendance csv
+  - [ ] CRUD Attendance
+  - [ ] Analysis Attendance
+
+## Known Limitations
+- [ ] Only supports one club [Multi activities supported by storing arrays/json objects in database]
+- [ ] Announcements are hard 
+- [ ] Website looks like _s_
+
+## Simple features to be implemented (Backend)
 - [x] Uploading to github
 - [ ] Reusable form components
 

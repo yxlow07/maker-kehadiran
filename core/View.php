@@ -38,6 +38,10 @@ class View
      */
     public function renderView($view, array $params = []): string
     {
+        if (!array_key_exists('app', $params)) {
+            $params['app'] = App::$app; // Injecting app into views
+        }
+
         try {
             return $this->environment->render("$view.twig", $params);
         } catch (LoaderError|SyntaxError|RuntimeError $e) {

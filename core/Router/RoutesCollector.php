@@ -19,6 +19,12 @@ class RoutesCollector
         self::addHandling('POST', $route, $fn, $options);
     }
 
+    public static function GETPOST(string $route, callable|object|string|array $fn, array $options = []): void
+    {
+        self::addHandling('GET', $route, $fn, $options);
+        self::addHandling('POST', $route, $fn, $options);
+    }
+
     protected static function addHandling(string $method, string $route, callable|object|string|array $fn, array $options): void
     {
         $route = self::trimRoute($route);

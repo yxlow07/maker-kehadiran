@@ -12,6 +12,7 @@ class User
     public string $kLMurid = '';
     public ?string $infoLogMasuk = '';
     public ?array $infoMurid = [];
+    public mixed $namaM = '';
 
     public function __construct()
     {
@@ -32,5 +33,14 @@ class User
     public function isLogin(): bool
     {
         return !empty($this->idMurid);
+    }
+
+    public function getNameFromDatabase(bool $return = false)
+    {
+        $this->namaM = App::$app->database->findOne('telefon', ['noTel' => $this->noTel])->namaM ?? '';
+
+        if ($return) {
+            return $this->namaM;
+        }
     }
 }

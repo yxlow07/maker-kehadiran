@@ -30,8 +30,9 @@
 
             {% if app.loggedIn %}
                 <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-                    <a class="font-semibold text-white focus:outline-none focus:ring-1 focus:ring-gray-600" href="/" aria-current="page">Home</a>
-                    <a class="font-semibold text-white focus:outline-none focus:ring-1 focus:ring-gray-600" href="/logout" aria-current="page">Logout</a>
+                    <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="/" aria-current="page">Home</a>
+                    <a class="font-semibold text-gray-300 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="/profile" aria-current="page">Profile</a>
+                    <a class="font-semibold text-gray-300 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="/logout" aria-current="page">Logout</a>
                 </div>
             {% else %}
                 <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
@@ -52,7 +53,7 @@
             {{ app.session.getFlashMessage('success').value }}
         </div>
     {% endif %}
-
+    <pre class="text-gray-50">{{ dump(app.session.getSession) }}</pre>
     {% block content %} {% endblock %}
     {#    <h2 class="text-3xl font-bold text-center mb-6 text-white">Users</h2>#}
 </div>

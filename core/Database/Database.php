@@ -18,6 +18,7 @@ class Database
 
         $this->pdo = new \PDO($dsn, $username, $password);
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
     }
 
     public function prepare(string $sql) : \PDOStatement
@@ -42,7 +43,15 @@ class Database
         return $statement->execute();
     }
 
-    public function update(string $table, array $attributes, array $values, array $conditions): bool
+    /**
+     * This function differs from upsert function. Using this function, updated ids still will update the row using old row data
+     * @param string $table
+     * @param array $attributes
+     * @param array|object $values If object is passed, must be instanceof BaseModel
+     * @param array $conditions
+     * @return bool
+     */
+    public function update(string $table, array $attributes, array|object $values, array $conditions, bool $needCheckIfExists = false): bool
     {
         $updateFields = implode(', ', array_map(fn($attr) => "$attr = :$attr", $attributes));
         $selectConditions = implode(' AND ', array_map(fn($attr) => "$attr = :$attr", array_keys($conditions)));
@@ -50,21 +59,33 @@ class Database
         $statement = $this->prepare("UPDATE $table SET $updateFields WHERE $selectConditions");
 
         // Bind values
-        foreach ($values as $attribute => &$value) {
-            $statement->bindParam(":$attribute", $value);
+        if (is_array($values)) {
+            foreach ($values as $attribute => &$value) {
+                $statement->bindValue(":$attribute", $value);
+            }
+        } else {
+            foreach ($attributes as $attribute) {
+                $statement->bindValue(":$attribute", $values->{$attribute});
+            }
         }
 
         // Bind conditions
         foreach ($conditions as $attribute => &$condition) {
-            $statement->bindParam(":$attribute", $condition);
+            $statement->bindValue(":$attribute", $condition);
         }
 
-        return $statement->execute();
+        if ($needCheckIfExists) {
+            if ($this->findOne($table, $conditions)) {
+                return $statement->execute();
+            } else {
+                return $this->insert($table, $attributes, $values);
+            }
+        } else {
+            return $statement->execute();
+        }
     }
 
-
-
-    public function findOne(string $table, array $conditions = [], array $selectAttributes = ['*'], $class = null)
+    public function findOne(string $table, array $conditions = [], array $selectAttributes = ['*'], $class = null, bool $fetchObject = true)
     {
         $selectAttributes = implode(',', $selectAttributes);
         $selectConditions = implode(' OR ', array_map(fn($attr) => "$attr = :$attr", array_keys($conditions)));
@@ -79,6 +100,6 @@ class Database
 
         $statement->execute();
 
-        return $statement->fetchObject($class);
+        return $fetchObject ? $statement->fetchObject($class) : $statement->fetchColumn();
     }
 }

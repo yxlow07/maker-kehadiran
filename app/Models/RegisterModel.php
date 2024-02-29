@@ -48,12 +48,20 @@ class RegisterModel extends ValidationModel
 
     public function verifyNoDuplicate(): bool
     {
-        $user = App::$app->database->findOne('murid', ['idMurid' => $this->idMurid], class: User::class);
-
-        if ($user instanceof User) {
+        $check = self::checkDatabaseForDuplicates($this->idMurid);
+        if (!$check) {
             $this->addError(false, 'idMurid', self::RULE_UNIQUE);
-            return false;
         }
-        return true;
+        return $check;
+    }
+
+    public static function checkDatabaseForDuplicates(string $idMurid): bool
+    {
+        $user = App::$app->database->findOne('murid', ['idMurid' => $idMurid], class: User::class);
+        if ($user instanceof User) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
