@@ -30,11 +30,11 @@
 
             {% if app.loggedIn %}
                 <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-                    <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="/" aria-current="page">Home</a>
-                    <a class="font-semibold text-gray-300 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="/profile" aria-current="page">Profile</a>
-                    <a class="font-semibold text-gray-300 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="/check_attendance" aria-current="page">Check Attendance</a>
-                    <a class="font-semibold text-gray-300 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="/logout" aria-current="page">Logout</a>
+                    {% for link, name in nav %}
+                        <a class="font-semibold{% if app.request.path == link %} text-gray-200 {% else %} text-gray-400 {% endif%}hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="{{ link }}">{{ name }}</a>
+                    {% endfor %}
                 </div>
+
             {% else %}
                 <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
                     {# <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="users_admin.html">users_admin</a> #}
