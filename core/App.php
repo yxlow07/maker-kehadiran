@@ -2,7 +2,7 @@
 
 namespace core;
 
-use app\Models\User;
+use app\Models\UserModel;
 use core\Database\Database;
 use core\Router\Request;
 use core\Router\Response;
@@ -17,7 +17,7 @@ class App
     public View $view;
     public Database $database;
     public Session $session;
-    public ?User $user;
+    public ?UserModel $user;
     public bool $loggedIn = false;
     public static App $app;
 
@@ -31,7 +31,7 @@ class App
         $this->response = new Response();
         $this->view = new View($this->config['view_path'], $this->config['layout_path']);
         $this->database = new Database($this->config['db']);
-        $this->user = new User();
+        $this->user = new UserModel();
         $this->session = new Session();
     }
 
@@ -45,7 +45,7 @@ class App
 
     public function runWeb(): void
     {
-        if (!empty($this->session->getSession()['user']) && $this->session->getSession()['user'] instanceof User) {
+        if (!empty($this->session->getSession()['user']) && $this->session->getSession()['user'] instanceof UserModel) {
             $this->user = $this->session->getSession()['user'];
         }
         $this->loggedIn = $this->user->isLogin();

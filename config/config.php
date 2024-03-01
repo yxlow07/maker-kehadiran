@@ -1,10 +1,10 @@
 <?php
 
-$dir = dirname(__DIR__);
+$dir = dirname(__DIR__) . '\\';
 
 require_once $dir.'/vendor/autoload.php';
 
-$dotenv = \Dotenv\Dotenv::createImmutable($dir);
+$dotenv = \Dotenv\Dotenv::createMutable($dir); // If any issue arises, use back createImmutable, refer discord /errors
 $dotenv->load();
 
 //echo password_hash('123', PASSWORD_BCRYPT);

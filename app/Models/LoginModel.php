@@ -36,7 +36,7 @@ class LoginModel extends ValidationModel
 
     public function verifyUser(bool $isLogin = true): bool
     {
-        /** @var User $user */
+        /** @var UserModel $user */
         $user = self::getUserFromDB($this->idMurid);
 
         if ($isLogin) {
@@ -59,7 +59,7 @@ class LoginModel extends ValidationModel
 
     public static function getUserFromDB(string $idMurid)
     {
-        return App::$app->database->findOne('murid', conditions: ['idMurid' => $idMurid], class: User::class);
+        return App::$app->database->findOne('murid', conditions: ['idMurid' => $idMurid], class: UserModel::class);
     }
 
     public function getUserData(): array

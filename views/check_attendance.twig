@@ -1,0 +1,26 @@
+<h1>Record for Murid ID {{ record.idMurid }}</h1>
+<small>This record is created by admin {{ record.idAdmin }}</small>
+
+<style>
+    table, tr, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 10px;
+        text-align: center;
+    }
+</style>
+
+<table>
+    <thead>
+        <th>Aktiviti No.</th>
+        <th>Kehadiran</th>
+    </thead>
+    <tbody>
+        {% for key, value in record.kehadiran %}
+            <tr>
+                <td>#{{ key+1 }}</td>
+                <td>{{ value ? 'Hadir' : 'Tak Hadir' }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

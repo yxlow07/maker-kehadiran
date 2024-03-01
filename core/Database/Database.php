@@ -3,7 +3,7 @@
 namespace core\Database;
 
 use app\Models\LoginModel;
-use app\Models\User;
+use app\Models\UserModel;
 use core\Models\BaseModel;
 
 class Database
@@ -30,13 +30,14 @@ class Database
     {
         $params = implode(',', array_map(fn($attr) => ":$attr", $attributes));
         $attributes = implode(',', $attributes);
-
+        $counter = 0;
 
         $statement = $this->prepare("INSERT INTO $table ($attributes) VALUES ($params)");
 
-
         foreach (explode(',', $attributes) as $attribute) {
-            $value = !($values instanceof BaseModel) ? $values[$attribute] : $values->{$attribute};
+            // For anyone that don't understand, basically I check if it is an object, if it is then straight query the attribute of the object
+            // If not, then I check if values is an associative array, if it is I straight access it with [] operation, if not then I use integer accessing and ++ (CP Knowledge)
+            $value = !($values instanceof BaseModel) ? (array_key_exists($attribute, $values) ? $values[$attribute] : $values[$counter++]) : $values->{$attribute};
             $statement->bindValue(":$attribute", $value);
         }
 

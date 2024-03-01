@@ -4,7 +4,7 @@ namespace app\Controllers;
 
 use app\Models\LoginModel;
 use app\Models\RegisterModel;
-use app\Models\User;
+use app\Models\UserModel;
 use core\App;
 use core\Controller;
 use core\Cookies;
@@ -12,31 +12,20 @@ use core\View;
 
 class AuthController extends Controller
 {
-    public function render(): void
-    {
-        echo "";
-    }
-
-    public function renderRegisterPage(?RegisterModel $registerModel = null): void
-    {
-        echo View::make()->renderView('register', ['model' => $registerModel]);
-    }
-
-    public function renderLoginPage(?LoginModel $loginModel = null): void
-    {
-        echo View::make()->renderView('login', ['model' => $loginModel]);
-    }
 
     public function register()
     {
         $data = App::$app->request->data();
         $model = new RegisterModel($data);
-        if ($model->validate() && $model->verifyNoDuplicate() && $model->registerUser()) {
-            App::$app->session->setFlashMessage('success', 'Successfully registered user. Login now!');
-            header('Location: /login');
+
+        if (App::$app->request->isMethod('post')) {
+            if ($model->validate() && $model->verifyNoDuplicate() && $model->registerUser()) {
+                App::$app->session->setFlashMessage('success', 'Successfully registered user. Login now!');
+                header('Location: /login');
+            }
         }
 
-        $this->renderRegisterPage($model);
+        echo View::make()->renderView('register', ['model' => $model]);
     }
 
     public function login(): void
@@ -44,17 +33,19 @@ class AuthController extends Controller
         $data = App::$app->request->data();
         $model = new LoginModel($data);
 
-        if ($model->validate() && $model->verifyUser()) {
-            App::$app->session->set('user', App::$app->user);
-            App::$app->session->setFlashMessage('success', 'Login successfully');
+        if (App::$app->request->isMethod('post')) {
+            if ($model->validate() && $model->verifyUser()) {
+                App::$app->session->set('user', App::$app->user);
+                App::$app->session->setFlashMessage('success', 'Login successfully');
 
-            if ($model->rememberMe) {
-                App::$app->user->setCookies();
+                if ($model->rememberMe) {
+                    App::$app->user->setCookies();
+                }
+                header("Location: /");
             }
-             header("Location: /");
         }
 
-        $this->renderLoginPage($model);
+        echo View::make()->renderView('login', ['model' => $model]);
     }
 
     public function logout()

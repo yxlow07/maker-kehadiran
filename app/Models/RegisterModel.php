@@ -57,8 +57,8 @@ class RegisterModel extends ValidationModel
 
     public static function checkDatabaseForDuplicates(string $idMurid): bool
     {
-        $user = App::$app->database->findOne('murid', ['idMurid' => $idMurid], class: User::class);
-        if ($user instanceof User) {
+        $user = App::$app->database->findOne('murid', ['idMurid' => $idMurid], class: UserModel::class);
+        if ($user instanceof UserModel) {
             return false;
         } else {
             return true;

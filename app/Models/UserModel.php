@@ -5,7 +5,7 @@ namespace app\Models;
 use core\App;
 use core\Cookies;
 
-class User
+class UserModel
 {
     public string $idMurid = '';
     public string $noTel = '';
@@ -42,5 +42,28 @@ class User
         if ($return) {
             return $this->namaM;
         }
+        return null;
+    }
+
+    public static function getAttendanceFromDatabase(string $idMurid)
+    {
+        $result = self::checkIfAttendanceRecordExists($idMurid);
+        
+        if (!$result) {
+            self::makeNewAttendanceRecord($idMurid);
+            self::getAttendanceFromDatabase($idMurid);
+        }
+        
+        return $result;
+    }
+
+    private static function makeNewAttendanceRecord(string $idMurid)
+    {
+        App::$app->database->insert('kehadiran', ['idMurid', 'idAdmin', 'kehadiran'], [$idMurid, 'A1234', json_encode([])]);
+    }
+
+    private static function checkIfAttendanceRecordExists(string $idMurid)
+    {
+        return App::$app->database->findOne('kehadiran', ['idMurid' => $idMurid]);
     }
 }

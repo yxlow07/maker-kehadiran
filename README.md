@@ -10,8 +10,8 @@
 ## Pages for website
 - Users
   - [x] Login / Register
-  - [ ] Profile Page
-  - [ ] Check Attendance Page
+  - [x] Profile Page
+  - [x] Check Attendance Page
   - [ ] Forgot Password Page
   - [ ] Reset Password Page
   - [ ] Email verification page
@@ -21,6 +21,8 @@
   - [ ] Upload attendance csv
   - [ ] CRUD Attendance
   - [ ] Analysis Attendance
+- General
+  - [ ] Styling
 
 ## Known Limitations
 - [ ] Only supports one club [Multi activities supported by storing arrays/json objects in database]
