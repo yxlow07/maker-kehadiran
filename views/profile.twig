@@ -3,6 +3,11 @@
 {#{% block content %}#}
 {#    #}
 {#{% endblock %}#}
+{% if app.session.getFlashMessage('success') is not empty %}
+    <div class="bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500 mb-3 font-bold" role="alert">
+        {{ app.session.getFlashMessage('success').value }}
+    </div>
+{% endif %}
 <form action="" method="POST">
     <label for="idMurid">ID Murid</label>
     <input type="text" name="idMurid" value="{{ model.idMurid }}"><br>
@@ -22,5 +27,35 @@
         <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.namaM[0] }}</div>
     {% endif %}
 
+    <input type="hidden" name="type" value="1">
     <button type="submit">Update Profile</button>
+</form>
+
+<hr>
+
+<form action="" method="POST">
+    <label for="oldpassword">Kata Laluan Sekarang</label>
+    <input type="password" name="kLMurid">
+    {% if model.errors.kLMurid is not empty %}
+        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMurid[0] }}</div>
+    {% endif %}
+    <br>
+
+    <label for="kLMuridNew">Kata Laluan Baharu</label>
+    <input type="password" name="kLMuridNew">
+    {% if model.errors.kLMuridNew is not empty %}
+        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMuridNew[0] }}</div>
+    {% endif %}
+    <br>
+
+    <label for="klMuridNewConf">Kata Laluan Baharu Confirm</label>
+    <input type="password" name="kLMuridNewConf">
+    {% if model.errors.kLMuridNewConf is not empty %}
+        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMuridNewConf[0] }}</div>
+    {% endif %}
+    <br>
+
+    <input type="hidden" name="type" value="2">
+    <br>
+    <button type="submit">Update Password</button>
 </form>

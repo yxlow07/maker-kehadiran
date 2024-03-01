@@ -62,6 +62,15 @@ class LoginModel extends ValidationModel
         return App::$app->database->findOne('murid', conditions: ['idMurid' => $idMurid], class: UserModel::class);
     }
 
+    public static function setNewUpdatedUserData(string $idMurid)
+    {
+        $user = self::getUserFromDB($idMurid);
+
+        App::$app->user = $user;
+        App::$app->user->getNameFromDatabase();
+        App::$app->session->set('user', App::$app->user);
+    }
+
     public function getUserData(): array
     {
         return $this->userData;

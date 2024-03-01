@@ -10,6 +10,7 @@ abstract class ValidationModel extends BaseModel
     const RULE_MATCH = 'match';
     const RULE_EMAIL = 'email';
     const RULE_UNIQUE = 'unique';
+    const RULE_UNDEFINED = 'undefined';
 
     const ERROR_MESSAGES = [
         self::RULE_REQUIRED => '{field} is required',
@@ -17,7 +18,8 @@ abstract class ValidationModel extends BaseModel
         self::RULE_MAX => '{field} must be at most {max} characters',
         self::RULE_EMAIL => '{field} must be a valid email',
         self::RULE_MATCH => '{field} {match}',
-        self::RULE_UNIQUE => 'Record with this {field} already exists'
+        self::RULE_UNIQUE => 'Record with this {field} already exists',
+        self::RULE_UNDEFINED => 'Undefined error occured. Contact an admin',
     ];
 
     public array $errors = [];

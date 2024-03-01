@@ -17,5 +17,6 @@ $routes::GETPOST('/profile', [UserController::class, 'profile']);
 
 // UserModel static pages
 $routes::GET('/check_attendance', [UserController::class, 'check_attendance']);
+$routes::GET('/forgot_password', 'forgot_password');
 
 return $routes;

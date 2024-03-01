@@ -12,8 +12,8 @@
   - [x] Login / Register
   - [x] Profile Page
   - [x] Check Attendance Page
-  - [ ] Forgot Password Page
-  - [ ] Reset Password Page
+  - [x] Forgot Password Page
+  - [x] Reset Password Page
   - [ ] Email verification page
   - [ ] Announcement Page
 - Admins
@@ -28,6 +28,7 @@
 - [ ] Only supports one club [Multi activities supported by storing arrays/json objects in database]
 - [ ] Announcements are hard 
 - [ ] Website looks like _s_
+- [ ] When updating password, all profile information disappeared
 
 ## Simple features to be implemented (Backend)
 - [x] Uploading to github
