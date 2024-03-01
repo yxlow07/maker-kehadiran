@@ -13,6 +13,7 @@ class TwigFunctions extends AbstractExtension
             new TwigFunction('css', [$this, 'css']),
             new TwigFunction('asset', [$this, 'asset']),
             new TwigFunction('img', [$this, 'img']),
+            new TwigFunction('backlink', [$this, 'previousReferrer']),
         ];
     }
 
@@ -29,5 +30,10 @@ class TwigFunctions extends AbstractExtension
     public function asset($filename)
     {
         return '/resources/' . $filename;
+    }
+
+    public function previousReferrer()
+    {
+        return $_SERVER['HTTP_REFERER'] ?? 'javascript:history.go(-1)';
     }
 }
