@@ -14,8 +14,8 @@
   - [x] Check Attendance Page
   - [x] Forgot Password Page
   - [x] Reset Password Page
-  - [ ] Email verification page
-  - [ ] Announcement Page
+  - [-] Email verification page
+  - [-] Announcement Page
 - Admins
   - [ ] CRUD Users
   - [ ] Upload attendance csv
