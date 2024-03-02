@@ -103,4 +103,33 @@ class Database
 
         return $fetchObject ? $statement->fetchObject($class) : $statement->fetchColumn();
     }
+
+    public function findAll(string $table, array $selectAttributes = ['*'], array $conditions = [], $class = null, bool $fetchObject = false): false|array
+    {
+        $selectAttributes = implode(',', $selectAttributes);
+
+        // Build the WHERE clause based on conditions
+        $selectConditions = '';
+        if (!empty($conditions)) {
+            $selectConditions = 'WHERE ' . implode(' AND ', array_map(fn($attr) => "$attr = :$attr", array_keys($conditions)));
+        }
+
+        $sql = "SELECT $selectAttributes FROM $table $selectConditions";
+        $statement = $this->prepare($sql);
+
+        // Bind values for conditions
+        foreach ($conditions as $attribute => $condition) {
+            $statement->bindValue(":$attribute", $condition);
+        }
+
+        $statement->execute();
+
+        // Fetch results based on the fetchObject parameter
+        if ($fetchObject) {
+            return $statement->fetchAll(\PDO::FETCH_CLASS, $class);
+        } else {
+            return $statement->fetchAll(\PDO::FETCH_ASSOC);
+        }
+    }
+
 }

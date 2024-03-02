@@ -13,7 +13,7 @@ use core\View;
 class AuthController extends Controller
 {
 
-    public function register()
+    public function register(): void
     {
         $data = App::$app->request->data();
         $model = new RegisterModel($data);
@@ -38,7 +38,7 @@ class AuthController extends Controller
                 App::$app->session->set('user', App::$app->user);
                 App::$app->session->setFlashMessage('success', 'Login successfully');
 
-                if ($model->rememberMe) {
+                if ($model->rememberMe && !App::$app->user->isAdmin) {
                     App::$app->user->setCookies();
                 }
                 header("Location: /");
@@ -48,7 +48,7 @@ class AuthController extends Controller
         echo View::make()->renderView('login', ['model' => $model]);
     }
 
-    public function logout()
+    public function logout(): void
     {
         App::$app->session->setFlashMessage('success', 'Logout successful');
         App::$app->session->delete('user');

@@ -30,29 +30,35 @@ class LoginModel extends ValidationModel
     {
         return [
             'idMurid' => 'ID Murid',
-            'password' => 'password'
+            'password' => 'Password'
         ];
     }
 
-    public function verifyUser(bool $isLogin = true): bool
+    public function verifyUser(): bool
     {
-        /** @var UserModel $user */
+        /** @var UserModel|AdminModel $user */
         $user = self::getUserFromDB($this->idMurid);
 
-        if ($isLogin) {
+        if (!$user) {
+            $user = self::getAdminFromDB($this->idMurid);
             if (!$user) {
                 $this->addError(false, 'idMurid', self::RULE_MATCH, ['match', 'must be a valid existing ID']);
                 return false;
             }
+        }
 
-            if (!password_verify($this->password, $user->kLMurid)) {
-                $this->addError(false, 'password', self::RULE_MATCH, ['match', 'is incorrect']);
-                return false;
-            }
+        $checkedPassword = $user->kLMurid ?? $user->kLAdmin;
+
+        if (!password_verify($this->password, $checkedPassword)) {
+            $this->addError(false, 'password', self::RULE_MATCH, ['match', 'is incorrect']);
+            return false;
         }
 
         App::$app->user = $user;
-        $user->getNameFromDatabase();
+
+        if (!$user->isAdmin) {
+            $user->getNameFromDatabase();
+        }
 
         return true;
     }
@@ -62,7 +68,12 @@ class LoginModel extends ValidationModel
         return App::$app->database->findOne('murid', conditions: ['idMurid' => $idMurid], class: UserModel::class);
     }
 
-    public static function setNewUpdatedUserData(string $idMurid)
+    public static function getAdminFromDB(string $idAdmin)
+    {
+        return App::$app->database->findOne('admin', conditions: ['idAdmin' => $idAdmin], class: AdminModel::class);
+    }
+
+    public static function setNewUpdatedUserData(string $idMurid): void
     {
         $user = self::getUserFromDB($idMurid);
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}NFC Attendance{% endblock %}</title>
-    <link rel="stylesheet" href="{{ css('output.css') }}">
+{#    <link rel="stylesheet" href="{{ css('output.css') }}">#}
 </head>
 <body class="min-h-screen dark:bg-slate-800">
 <!-- Announcements Section -->
@@ -30,11 +30,19 @@
 
             {% if app.loggedIn %}
                 <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-                    {% for link, name in nav %}
+                    {% for link, name in nav.general %}
                         <a class="font-semibold{% if app.request.path == link %} text-gray-200 {% else %} text-gray-400 {% endif%}hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="{{ link }}">{{ name }}</a>
                     {% endfor %}
+                    {% if app.user.isAdmin %}
+                        {% for link, name in nav.admin %}
+                            <a class="font-semibold{% if app.request.path == link %} text-gray-200 {% else %} text-gray-400 {% endif%}hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="{{ link }}">{{ name }}</a>
+                        {% endfor %}
+                    {% else %}
+                        {% for link, name in nav.user %}
+                            <a class="font-semibold{% if app.request.path == link %} text-gray-200 {% else %} text-gray-400 {% endif%}hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="{{ link }}">{{ name }}</a>
+                        {% endfor %}
+                    {% endif%}
                 </div>
-
             {% else %}
                 <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
                     {# <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="users_admin.html">users_admin</a> #}

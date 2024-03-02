@@ -14,6 +14,7 @@ class TwigFunctions extends AbstractExtension
             new TwigFunction('asset', [$this, 'asset']),
             new TwigFunction('img', [$this, 'img']),
             new TwigFunction('backlink', [$this, 'previousReferrer']),
+            new TwigFunction('json_decode', [$this, 'json_decode']),
         ];
     }
 
@@ -35,5 +36,10 @@ class TwigFunctions extends AbstractExtension
     public function previousReferrer()
     {
         return $_SERVER['HTTP_REFERER'] ?? 'javascript:history.go(-1)';
+    }
+
+    public function json_decode($json_string)
+    {
+        return json_decode($json_string);
     }
 }

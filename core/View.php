@@ -15,9 +15,11 @@ class View
     public FilesystemLoader $loader;
     public Environment $environment;
 
-    public function __construct($view_path, $layout_path = '')
+    public function __construct(string $view_path, string $layout_path = '', array $other_paths = [])
     {
-        $this->loader = new FilesystemLoader([$view_path, $layout_path]);
+        $other_paths = Filesystem::processPaths($other_paths);
+        
+        $this->loader = new FilesystemLoader([$view_path, $layout_path, ...$other_paths]);
         $this->environment = new Environment($this->loader, [
 //            'cache' => App::$app->config['cache_path']
             'cache' => false,
@@ -27,9 +29,9 @@ class View
         $this->environment->addExtension(new DebugExtension());
     }
 
-    public static function make(): static
+    public static function make(array $other_paths = []): static
     {
-        return new static(App::$app->config['view_path'], App::$app->config['layout_path']);
+        return new static(App::$app->config['view_path'], App::$app->config['layout_path'], $other_paths);
     }
 
 

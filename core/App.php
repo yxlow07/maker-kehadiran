@@ -2,6 +2,7 @@
 
 namespace core;
 
+use app\Models\AdminModel;
 use app\Models\UserModel;
 use core\Database\Database;
 use core\Router\Request;
@@ -17,7 +18,7 @@ class App
     public View $view;
     public Database $database;
     public Session $session;
-    public ?UserModel $user;
+    public UserModel|AdminModel|null $user;
     public bool $loggedIn = false;
     public static App $app;
 
@@ -29,7 +30,6 @@ class App
         self::$app = $this;
         $this->request = new Request();
         $this->response = new Response();
-        $this->view = new View($this->config['view_path'], $this->config['layout_path']);
         $this->database = new Database($this->config['db']);
         $this->user = new UserModel();
         $this->session = new Session();
@@ -45,9 +45,15 @@ class App
 
     public function runWeb(): void
     {
+        // TODO: This is the job of a middleware
         if (!empty($this->session->getSession()['user']) && $this->session->getSession()['user'] instanceof UserModel) {
             $this->user = $this->session->getSession()['user'];
         }
+
+        if (!empty($this->session->getSession()['user']) && $this->session->getSession()['user'] instanceof AdminModel) {
+            $this->user = $this->session->getSession()['user'];
+        }
+
         $this->loggedIn = $this->user->isLogin();
 
         $this->router = new Router($this->response, $this->request, $this->routesCollector);

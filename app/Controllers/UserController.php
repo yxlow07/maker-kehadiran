@@ -21,11 +21,18 @@ class UserController extends Controller
     public function userNavItems(): array
     {
         return [
-            '/' => 'Home',
-            '/profile' => 'Profile',
-            '/check_attendance' => 'Check Attendance',
-            '/announcements' => 'Announcements',
-            '/logout' => 'Logout',
+            'user' => [
+                '/profile' => 'Profile',
+                '/check_attendance' => 'Check Attendance',
+            ],
+            'admin' => [
+                '/crud_users' => 'Users List',
+            ],
+            'general' => [
+                '/' => 'Home',
+                '/announcements' => 'Announcements',
+                '/logout' => 'Logout',
+            ]
         ];
     }
 
