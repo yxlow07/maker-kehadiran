@@ -83,4 +83,22 @@ class Generator
     {
         return $this->faker->userAgent();
     }
+
+    public function sanitiseString(string $str): string
+    {
+        return nl2br(htmlspecialchars($str, ENT_QUOTES, 'UTF-8'));
+    }
+
+    public function generateCSVFile($data, $outputFile, $headers = []): void
+    {
+        $file = fopen($outputFile, 'w');
+        fputcsv($file, $headers);
+
+        foreach ($data as $key => $datum) {
+            $datum = $this->sanitiseString($datum);
+            fputcsv($file, [$key, $datum]);
+        }
+
+        fclose($file);
+    }
 }

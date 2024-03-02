@@ -7,13 +7,29 @@ use app\Models\ProfileModel;
 use app\Models\UserModel;
 use core\App;
 use core\Controller;
+use core\Database\CSVDatabase;
 use core\Models\ValidationModel;
 use core\View;
 
 class UserController extends Controller
 {
+    public function renderHome(): void
+    {
+        echo View::make()->renderView('index', ['nav' => $this->userNavItems()]);
+    }
 
-    public function profile()
+    public function userNavItems(): array
+    {
+        return [
+            '/' => 'Home',
+            '/profile' => 'Profile',
+            '/check_attendance' => 'Check Attendance',
+            '/announcements' => 'Announcements',
+            '/logout' => 'Logout',
+        ];
+    }
+
+    public function profilePage(): void
     {
         $model = new ProfileModel(App::$app->request->data());
 
@@ -36,6 +52,14 @@ class UserController extends Controller
         }
     }
 
+    private function handleUpdatePassword(ProfileModel $model): void
+    {
+        if ($model->validate($model->rulesUpdatePassword()) && $model->checkPassword() && $model->updateDatabasePasswordOnly()) {
+            App::$app->session->setFlashMessage('success', 'Password Updated Successfully!');
+            LoginModel::setNewUpdatedUserData(App::$app->user->idMurid);
+        }
+    }
+
     public function check_attendance(): void
     {
         $attendance_record = (array) UserModel::getAttendanceFromDatabase(App::$app->user->idMurid);
@@ -44,11 +68,9 @@ class UserController extends Controller
         echo View::make()->renderView('check_attendance', ['record' => $attendance_record]);
     }
 
-    private function handleUpdatePassword(ProfileModel $model): void
+    public function announcements()
     {
-        if ($model->validate($model->rulesUpdatePassword()) && $model->checkPassword() && $model->updateDatabasePasswordOnly()) {
-            App::$app->session->setFlashMessage('success', 'Password Updated Successfully!');
-            LoginModel::setNewUpdatedUserData(App::$app->user->idMurid);
-        }
+        $announcements = CSVDatabase::returnAllData('announcements.csv');
+        echo View::make()->renderView('announcements', ['announcements' => $announcements]);
     }
 }

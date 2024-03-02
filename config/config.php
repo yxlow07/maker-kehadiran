@@ -15,6 +15,7 @@ return [
     'view_path' => $dir . '/views/',
     'cache_path' => $dir . '/views/cache/',
     'layout_path' => $dir . '/views/layouts/',
+    'resources_path' => $dir . '/resources/',
     'db' => [
         'DSN' => $_ENV['DSN'],
         'USERNAME' => $_ENV['USERNAME'],
@@ -22,5 +23,3 @@ return [
     ],
     'middlewares' => include_once "middlewares.php",
 ];
-
-

@@ -14,21 +14,25 @@
   - [x] Check Attendance Page
   - [x] Forgot Password Page
   - [x] Reset Password Page
-  - [ ] Email verification page
-  - [ ] Announcement Page
+  - [x] ~~Email verification page (Cancelled)~~
+  - [x] Announcement Page
 - Admins
   - [ ] CRUD Users
   - [ ] Upload attendance csv
   - [ ] CRUD Attendance
   - [ ] Analysis Attendance
+  - [ ] CRUD Announcements
 - General
   - [ ] Styling
 
 ## Known Limitations
 - [ ] Only supports one club [Multi activities supported by storing arrays/json objects in database]
-- [ ] Announcements are hard 
+- [x] Announcements are hard coded (Solved)
 - [ ] Website looks like _s_
 - [ ] When updating password, all profile information disappeared
+
+## Solved Limitations
+- [x] Announcements are coded to be read from csv file
 
 ## Simple features to be implemented (Backend)
 - [x] Uploading to github
