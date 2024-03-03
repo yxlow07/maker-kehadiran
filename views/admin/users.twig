@@ -6,6 +6,10 @@
         text-align: center;
         max-width: 100vw;
     }
+    #attendanceChart {
+        max-width: 50vw;
+        max-height: 50vh;
+    }
 </style>
 <a href="/users/create"><button><i class="fa-duotone fa-user-plus"></i></button></a>
 <br><br>
@@ -27,11 +31,50 @@
                 <a href="/users/{{ id }}/read"><i class="fa-duotone fa-book"></i></a>
                 <a href="/users/{{ id }}/update"><i class="fa-duotone fa-pencil"></i></a>
                 <a href="#" class="delete-user" data-id="{{ id }}"><i class="fa-duotone fa-trash"></i></a>
+                <a href="/users/{{ id }}/analysis"><i class="fa-duotone fa-chart-pie-simple"></i></a>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
+
+<br>
+<hr>
+
+<h1>Kehadiran Analisis</h1>
+
+<div>
+    <canvas id="attendanceChart"></canvas>
+</div>
+
+<script src="{{ asset('/js/chart.js') }}"></script>
+
+<script>
+    const ctx = document.getElementById('attendanceChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ data.xaxis|raw }},
+            datasets: [{
+                label: 'Attendance',
+                data: {{ data.yaxis|raw }},
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            layout: {
+                padding: 20,
+            },
+            responsive: true
+        }
+    });
+</script>
 
 <script src="{{ asset('/js/fontawesome.js') }}"></script>
 <script src="{{ asset('/js/jquery.js') }}"></script>

@@ -68,7 +68,7 @@ class LoginModel extends ValidationModel
         /** @var UserModel $user */
         $user = App::$app->database->findOne('murid', conditions: ['idMurid' => $idMurid], class: UserModel::class);
 
-        if ($getName) {
+        if ($getName && $user instanceof UserModel) {
             $user->getNameFromDatabase();
         }
 

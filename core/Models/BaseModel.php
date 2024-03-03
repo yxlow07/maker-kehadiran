@@ -8,7 +8,7 @@ abstract class BaseModel
     const READ = 'read';
     const UPDATE = 'update';
     const DELETE = 'delete';
-    const UNDEFINED = 0;
+    const UNDEFINED = 'undefined';
 
     protected function loadData(array $data): void
     {

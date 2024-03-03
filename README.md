@@ -17,18 +17,18 @@
   - [x] ~~Email verification page (Cancelled)~~
   - [x] Announcement Page
 - Admins
-  - [ ] CRUD Users
+  - [x] CRUD Users
     - [x] Create
     - [x] Read
-    - [ ] Update
-    - [ ] Delete
+    - [x] Update
+    - [x] Delete
   - [ ] Upload attendance csv
   - [ ] CRUD Attendance
     - [ ] Create
     - [ ] Read
     - [ ] Update
     - [ ] Delete
-  - [ ] Analysis Attendance
+  - [x] Analysis Attendance
   - [ ] CRUD Announcements
     - [ ] Create
     - [ ] Read

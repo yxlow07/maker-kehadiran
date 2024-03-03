@@ -2,6 +2,7 @@
 
 namespace app\Controllers;
 
+use app\Exceptions\MethodNotAllowedException;
 use app\Exceptions\UserNotFoundException;
 use app\Models\LoginModel;
 use app\Models\ProfileModel;
@@ -13,6 +14,7 @@ use core\Exceptions\ViewNotFoundException;
 use core\Models\BaseModel;
 use core\Models\ValidationModel;
 use core\View;
+use http\Client\Curl\User;
 
 class AdminController extends Controller
 {
@@ -29,7 +31,20 @@ class AdminController extends Controller
     public function list_users(): void
     {
         $users = (array) App::$app->database->findAll('murid');
-        echo View::make(['/views/admin/'])->renderView('users', ['users' => $users]);
+        $kehadirans = App::$app->database->findAll('kehadiran');
+        $data = ['xaxis' => '[', 'yaxis' => '['];
+
+        foreach ($kehadirans as $kehadiran) {
+            $data['xaxis'] .= '"' . $kehadiran['idMurid'] . '",';
+            $data['yaxis'] .= count(array_filter(json_decode($kehadiran['kehadiran']))) . ',';
+        }
+
+        $data['xaxis'] = trim($data['xaxis'], ',');
+        $data['yaxis'] = trim($data['yaxis'], ',');
+        $data['xaxis'] .= ']';
+        $data['yaxis'] .= ']';
+
+        echo View::make(['/views/admin/'])->renderView('users', ['users' => $users, 'data' => $data]);
     }
 
     public function createUsers(): void
@@ -48,7 +63,7 @@ class AdminController extends Controller
 
     /**
      * @throws ViewNotFoundException
-     * @throws UserNotFoundException
+     * @throws UserNotFoundException|MethodNotAllowedException
      */
     public function crud_users($idMurid, $action): void
     {
@@ -58,11 +73,20 @@ class AdminController extends Controller
             BaseModel::READ => '',
             BaseModel::UPDATE => $this->editUser($data),
             BaseModel::DELETE => UserModel::deleteUserFromDB($idMurid),
+            'analysis' => $data = (array) UserModel::getAttendanceFromDatabase($idMurid),
             default => $data = BaseModel::UNDEFINED,
         };
 
-        if ($data === BaseModel::UNDEFINED) {
+        if (isset($data[0]) && $data[0] === false) {
             throw new UserNotFoundException();
+        }
+
+        if ($data === BaseModel::UNDEFINED) {
+            throw new MethodNotAllowedException();
+        }
+
+        if ($action == 'analysis') {
+            $data['xaxis'] = json_encode(array_map(fn($key) => "Aktiviti #" . $key + 1, array_keys(json_decode($data['kehadiran']))));
         }
 
         echo View::make(['/views/admin'])->renderView('user_profile', ['data' => $data, 'action' => $action]);
