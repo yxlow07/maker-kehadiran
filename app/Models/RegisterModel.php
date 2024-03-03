@@ -11,6 +11,7 @@ class RegisterModel extends ValidationModel
     public string $kLMurid = '';
     public string $noTel = '';
     public string $confirmkLMurid = '';
+    public string $namaM = '';
 
     public function __construct(array $data)
     {
@@ -34,6 +35,7 @@ class RegisterModel extends ValidationModel
             'kLMurid' => 'Password',
             'confirmkLMurid' => 'Confirm password',
             'noTel' => 'Nombor Telefon',
+            'namaM' => 'Nama Murid',
         ];
     }
 
@@ -41,9 +43,12 @@ class RegisterModel extends ValidationModel
     {
         $this->kLMurid = password_hash($this->kLMurid, PASSWORD_BCRYPT);
 
-        $register = App::$app->database->insert('murid', ['idMurid', 'noTel', 'kLMurid'], $this);
+        return App::$app->database->insert('murid', ['idMurid', 'noTel', 'kLMurid'], $this);
+    }
 
-        return $register;
+    public function registerName(): bool
+    {
+        return App::$app->database->insert('telefon', ['noTel', 'namaM'], $this);
     }
 
     public function verifyNoDuplicate(): bool

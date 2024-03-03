@@ -1,0 +1,40 @@
+{{ dump(model) }}
+
+<form action="" method="POST">
+    <!-- Input field and label for idMurid -->
+    <div>
+        <label for="idMurid">ID Murid:</label>
+        <input name="idMurid" id="idMurid" value="{{ model.idMurid ?? '' }}" type="text" autocomplete="on">
+        {% if model.errors.idMurid is not empty %}
+            <div>{{ model.errors.idMurid[0] }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Input field and label for noTel -->
+    <div>
+        <label for="noTel">No. Tel:</label>
+        <input name="noTel" id="noTel" value="{{ model.noTel ?? '' }}" type="text" autocomplete="on">
+        {% if model.errors.noTel is not empty %}
+            <div>{{ model.errors.noTel[0] }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Input field and label for namaM -->
+    <div>
+        <label for="namaM">Nama Murid:</label>
+        <input name="namaM" id="namaM" value="{{ model.namaM ?? '' }}" type="text" autocomplete="on">
+        {% if model.errors.namaM is not empty %}
+            <div>{{ model.errors.namaM[0] }}</div>
+        {% endif %}
+    </div>
+
+    <!-- Input field and label for kLMurid -->
+    <div>
+        <label for="kLMurid">Kata Laluan:</label>
+        <input name="kLMurid" id="kLMurid" value="{{ model.kLMurid ?? '' }}" type="password" autocomplete="on">
+        {% if model.errors.kLMurid is not empty %}
+            <div>{{ model.errors.kLMurid[0] }}</div>
+        {% endif %}
+    </div>
+    <button type="submit">Submit</button>
+</form>

@@ -7,12 +7,14 @@
         max-width: 100vw;
     }
 </style>
-
+<a href="/users/create"><button><i class="fa-duotone fa-user-plus"></i></button></a>
+<br><br>
 <table>
     <thead>
     <th>ID Murid</th>
     <th>No. Telefon</th>
     <th>Info Log Masuk</th>
+    <th>Operations</th>
     </thead>
     <tbody>
     {% for user in users %}
@@ -20,7 +22,14 @@
             <td>{{ user['idMurid'] }}</td>
             <td>{{ user['noTel'] }}</td>
             <td>{{ user['infoLogMasuk'] }}</td>
+            <td>
+                <a href="/users/{{ user['idMurid'] }}/read"><i class="fa-duotone fa-book"></i></a>
+                <a href="/users/{{ user['idMurid'] }}/edit"><i class="fa-duotone fa-pencil"></i></a>
+                <a href="/users/{{ user['idMurid'] }}/delete"><i class="fa-duotone fa-trash"></i></a>
+            </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
+
+<script src="{{ asset('/js/fontawesome.js') }}"></script>

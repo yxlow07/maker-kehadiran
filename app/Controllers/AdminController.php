@@ -2,15 +2,41 @@
 
 namespace app\Controllers;
 
+use app\Models\RegisterModel;
 use core\App;
 use core\Controller;
+use core\Models\ValidationModel;
 use core\View;
 
 class AdminController extends Controller
 {
-    public function crud_users()
+    public function createUsersRules():array
+    {
+        return [
+            'idMurid' => [ValidationModel::RULE_REQUIRED, [ValidationModel::RULE_MIN, 'min' => 5]],
+            'noTel' => [ValidationModel::RULE_REQUIRED, [ValidationModel::RULE_MIN, 'min' => 10], [ValidationModel::RULE_MAX, 'max' => 11]],
+            'namaM' => [ValidationModel::RULE_REQUIRED],
+            'kLMurid' => [ValidationModel::RULE_REQUIRED],
+        ];
+    }
+
+    public function crud_users(): void
     {
         $users = (array) App::$app->database->findAll('murid');
         echo View::make(['/views/admin/'])->renderView('users', ['users' => $users]);
+    }
+
+    public function createUsers(): void
+    {
+        $model = new RegisterModel(App::$app->request->data());
+
+        if (App::$app->request->isMethod('post')) {
+            if ($model->validate($this->createUsersRules()) && $model->verifyNoDuplicate() && $model->registerUser() && $model->registerName()) {
+                App::$app->session->setFlashMessage('success', 'Successfully registered user.');
+                header('Location: /crud_users');
+            }
+        }
+
+        echo View::make(['/views/admin'])->renderView('create_users', ['model' => $model]);
     }
 }

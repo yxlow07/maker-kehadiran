@@ -30,6 +30,7 @@
 - [x] Announcements are hard coded (Solved)
 - [ ] Website looks like _s_
 - [ ] When updating password, all profile information disappeared
+- [ ] Duplicate noTel might be registered
 
 ## Solved Limitations
 - [x] Announcements are coded to be read from csv file
