@@ -30,6 +30,7 @@ class Router
         $method = Request::method();
         $url = $this->request->path();
 
+        // TODO: create usable middlewares
         // Run middlewares
         try {
             $this->middlewareHandler->handleMiddlewares();

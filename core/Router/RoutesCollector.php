@@ -2,6 +2,7 @@
 
 namespace core\Router;
 
+use core\App;
 use JetBrains\PhpStorm\ArrayShape;
 
 class RoutesCollector
@@ -38,12 +39,16 @@ class RoutesCollector
         $returns = ['status' => 0, 'route' => null ,'error_message' => null];
         $route = self::trimRoute($route);
 
-        /** @var Route $findRoute */
+        /** @var Route|null $findRoute */
         $findRoute = self::$handling[$route] ?? null;
 
         // Check if the route exists
         if (is_null($findRoute)) {
-            $returns['error_message'] = "Route {$route} does not exist";
+            // Handle regex
+            $findRoute = self::handleRegexRoutes($route, $method, $returns) ?? false;
+            if ($findRoute === false) {
+                $returns['error_message'] = "Route {$route} does not exist";
+            }
             return $returns;
         }
 
@@ -65,4 +70,45 @@ class RoutesCollector
         return '/' . trim($route, '/\\');
     }
 
+    private static function handleRegexRoutes(string $request_route, string $method, array &$returns)
+    {
+        foreach (self::$handling as $route => $callbacks) {
+            $route = self::trimRoute($route);
+            $routeNames = [];
+
+            if (!$route) {
+                continue;
+            }
+
+            // Save routeNames to var, to pass it on in the future as we rewrite the route
+            if (preg_match_all('/\{(\w+)(:[^}]+)?}/', $route, $matches)) {
+                $routeNames = $matches[1];
+            }
+
+            // Converting to regex
+            $routeRegex = '@^' . preg_replace_callback('/\{\w+(:([^}]+))?}/', fn($m) => isset($m[2]) ? "({$m[2]})" : '(\w+)', $route) . '$@';
+
+            // Test and match
+            if (preg_match_all($routeRegex, $request_route, $valuesMatched)) {
+                $values = [];
+
+                // Remove all unnecessary stuff and leave only the value
+                for ($i = 1; $i < count($valuesMatched); $i++) {
+                    $values[] = $valuesMatched[$i][0];
+                }
+
+                App::$app->request->setRouteParams(array_combine($routeNames, $values)); // Set route params
+
+                if (isset($callbacks[$method])) {
+                    $returns['status'] = 1;
+                    $returns['route'] = $callbacks[$method];
+                } else {
+                    $returns['error_message'] = "Method {$method} for route {$route} does not exist";
+                }
+
+                return $returns;
+            }
+        }
+        return false;
+    }
 }

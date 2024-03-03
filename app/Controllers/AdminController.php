@@ -2,9 +2,12 @@
 
 namespace app\Controllers;
 
+use app\Exceptions\UserNotFoundException;
+use app\Models\LoginModel;
 use app\Models\RegisterModel;
 use core\App;
 use core\Controller;
+use core\Models\BaseModel;
 use core\Models\ValidationModel;
 use core\View;
 
@@ -20,7 +23,7 @@ class AdminController extends Controller
         ];
     }
 
-    public function crud_users(): void
+    public function list_users(): void
     {
         $users = (array) App::$app->database->findAll('murid');
         echo View::make(['/views/admin/'])->renderView('users', ['users' => $users]);
@@ -38,5 +41,19 @@ class AdminController extends Controller
         }
 
         echo View::make(['/views/admin'])->renderView('create_users', ['model' => $model]);
+    }
+
+    public function crud_users($idMurid, $action)
+    {
+        $data = match ($action) {
+            BaseModel::READ => LoginModel::getUserFromDB($idMurid, true),
+            default => BaseModel::UNDEFINED,
+        };
+
+        if ($data === false || $data === BaseModel::UNDEFINED) {
+            throw new UserNotFoundException();
+        }
+
+        echo View::make(['/views/admin'])->renderView('user_profile', ['data' => (array)$data, 'action' => $action]);
     }
 }

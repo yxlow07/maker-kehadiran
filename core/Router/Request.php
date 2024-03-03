@@ -4,6 +4,8 @@ namespace core\Router;
 
 class Request
 {
+    private array $routeParams = [];
+
     public static function method(): string
     {
         return strtoupper($_SERVER['REQUEST_METHOD'] ?? "GET");
@@ -64,5 +66,16 @@ class Request
         }
 
         return $headers;
+    }
+
+    public function setRouteParams(array $routeParams): Request
+    {
+        $this->routeParams = $routeParams;
+        return $this;
+    }
+
+    public function getRouteParams(): array
+    {
+        return $this->routeParams;
     }
 }

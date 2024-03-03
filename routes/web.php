@@ -3,12 +3,11 @@
 use app\Controllers\AdminController;
 use app\Controllers\AuthController;
 use app\Controllers\UserController;
+use core\Router\RoutesCollector;
 
-$routes = new \core\Router\RoutesCollector();
+$routes = new RoutesCollector();
 
 $routes::GET("/", [UserController::class, 'renderHome']);
-$routes::GET("/admin/all", 'admin');
-$routes::POST("/users.twig", 'users.twig');
 
 // UserModel profiles
 $routes::GETPOST('/register',[AuthController::class, 'register']);
@@ -22,7 +21,8 @@ $routes::GET('/forgot_password', 'forgot_password');
 $routes::GET('/announcements', [UserController::class, 'announcements']);
 
 //Admin pages
-$routes::GET('/crud_users', [AdminController::class, 'crud_users']);
+$routes::GET('/crud_users', [AdminController::class, 'list_users']);
 $routes::GETPOST('/users/create', [AdminController::class, 'createUsers']);
+$routes::GET('/users/{idMurid}/{action}', [AdminController::class, 'crud_users']);
 
 return $routes;

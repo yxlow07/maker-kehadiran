@@ -2,6 +2,7 @@
 
 namespace core\Router;
 
+use core\App;
 use core\Exceptions\ViewNotFoundException;
 use core\View;
 
@@ -13,7 +14,7 @@ class Route
 
     public function __construct(
         protected string $path,
-        protected string  $method,
+        protected string $method,
         protected mixed  $handler,
         protected array  $options = [],
         protected array  $middlewares = [],
@@ -59,8 +60,10 @@ class Route
      */
     public function dispatch(): mixed
     {
+        $this->options = array_merge($this->options, App::$app->request->getRouteParams());
+
         if ($this->isView) {
-           return View::make()->renderView($this->handler);
+           return View::make()->renderView($this->handler, $this->options);
         }
 
         $this->controller = $this->handler;

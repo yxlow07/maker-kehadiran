@@ -31,6 +31,7 @@
 - [ ] Website looks like _s_
 - [ ] When updating password, all profile information disappeared
 - [ ] Duplicate noTel might be registered
+- [ ] $returns should not be used, instead straight throw exceptions and let main App catch them and render it
 
 ## Solved Limitations
 - [x] Announcements are coded to be read from csv file
