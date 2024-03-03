@@ -23,6 +23,6 @@ $routes::GET('/announcements', [UserController::class, 'announcements']);
 //Admin pages
 $routes::GET('/crud_users', [AdminController::class, 'list_users']);
 $routes::GETPOST('/users/create', [AdminController::class, 'createUsers']);
-$routes::GET('/users/{idMurid}/{action}', [AdminController::class, 'crud_users']);
+$routes::GETPOST('/users/{idMurid}/{action}', [AdminController::class, 'crud_users']);
 
 return $routes;

@@ -4,10 +4,12 @@ namespace app\Controllers;
 
 use app\Exceptions\UserNotFoundException;
 use app\Models\LoginModel;
+use app\Models\ProfileModel;
 use app\Models\RegisterModel;
 use app\Models\UserModel;
 use core\App;
 use core\Controller;
+use core\Exceptions\ViewNotFoundException;
 use core\Models\BaseModel;
 use core\Models\ValidationModel;
 use core\View;
@@ -44,18 +46,41 @@ class AdminController extends Controller
         echo View::make(['/views/admin'])->renderView('create_users', ['model' => $model]);
     }
 
-    public function crud_users($idMurid, $action)
+    /**
+     * @throws ViewNotFoundException
+     * @throws UserNotFoundException
+     */
+    public function crud_users($idMurid, $action): void
     {
-        $data = match ($action) {
-            BaseModel::READ => LoginModel::getUserFromDB($idMurid, true),
+        $data = (array) LoginModel::getUserFromDB($idMurid, true);
+
+        match ($action) {
+            BaseModel::READ => '',
+            BaseModel::UPDATE => $this->editUser($data),
             BaseModel::DELETE => UserModel::deleteUserFromDB($idMurid),
-            default => BaseModel::UNDEFINED,
+            default => $data = BaseModel::UNDEFINED,
         };
 
-        if ($data === false || $data === BaseModel::UNDEFINED) {
+        if ($data === BaseModel::UNDEFINED) {
             throw new UserNotFoundException();
         }
 
-        echo View::make(['/views/admin'])->renderView('user_profile', ['data' => (array)$data, 'action' => $action]);
+        echo View::make(['/views/admin'])->renderView('user_profile', ['data' => $data, 'action' => $action]);
+    }
+
+    private function editUser($data)
+    {
+        $model = new ProfileModel($data);
+
+        if (App::$app->request->isMethod('post')) {
+            $model = new ProfileModel(App::$app->request->data());
+
+            if ($model->validate() && $model->verifyNoDuplicate($data) && $model->updateDatabase($data)) {
+                App::$app->session->setFlashMessage('success', 'Profile Updated Successfully!');
+            }
+        }
+
+        echo View::make()->renderView('profile', ['model' => $model, 'isAdmin' => true]);
+        exit;
     }
 }

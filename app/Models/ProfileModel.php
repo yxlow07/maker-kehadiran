@@ -57,23 +57,26 @@ class ProfileModel extends ValidationModel
         ];
     }
 
-    public function verifyNoDuplicate(): bool
+    public function verifyNoDuplicate(array $old_data = []): bool
     {
-        if ($this->idMurid == App::$app->session->get('user')->idMurid) {
+        $oldIdMurid = $this->getOldData($old_data, 'idMurid', App::$app->user);
+        if ($oldIdMurid == $this->idMurid) {
             return true;
-        } else {
-            $check = RegisterModel::checkDatabaseForDuplicates($this->idMurid);
-            if (!$check) {
-                $this->addError(false, 'idMurid', self::RULE_UNIQUE);
-            }
-            return $check;
         }
+        $check = RegisterModel::checkDatabaseForDuplicates($this->idMurid);
+        if (!$check) {
+            $this->addError(false, 'idMurid', self::RULE_UNIQUE);
+        }
+        return $check;
     }
 
-    public function updateDatabase(): bool
+    public function updateDatabase(array $old_data = []): bool
     {
-        $update = App::$app->database->update('murid', ['idMurid', 'noTel'], $this, ['idMurid' => App::$app->user->idMurid]);
-        $updateNama = App::$app->database->update('telefon', ['noTel', 'namaM'], $this, ['noTel' => App::$app->user->noTel], true);
+        $oldIdMurid = $this->getOldData($old_data, 'idMurid', App::$app->user);
+        $oldNoTel = $this->getOldData($old_data, 'noTel', App::$app->user);
+
+        $update = App::$app->database->update('murid', ['idMurid', 'noTel'], $this, ['idMurid' => $oldIdMurid]);
+        $updateNama = App::$app->database->update('telefon', ['noTel', 'namaM'], $this, ['noTel' => $oldNoTel], true);
 
         return $update && $updateNama;
     }
@@ -91,5 +94,10 @@ class ProfileModel extends ValidationModel
             $this->addError(false, 'kLMurid', self::RULE_MATCH, ['match', 'is incorrect']);
         }
         return $check;
+    }
+
+    private function getOldData(array $old_data, string $toFind, object|string $fallback)
+    {
+        return $old_data[$toFind] ?? (is_object($fallback) ? $fallback->{$toFind} : $fallback);
     }
 }

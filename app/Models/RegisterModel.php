@@ -60,6 +60,10 @@ class RegisterModel extends ValidationModel
         return $check;
     }
 
+    /**
+     * @param string $idMurid
+     * @return bool If user exists, then return false
+     */
     public static function checkDatabaseForDuplicates(string $idMurid): bool
     {
         $user = App::$app->database->findOne('murid', ['idMurid' => $idMurid], class: UserModel::class);

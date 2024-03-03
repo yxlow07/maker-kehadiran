@@ -33,29 +33,31 @@
 
 <hr>
 
-<form action="" method="POST">
-    <label for="oldpassword">Kata Laluan Sekarang</label>
-    <input type="password" name="kLMurid">
-    {% if model.errors.kLMurid is not empty %}
-        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMurid[0] }}</div>
-    {% endif %}
-    <br>
+{% if not isAdmin %}
+    <form action="" method="POST">
+        <label for="oldpassword">Kata Laluan Sekarang</label>
+        <input type="password" name="kLMurid">
+        {% if model.errors.kLMurid is not empty %}
+            <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMurid[0] }}</div>
+        {% endif %}
+        <br>
 
-    <label for="kLMuridNew">Kata Laluan Baharu</label>
-    <input type="password" name="kLMuridNew">
-    {% if model.errors.kLMuridNew is not empty %}
-        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMuridNew[0] }}</div>
-    {% endif %}
-    <br>
+        <label for="kLMuridNew">Kata Laluan Baharu</label>
+        <input type="password" name="kLMuridNew">
+        {% if model.errors.kLMuridNew is not empty %}
+            <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMuridNew[0] }}</div>
+        {% endif %}
+        <br>
 
-    <label for="klMuridNewConf">Kata Laluan Baharu Confirm</label>
-    <input type="password" name="kLMuridNewConf">
-    {% if model.errors.kLMuridNewConf is not empty %}
-        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMuridNewConf[0] }}</div>
-    {% endif %}
-    <br>
+        <label for="klMuridNewConf">Kata Laluan Baharu Confirm</label>
+        <input type="password" name="kLMuridNewConf">
+        {% if model.errors.kLMuridNewConf is not empty %}
+            <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMuridNewConf[0] }}</div>
+        {% endif %}
+        <br>
 
-    <input type="hidden" name="type" value="2">
-    <br>
-    <button type="submit">Update Password</button>
-</form>
+        <input type="hidden" name="type" value="2">
+        <br>
+        <button type="submit">Update Password</button>
+    </form>
+{% endif %}
