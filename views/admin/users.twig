@@ -18,14 +18,15 @@
     </thead>
     <tbody>
     {% for user in users %}
+        {% set id = user['idMurid'] %}
         <tr>
-            <td>{{ user['idMurid'] }}</td>
+            <td>{{ id }}</td>
             <td>{{ user['noTel'] }}</td>
             <td>{{ user['infoLogMasuk'] }}</td>
             <td>
-                <a href="/users/{{ user['idMurid'] }}/read"><i class="fa-duotone fa-book"></i></a>
-                <a href="/users/{{ user['idMurid'] }}/edit"><i class="fa-duotone fa-pencil"></i></a>
-                <a href="/users/{{ user['idMurid'] }}/delete"><i class="fa-duotone fa-trash"></i></a>
+                <a href="/users/{{ id }}/read"><i class="fa-duotone fa-book"></i></a>
+                <a href="/users/{{ id }}/edit"><i class="fa-duotone fa-pencil"></i></a>
+                <a href="#" class="delete-user" data-id="{{ id }}"><i class="fa-duotone fa-trash"></i></a>
             </td>
         </tr>
     {% endfor %}
@@ -33,3 +34,5 @@
 </table>
 
 <script src="{{ asset('/js/fontawesome.js') }}"></script>
+<script src="{{ asset('/js/jquery.js') }}"></script>
+<script src="{{ asset('/js/users_list.js') }}"></script>

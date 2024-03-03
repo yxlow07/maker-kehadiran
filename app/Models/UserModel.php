@@ -19,6 +19,14 @@ class UserModel
         $this->infoMurid = json_decode($this->infoLogMasuk, true);
     }
 
+    public static function deleteUserFromDB(string $idMurid)
+    {
+        $res = App::$app->database->delete('murid', ['idMurid' => $idMurid]);
+        header('Content-Type: application/json');
+        echo json_encode(['success' => $res]);
+        exit();
+    }
+
     public function setCookies(): void
     {
         $sessionID = App::$app->session->generateSessionID();

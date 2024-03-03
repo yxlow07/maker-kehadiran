@@ -132,4 +132,23 @@ class Database
         }
     }
 
+    public function delete(string $table, array $conditions = []): bool
+    {
+        // Build the WHERE clause
+        $whereClause = implode(' AND ', array_map(fn($attr) => "$attr = :$attr", array_keys($conditions)));
+
+        // Construct the SQL query
+        $sql = "DELETE FROM $table WHERE $whereClause";
+
+        // Prepare and execute the delete query
+        $statement = $this->prepare($sql);
+
+        // Bind values
+        foreach ($conditions as $attribute => $condition) {
+            $statement->bindValue(":$attribute", $condition);
+        }
+
+        // Execute the delete query and return the result
+        return $statement->execute();
+    }
 }

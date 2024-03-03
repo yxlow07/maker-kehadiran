@@ -18,10 +18,22 @@
   - [x] Announcement Page
 - Admins
   - [ ] CRUD Users
+    - [x] Create
+    - [x] Read
+    - [ ] Update
+    - [ ] Delete
   - [ ] Upload attendance csv
   - [ ] CRUD Attendance
+    - [ ] Create
+    - [ ] Read
+    - [ ] Update
+    - [ ] Delete
   - [ ] Analysis Attendance
   - [ ] CRUD Announcements
+    - [ ] Create
+    - [ ] Read
+    - [ ] Update
+    - [ ] Delete
 - General
   - [ ] Styling
 

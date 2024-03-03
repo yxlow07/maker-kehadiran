@@ -5,6 +5,7 @@ namespace app\Controllers;
 use app\Exceptions\UserNotFoundException;
 use app\Models\LoginModel;
 use app\Models\RegisterModel;
+use app\Models\UserModel;
 use core\App;
 use core\Controller;
 use core\Models\BaseModel;
@@ -47,6 +48,7 @@ class AdminController extends Controller
     {
         $data = match ($action) {
             BaseModel::READ => LoginModel::getUserFromDB($idMurid, true),
+            BaseModel::DELETE => UserModel::deleteUserFromDB($idMurid),
             default => BaseModel::UNDEFINED,
         };
 
