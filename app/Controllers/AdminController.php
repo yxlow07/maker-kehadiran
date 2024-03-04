@@ -10,14 +10,20 @@ use app\Models\RegisterModel;
 use app\Models\UserModel;
 use core\App;
 use core\Controller;
+use core\Database\CSVDatabase;
+use core\Database\Generator;
 use core\Exceptions\ViewNotFoundException;
+use core\Filesystem;
 use core\Models\BaseModel;
 use core\Models\ValidationModel;
 use core\View;
-use http\Client\Curl\User;
 
 class AdminController extends Controller
 {
+    public function render(string $view, array $params): void
+    {
+        echo View::make(['/views/admin/'])->renderView($view, $params);
+    }
     public function createUsersRules():array
     {
         return [
@@ -44,7 +50,7 @@ class AdminController extends Controller
         $data['xaxis'] .= ']';
         $data['yaxis'] .= ']';
 
-        echo View::make(['/views/admin/'])->renderView('users', ['users' => $users, 'data' => $data]);
+        $this->render('users', ['users' => $users, 'data' => $data]);
     }
 
     public function createUsers(): void
@@ -58,7 +64,7 @@ class AdminController extends Controller
             }
         }
 
-        echo View::make(['/views/admin'])->renderView('create_users', ['model' => $model]);
+        $this->render('create_users', ['model' => $model]);
     }
 
     /**
@@ -89,7 +95,7 @@ class AdminController extends Controller
             $data['xaxis'] = json_encode(array_map(fn($key) => "Aktiviti #" . $key + 1, array_keys(json_decode($data['kehadiran']))));
         }
 
-        echo View::make(['/views/admin'])->renderView('user_profile', ['data' => $data, 'action' => $action]);
+        $this->render('user_profile', ['data' => $data, 'action' => $action]);
     }
 
     private function editUser($data)
@@ -104,7 +110,35 @@ class AdminController extends Controller
             }
         }
 
-        echo View::make()->renderView('profile', ['model' => $model, 'isAdmin' => true]);
+        $this->render('profile', ['model' => $model, 'isAdmin' => true]);
         exit;
+    }
+
+    public function crud_announcements()
+    {
+        $data = CSVDatabase::returnAllData(Filesystem::resources('/data/announcements.csv'));
+
+        if (App::$app->request->isMethod('post')) {
+            $this->uploadAnnouncements();
+        }
+
+        $this->render('crud_announcements', ['data' => $data]);
+    }
+
+    private function uploadAnnouncements()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+        $data = json_decode(App::$app->request->data(true), true);
+        $cleanedData = [];
+
+        foreach ($data['data'] as $datum) {
+            $cleanedData[$datum[0]] = htmlspecialchars($datum[1], ENT_NOQUOTES, "UTF-8");
+        }
+
+        $gen = new Generator();
+        $gen->generateCSVFile($cleanedData, Filesystem::resources('/data/announcements.csv'));
+
+        echo json_encode(['success' => true]);
+        exit();
     }
 }

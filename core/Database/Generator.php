@@ -92,7 +92,10 @@ class Generator
     public function generateCSVFile($data, $outputFile, $headers = []): void
     {
         $file = fopen($outputFile, 'w');
-        fputcsv($file, $headers);
+
+        if (!empty($headers)) {
+            fputcsv($file, $headers);
+        }
 
         foreach ($data as $key => $datum) {
             $datum = $this->sanitiseString($datum);

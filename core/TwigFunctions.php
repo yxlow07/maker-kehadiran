@@ -11,6 +11,7 @@ class TwigFunctions extends AbstractExtension
     {
         return [
             new TwigFunction('css', [$this, 'css']),
+            new TwigFunction('js', [$this, 'js']),
             new TwigFunction('asset', [$this, 'asset']),
             new TwigFunction('img', [$this, 'img']),
             new TwigFunction('backlink', [$this, 'previousReferrer']),
@@ -21,6 +22,11 @@ class TwigFunctions extends AbstractExtension
     public function css($filename)
     {
         return $this->asset('css/' . $filename);
+    }
+
+    public function js($filename)
+    {
+        return $this->asset('js/' . $filename);
     }
 
     public function img($filename)

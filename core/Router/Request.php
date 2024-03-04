@@ -16,7 +16,7 @@ class Request
         return Request::method() == strtoupper($method);
     }
 
-    public function data(): array
+    public function data(bool $readPhpInput = false): array|string
     {
         $data = [];
 
@@ -26,6 +26,10 @@ class Request
 
         if (Request::method() == 'POST') {
             $data = $_POST;
+        }
+        
+        if ($readPhpInput) {
+            $data = file_get_contents('php://input');
         }
 
         return $data;

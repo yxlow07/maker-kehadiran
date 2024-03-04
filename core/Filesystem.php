@@ -14,6 +14,11 @@ class Filesystem
         return App::$app->config['dir'];
     }
 
+    public static function resources(string $fileLocation = ''): string
+    {
+        return self::rootDir() . '/resources/' . $fileLocation;
+    }
+
     public static function processPaths(array $paths): array
     {
         $dir = self::rootDir();

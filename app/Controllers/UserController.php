@@ -27,6 +27,7 @@ class UserController extends Controller
             ],
             'admin' => [
                 '/crud_users' => 'Users List',
+                '/crud_announcements' => 'Announcements List',
             ],
             'general' => [
                 '/' => 'Home',

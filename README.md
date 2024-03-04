@@ -29,11 +29,11 @@
     - [ ] Update
     - [ ] Delete
   - [x] Analysis Attendance
-  - [ ] CRUD Announcements
-    - [ ] Create
-    - [ ] Read
-    - [ ] Update
-    - [ ] Delete
+  - [x] CRUD Announcements
+    - [x] Create
+    - [x] Read
+    - [x] Update
+    - [x] Delete
 - General
   - [ ] Styling
 
