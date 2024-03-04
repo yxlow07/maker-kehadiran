@@ -65,9 +65,14 @@ class UserModel
         return $result;
     }
 
-    private static function makeNewAttendanceRecord(string $idMurid)
+    public static function updateAttendanceRecord(string $idMurid, array $attendanceData): bool
     {
-        App::$app->database->insert('kehadiran', ['idMurid', 'idAdmin', 'kehadiran'], [$idMurid, 'A1234', json_encode([])]);
+        return App::$app->database->update('kehadiran', ['kehadiran'], ['kehadiran' => json_encode($attendanceData)], ['idMurid' => $idMurid]);
+    }
+
+    private static function makeNewAttendanceRecord(string $idMurid, string $idAdmin = 'A1234')
+    {
+        App::$app->database->insert('kehadiran', ['idMurid', 'idAdmin', 'kehadiran'], [$idMurid, $idAdmin, json_encode([])]);
     }
 
     private static function checkIfAttendanceRecordExists(string $idMurid)

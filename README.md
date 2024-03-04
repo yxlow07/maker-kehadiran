@@ -23,11 +23,11 @@
     - [x] Update
     - [x] Delete
   - [ ] Upload attendance csv
-  - [ ] CRUD Attendance
-    - [ ] Create
-    - [ ] Read
-    - [ ] Update
-    - [ ] Delete
+  - [x] CRUD Attendance
+    - [x] Create
+    - [x] Read
+    - [x] Update
+    - [x] Delete
   - [x] Analysis Attendance
   - [x] CRUD Announcements
     - [x] Create
@@ -44,6 +44,7 @@
 - [ ] When updating password, all profile information disappeared
 - [ ] Duplicate noTel might be registered
 - [ ] $returns should not be used, instead straight throw exceptions and let main App catch them and render it
+- [ ] (Admin attendance update) The number of activities for everyone is arbitrary. Just hope admin don't luan luan delete
 
 ## Solved Limitations
 - [x] Announcements are coded to be read from csv file

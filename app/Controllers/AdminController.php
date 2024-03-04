@@ -24,6 +24,7 @@ class AdminController extends Controller
     {
         echo View::make(['/views/admin/'])->renderView($view, $params);
     }
+
     public function createUsersRules():array
     {
         return [
@@ -140,5 +141,20 @@ class AdminController extends Controller
 
         echo json_encode(['success' => true]);
         exit();
+    }
+
+    public function kehadiran($idMurid)
+    {
+        $kehadiran = (array) UserModel::getAttendanceFromDatabase($idMurid);
+        $kehadiran['kehadiran'] = json_decode($kehadiran['kehadiran']);
+
+        if (App::$app->request->isMethod('post')) {
+            header('Content-Type: application/json;charset=utf-8');
+            $data = json_decode(App::$app->request->data(true), true)['data'];
+            echo json_encode(['success' => UserModel::updateAttendanceRecord($idMurid, $data)]);
+            exit;
+        }
+
+        $this->render('kehadiran', ['data' => $kehadiran]);
     }
 }

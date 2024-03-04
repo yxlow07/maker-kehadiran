@@ -18,7 +18,8 @@
     <th>ID Murid</th>
     <th>No. Telefon</th>
     <th>Info Log Masuk</th>
-    <th>Operations</th>
+    <th>User Operations</th>
+    <th>Attendance</th>
     </thead>
     <tbody>
     {% for user in users %}
@@ -32,6 +33,9 @@
                 <a href="/users/{{ id }}/update"><i class="fa-duotone fa-pencil"></i></a>
                 <a href="#" class="delete-user" data-id="{{ id }}"><i class="fa-duotone fa-trash"></i></a>
                 <a href="/users/{{ id }}/analysis"><i class="fa-duotone fa-chart-pie-simple"></i></a>
+            </td>
+            <td>
+                <a href="/users/{{ id }}/kehadiran"><i class="fa-duotone fa-clipboard-user"></i></a>
             </td>
         </tr>
     {% endfor %}

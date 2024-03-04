@@ -12,3 +12,5 @@ require_once __DIR__.'/vendor/autoload.php';
 //    echo "Script failed to run with return code $return_code.";
 //    var_dump($output);
 //}
+
+// TODO: Generate admin from cmd line
