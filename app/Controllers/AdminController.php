@@ -20,7 +20,7 @@ use core\View;
 
 class AdminController extends Controller
 {
-    public function render(string $view, array $params): void
+    public function render(string $view, array $params = []): void
     {
         echo View::make(['/views/admin/'])->renderView($view, $params);
     }
@@ -145,6 +145,12 @@ class AdminController extends Controller
 
     public function kehadiran($idMurid)
     {
+        $exists = LoginModel::getUserFromDB($idMurid);
+
+        if (!$exists) {
+            throw new UserNotFoundException();
+        }
+
         $kehadiran = (array) UserModel::getAttendanceFromDatabase($idMurid);
         $kehadiran['kehadiran'] = json_decode($kehadiran['kehadiran']);
 
@@ -156,5 +162,33 @@ class AdminController extends Controller
         }
 
         $this->render('kehadiran', ['data' => $kehadiran]);
+    }
+
+    public function upload_kehadiran(): void
+    {
+        $uploadResults = [];
+        if (App::$app->request->isMethod('post') && isset($_FILES['csv']) && $_FILES['csv']['error'] == UPLOAD_ERR_OK) {
+            $csv = file($_FILES['csv']['tmp_name'], FILE_IGNORE_NEW_LINES);
+            $result = [];
+
+            foreach ($csv as $line) {
+                $data = str_getcsv($line);
+                $id = array_shift($data);
+                $result[$id] = array_map(fn($m) => $m == 1, $data);
+            }
+
+            foreach ($result as $idMurid => $attendanceData) {
+                $exists = LoginModel::getUserFromDB($idMurid);
+                if (!$exists) {
+                    $uploadResults[] = "Attendance for user $idMurid is not uploaded due to user not existing in database";
+                    continue;
+                }
+                $success = UserModel::updateAttendanceRecord($idMurid, $attendanceData) ? 'successfully' : 'unsuccessfully';
+                $uploadResults[] = "Attendance for user $idMurid has $success been updated";
+            }
+            
+            App::$app->session->setFlashMessage('success', 'Uploaded csv file!');
+        }
+        $this->render('upload_attendance', ['results' => $uploadResults]);
     }
 }

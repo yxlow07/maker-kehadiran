@@ -1,0 +1,15 @@
+{% if app.session.getFlashMessage('success') is not empty %}
+    <div class="bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500 mb-3 font-bold" role="alert">
+        {{ app.session.getFlashMessage('success').value }}
+
+        {% for result in results %}
+            <div>{{ result }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<form action="" method="post" enctype="multipart/form-data">
+    <input type="file" accept="text/csv" name="csv">
+    <br><br>
+    <button type="submit">Submit</button>
+</form>

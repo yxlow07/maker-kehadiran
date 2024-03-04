@@ -26,5 +26,6 @@ $routes::GETPOST('/crud_announcements', [AdminController::class, 'crud_announcem
 $routes::GETPOST('/users/create', [AdminController::class, 'createUsers']);
 $routes::GETPOST('/users/{idMurid}/kehadiran', [AdminController::class, 'kehadiran']);
 $routes::GETPOST('/users/{idMurid}/{action}', [AdminController::class, 'crud_users']);
+$routes::GETPOST('/kehadiran/upload', [AdminController::class, 'upload_kehadiran']);
 
 return $routes;

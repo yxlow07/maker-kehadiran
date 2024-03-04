@@ -22,7 +22,7 @@
     - [x] Read
     - [x] Update
     - [x] Delete
-  - [ ] Upload attendance csv
+  - [x] Upload attendance csv
   - [x] CRUD Attendance
     - [x] Create
     - [x] Read
@@ -35,6 +35,7 @@
     - [x] Update
     - [x] Delete
 - General
+  - [ ] Middlewares
   - [ ] Styling
 
 ## Known Limitations
