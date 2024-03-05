@@ -14,28 +14,17 @@ class MiddlewareHandler
     )
     {}
 
-    public function handleMiddlewares(): void
-    {
-        foreach ($this->middlewares as &$middleware) {
-            if (is_string($middleware) && str_contains($middleware, '@')) {
-                $middleware = explode('@', $middleware);
-            }
-        }
-
-        foreach ($this->middlewares as &$middleware) {
-            if (is_array($middleware)) {
-                $middleware[0] = new $middleware[0];
-            }
-        }
-    }
-
     /**
      * @throws MiddlewareException
      */
-    public function runMiddlewares(): void
+    public function handleMiddlewares(): void
     {
-        foreach ($this->middlewares as $middleware) {
-            call_user_func($middleware);
+        foreach ($this->middlewares as $fn => $middleware) {
+            $middlewareName = "$fn @ $middleware";
+
+            if ((new $middleware)->{$fn}() === false) {
+                throw new MiddlewareException("$middlewareName has failed");
+            }
         }
     }
 }

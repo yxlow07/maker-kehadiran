@@ -2,36 +2,49 @@
 
 namespace app\Middleware;
 
+use app\Models\AdminModel;
+use app\Models\LoginModel;
 use app\Models\UserModel;
 use core\App;
+use core\Cookies;
 use core\Exceptions\MiddlewareException;
 
 class AuthMiddleware
 {
-    public function loginWithCookies()
+    public function setUser(): void
     {
-        return true;
+        App::$app->user = App::$app->session->get('user', true);
+        App::$app->loggedIn = $this->execute() ? App::$app->user->isLogin() : false;
     }
 
-    public function isCookiesSet(): void
+    public function loginWithCookies(): void
     {
-        if (App::$app->user instanceof UserModel) return;
+        if ($this->execute()) return;
 
-        $id = $_COOKIE['idMurid'] ?? null;
-        $sessionId = $_COOKIE['sessionID'] ?? null;
+        $id = Cookies::getCookie('idMurid');
+        $sessionId = Cookies::getCookie('sessionID');
 
         if (is_null($id) || is_null($sessionId)) return;
 
         // Session ID and murid ID is set, can check from database
         /** @var UserModel $user */
-        $user = App::$app->database->findOne('murid', conditions: ['idMurid' => $id], class: UserModel::class);
+        $user = LoginModel::getUserFromDB($id, true);
 
-        if ($user->infoMurid['sessionID'] !== $sessionId) {
-            unset($_COOKIE['sessionID']);
-            unset($_COOKIE['idMurid']);
+        if (!$user) {
+            Cookies::unsetCookies(['sessionID', 'idMurid']);
             return;
         }
 
-        App::$app->session->set('user', $user);
+        if ($user->infoMurid['sessionID'] !== $sessionId) {
+            Cookies::unsetCookies(['sessionID', 'idMurid']);
+            return;
+        }
+
+        LoginModel::setNewUpdatedUserData($id);
+    }
+
+    public static function execute(): bool
+    {
+        return App::$app->user instanceof UserModel || App::$app->user instanceof AdminModel;
     }
 }

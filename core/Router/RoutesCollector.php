@@ -8,33 +8,35 @@ use JetBrains\PhpStorm\ArrayShape;
 class RoutesCollector
 {
     protected static array $methods = ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"];
-    protected static array $handling = [];
+    public static array $handling = [];
 
-    public static function GET(string $route, callable|object|string|array $fn, array $options = []): void
+    public function GET(string $route, callable|object|string|array $fn, array $options = []): static
     {
         self::addHandling('GET', $route, $fn, $options);
+        return $this;
     }
 
-    public static function POST(string $route, callable|object|string|array $fn, array $options = []): void
+    public function POST(string $route, callable|object|string|array $fn, array $options = []): static
     {
         self::addHandling('POST', $route, $fn, $options);
+        return $this;
     }
 
-    public static function GETPOST(string $route, callable|object|string|array $fn, array $options = []): void
+    public function GETPOST(string $route, callable|object|string|array $fn, array $options = []): static
     {
         self::addHandling('GET', $route, $fn, $options);
         self::addHandling('POST', $route, $fn, $options);
+        return $this;
     }
 
-    protected static function addHandling(string $method, string $route, callable|object|string|array $fn, array $options): void
+    protected function addHandling(string $method, string $route, callable|object|string|array $fn, array $options): void
     {
         $route = self::trimRoute($route);
         RoutesCollector::$handling[$route][$method] = new Route($route, $method, $fn, $options);
-
     }
 
     #[ArrayShape(['status' => 'int', 'route' => 'core\Router\Route', 'error_message' => 'string|null'])]
-    public static function routeExists(string $route, string $method = 'GET'): array
+    public function routeExists(string $route, string $method = 'GET'): array
     {
         $returns = ['status' => 0, 'route' => null ,'error_message' => null];
         $route = self::trimRoute($route);
@@ -45,7 +47,7 @@ class RoutesCollector
         // Check if the route exists
         if (is_null($findRoute)) {
             // Handle regex
-            $findRoute = self::handleRegexRoutes($route, $method, $returns) ?? false;
+            $findRoute = $this->handleRegexRoutes($route, $method, $returns) ?? false;
             if ($findRoute === false) {
                 $returns['error_message'] = "Route {$route} does not exist";
             }
@@ -70,7 +72,7 @@ class RoutesCollector
         return '/' . trim($route, '/\\');
     }
 
-    private static function handleRegexRoutes(string $request_route, string $method, array &$returns)
+    private function handleRegexRoutes(string $request_route, string $method, array &$returns): false|array
     {
         foreach (self::$handling as $route => $callbacks) {
             $route = self::trimRoute($route);
@@ -110,5 +112,14 @@ class RoutesCollector
             }
         }
         return false;
+    }
+
+    public function only(string $middleware): static
+    {
+        foreach (end(self::$handling) as $route) {
+            /** @var Route $route */
+            $route->addMiddleware($middleware);
+        }
+        return $this;
     }
 }

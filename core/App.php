@@ -45,17 +45,6 @@ class App
 
     public function runWeb(): void
     {
-        // TODO: This is the job of a middleware
-        if (!empty($this->session->getSession()['user']) && $this->session->getSession()['user'] instanceof UserModel) {
-            $this->user = $this->session->getSession()['user'];
-        }
-
-        if (!empty($this->session->getSession()['user']) && $this->session->getSession()['user'] instanceof AdminModel) {
-            $this->user = $this->session->getSession()['user'];
-        }
-
-        $this->loggedIn = $this->user->isLogin();
-
         $this->router = new Router($this->response, $this->request, $this->routesCollector);
         $this->router->dispatch();
     }

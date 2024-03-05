@@ -13,9 +13,10 @@ class Response
         http_response_code($code);
     }
 
-    public function redirect(string $location, int $status = 200): void
+    public static function redirect(string $location, int $status = 200): void
     {
         $absolutePath = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . "/$location";
         header("Location: $absolutePath", true, $status);
+        exit;
     }
 }

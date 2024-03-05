@@ -71,7 +71,7 @@ class UserController extends Controller
     public function check_attendance(): void
     {
         $attendance_record = (array) UserModel::getAttendanceFromDatabase(App::$app->user->idMurid);
-        $attendance_record['kehadiran'] = json_decode($attendance_record['kehadiran']);
+        $attendance_record['kehadiran'] = json_decode($attendance_record['kehadiran'] ?? []);
 
         echo View::make()->renderView('check_attendance', ['record' => $attendance_record]);
     }

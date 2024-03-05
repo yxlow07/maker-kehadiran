@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}NFC Attendance{% endblock %}</title>
-{#    <link rel="stylesheet" href="{{ css('output.css') }}">#}
+    <link rel="stylesheet" href="{{ css('output.css') }}">
 </head>
 <body class="min-h-screen dark:bg-slate-800">
 <!-- Announcements Section -->
@@ -20,14 +20,6 @@
 
         <!-- Right side - Login/Register links -->
         <div id="navbar-collapse-with-animation" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block">
-
-{#            <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">#}
-{#                <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="users_admin.html">users_admin</a>#}
-{#                <a class="font-semibold text-white focus:outline-none focus:ring-1 focus:ring-gray-600" href="/" aria-current="page">Home</a>#}
-{#                <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="login">Login</a>#}
-{#                <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="register">Register</a>#}
-{#            </div>#}
-
             {% if app.loggedIn %}
                 <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
                     {% for link, name in nav.general %}
@@ -45,9 +37,8 @@
                 </div>
             {% else %}
                 <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-                    {# <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="users_admin.html">users_admin</a> #}
-                    <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="login">Login</a>
-                    <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="register">Register</a>
+                    <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="/login">Login</a>
+                    <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="/register">Register</a>
                 </div>
             {% endif %}
 
@@ -60,6 +51,12 @@
     {% if app.session.getFlashMessage('success') is not empty %}
         <div class="bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500 mb-3 font-bold" role="alert">
             {{ app.session.getFlashMessage('success').value }}
+        </div>
+    {% endif %}
+
+    {% if app.session.getFlashMessage('error') is not empty %}
+        <div class="bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500 mb-3 font-bold" role="alert">
+            {{ app.session.getFlashMessage('error').value }}
         </div>
     {% endif %}
     <pre class="text-gray-50">{{ dump(app.session.getSession) }}</pre>

@@ -35,9 +35,9 @@ class Session
         $_SESSION[$key] = $value;
     }
 
-    public function get($key)
+    public function get($key, $want_null_return = false)
     {
-        return $_SESSION[$key] ?? false;
+        return $_SESSION[$key] ?? ($want_null_return ? null : false);
     }
 
     public function delete($key)

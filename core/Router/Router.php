@@ -2,6 +2,7 @@
 
 namespace core\Router;
 
+use app\Middleware\MiddlewareMap;
 use core\App;
 use core\Exceptions\MiddlewareException;
 use core\Exceptions\RouteNotFoundException;
@@ -19,7 +20,7 @@ class Router
         public RoutesCollector $routesCollector,
     )
     {
-        $this->middlewareHandler = new MiddlewareHandler(App::$app->config['middlewares']);
+        $this->middlewareHandler = new MiddlewareHandler(MiddlewareMap::appMiddlewares);
     }
 
     /**
@@ -30,20 +31,17 @@ class Router
         $method = Request::method();
         $url = $this->request->path();
 
-        // TODO: create usable middlewares
-        // Run middlewares
         try {
             $this->middlewareHandler->handleMiddlewares();
-            $this->middlewareHandler->runMiddlewares();
-        } catch (MiddlewareException|\Exception $e) {
+        } catch (\Exception $e) {
             echo View::make()->renderView('error', ['error' => $e]);
-            exit();
+            exit;
         }
 
         // Middlewares passed, test for url
         try {
             echo $this->resolve($url, $method);
-        } catch (RouteNotFoundException|ViewNotFoundException|\Exception $e) {
+        } catch (\Exception $e) {
             echo View::make()->renderView('error', ['error' => $e]);
         }
     }
@@ -51,12 +49,13 @@ class Router
     /**
      * @throws ViewNotFoundException
      * @throws RouteNotFoundException
+     * @throws MiddlewareException
      */
     private function resolve(string $url, string $method)
     {
         // TODO: Instead of whole route becomes a key in an array, explode it and add it dynamically (Allows for grouping)
         // array_values(array_filter(explode('/', $url), 'strlen'));
-        $routeExists = $this->routesCollector::routeExists($url, $method);
+        $routeExists = $this->routesCollector->routeExists($url, $method);
 
         if ($routeExists['status']) {
             return $routeExists['route']->dispatch();

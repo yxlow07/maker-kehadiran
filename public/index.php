@@ -8,6 +8,8 @@ use core\Router\RoutesCollector;
 
 $config = require_once __DIR__.'/../config/config.php';
 
+require_once __DIR__ . '/../config/functions.php';
+
 /** @var \core\Router\RoutesCollector $routes */
 $routes = require_once $dir."/routes/web.php";
 $app = new App($routes, $config);

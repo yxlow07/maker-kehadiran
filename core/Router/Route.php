@@ -2,8 +2,11 @@
 
 namespace core\Router;
 
+use app\Middleware\MiddlewareMap;
 use core\App;
+use core\Exceptions\MiddlewareException;
 use core\Exceptions\ViewNotFoundException;
+use core\Middleware\BaseMiddleware;
 use core\View;
 
 class Route
@@ -57,10 +60,25 @@ class Route
 
     /**
      * @throws ViewNotFoundException
+     * @throws MiddlewareException
      */
     public function dispatch(): mixed
     {
         $this->options = array_merge($this->options, App::$app->request->getRouteParams());
+
+        foreach ($this->middlewares as $middleware) {
+            $middlewareName = $middleware;
+            $middleware = MiddlewareMap::getMiddleware($middleware);
+
+            if (!$middleware) {
+                throw new MiddlewareException('Middleware not found');
+            }
+
+            /** @var BaseMiddleware $middleware */
+            if (!(new $middleware)->execute()) {
+                throw new MiddlewareException("Middleware {$middlewareName} failed!");
+            }
+        }
 
         if ($this->isView) {
            return View::make()->renderView($this->handler, $this->options);

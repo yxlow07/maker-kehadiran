@@ -1,13 +1,13 @@
 <?php
 
+use app\Middleware\MiddlewareMap;
+
 $dir = dirname(__DIR__) . '\\';
 
 require_once $dir.'/vendor/autoload.php';
 
 $dotenv = \Dotenv\Dotenv::createMutable($dir); // If any issue arises, use back createImmutable, refer discord /errors
 $dotenv->load();
-
-//echo password_hash('123', PASSWORD_BCRYPT);
 
 return [
     'dir' => $dir,
@@ -21,5 +21,5 @@ return [
         'USERNAME' => $_ENV['USERNAME'],
         'PASSWORD' => $_ENV['PASSWORD'],
     ],
-    'middlewares' => include_once "middlewares.php",
+    'middlewares' => MiddlewareMap::middlewares,
 ];
