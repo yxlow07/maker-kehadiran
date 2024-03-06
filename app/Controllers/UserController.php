@@ -2,6 +2,7 @@
 
 namespace app\Controllers;
 
+use app\Middleware\AuthMiddleware;
 use app\Models\LoginModel;
 use app\Models\ProfileModel;
 use app\Models\UserModel;
@@ -15,26 +16,40 @@ class UserController extends Controller
 {
     public function renderHome(): void
     {
-        echo View::make()->renderView('index', ['nav' => $this->userNavItems()]);
+        echo View::make()->renderView('index', ['nav' => App::$app->nav]);
     }
 
-    public function userNavItems(): array
+    public static function navItems()
     {
-        return [
+        $navItems = [
             'user' => [
-                '/profile' => 'Profile',
-                '/check_attendance' => 'Check Attendance',
+                '/check_attendance' => ['fa-clipboard-user', 'Check Attendance'],
+                '/profile' => ['fa-user', 'Profile'],
             ],
             'admin' => [
-                '/crud_users' => 'Users List',
-                '/crud_announcements' => 'Announcements List',
+                '/crud_users' => ['fa-users', 'Manage Users'],
+                '/crud_announcements' => ['fa-scroll', 'Manage Announcements'],
             ],
             'general' => [
-                '/' => 'Home',
-                '/announcements' => 'Announcements',
-                '/logout' => 'Logout',
-            ]
+                '/' => ['fa-house', 'Home'],
+                '/announcements' => ['fa-megaphone', 'Announcements'],
+            ],
+            'end' => [
+                '/logout' => ['fa-person-from-portal', 'Logout'],
+            ],
+            'guest' => [
+                '/login' => ['fa-person-to-door', 'Login'],
+                '/register' => ['fa-user-plus', 'Register'],
+            ],
         ];
+
+
+        $nav = [
+            ...$navItems['general'],
+            ...(AuthMiddleware::execute() ? (App::$app->user instanceof UserModel ? $navItems['user'] + $navItems['end'] : $navItems['admin']+ $navItems['end']) : $navItems['guest']),
+        ];
+
+        App::$app->nav = $nav;
     }
 
     public function profilePage(): void

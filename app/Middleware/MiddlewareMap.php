@@ -2,11 +2,14 @@
 
 namespace app\Middleware;
 
+use app\Controllers\UserController;
+
 class MiddlewareMap
 {
     const appMiddlewares = [
         'setUser' => AuthMiddleware::class,
         'loginWithCookies' => AuthMiddleware::class,
+        'navItems' => UserController::class,
     ];
 
     const middlewares = [

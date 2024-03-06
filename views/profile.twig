@@ -1,63 +1,133 @@
-{#{% extends 'user_layout.twig' %}#}
-{#{% block title %}Profile Page{% endblock %}#}
-{#{% block content %}#}
-{#    #}
-{#{% endblock %}#}
-{% if app.session.getFlashMessage('success') is not empty %}
-    <div class="bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500 mb-3 font-bold" role="alert">
-        {{ app.session.getFlashMessage('success').value }}
-    </div>
-{% endif %}
-<form action="" method="POST">
-    <label for="idMurid">ID Murid</label>
-    <input type="text" name="idMurid" value="{{ model.idMurid }}"><br>
-    {% if model.errors.idMurid is not empty %}
-        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.idMurid[0] }}</div>
+{% extends 'user_layout.twig' %}
+{% block title %}Profile Page{% endblock %}
+{% block content %}
+    <main class="w-full max-w-xl mx-auto p-6">
+        <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-4 sm:p-7">
+                <div class="text-center">
+                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Update Profile</h1>
+                </div>
+
+                <div class="mt-5">
+                    <!-- Form -->
+                    <form class="mt-6" action="" method="post">
+                        <div class="grid gap-y-4">
+                            <!-- Form Group for idMurid -->
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <label for="idMurid" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Student ID</label>
+                                </div>
+                                <div class="mt-2">
+                                    <input name="idMurid" type="text" value="{{ model.idMurid }}" class="c-input {{ model.errors.idMurid is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.idMurid is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    {% if model.errors.idMurid is not empty %}
+                                        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.idMurid[0] }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- End Form Group for idMurid -->
+
+                            <!-- Form Group for noTel -->
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <label for="noTel" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Telephone Number</label>
+                                </div>
+                                <div class="mt-2">
+                                    <input name="noTel" type="text" value="{{ model.noTel }}" class="c-input {{ model.errors.noTel is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.noTel is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    {% if model.errors.noTel is not empty %}
+                                        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.noTel[0] }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- End Form Group for noTel -->
+
+                            <!-- Form Group for namaM -->
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <label for="namaM" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Student Name</label>
+                                </div>
+                                <div class="mt-2">
+                                    <input name="namaM" type="text" value="{{ model.namaM }}" class="c-input {{ model.errors.namaM is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.namaM is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    {% if model.errors.namaM is not empty %}
+                                        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.namaM[0] }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- End Form Group for namaM -->
+                            <input type="hidden" name="type" value="1">
+
+                            <button type="submit" class="c-form-btn">Submit</button>
+                        </div>
+                    </form>
+                    <!-- End Form -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <hr class="border-gray-700 dark:border-gray-400 border-2 rounded opacity-50 my-5">
+
+    {% if not isAdmin %}
+        <main class="w-full max-w-xl mx-auto p-6">
+            <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-4 sm:p-7">
+                <div class="text-center">
+                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Update Password</h1>
+                </div>
+
+                <div class="mt-5">
+                    <!-- Form -->
+                    <form class="mt-6" action="" method="post">
+                        <div class="grid gap-y-4">
+                            <!-- Form Group for password -->
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <label for="kLMurid" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Old Password</label>
+                                </div>
+                                <div class="mt-2">
+                                    <input name="kLMurid" type="password" autocomplete="current-password" class="c-input {{ model.errors.kLMurid is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.kLMurid is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    {% if model.errors.kLMurid is not empty %}
+                                        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMurid[0] }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- End Form Group for password -->
+
+                            <!-- Form Group for new password -->
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <label for="kLMuridNew" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">New Password</label>
+                                </div>
+                                <div class="mt-2">
+                                    <input name="kLMuridNew" type="password" class="c-input {{ model.errors.kLMuridNew is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.kLMuridNew is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    {% if model.errors.kLMuridNew is not empty %}
+                                        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMuridNew[0] }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- End Form Group for new password -->
+
+                            <!-- Form Group for confirm new password -->
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <label for="kLMuridNewConf" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Confirm New Password</label>
+                                </div>
+                                <div class="mt-2">
+                                    <input name="kLMuridNewConf" type="password" class="c-input {{ model.errors.kLMuridNewConf is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.kLMuridNewConf is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    {% if model.errors.kLMuridNewConf is not empty %}
+                                        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMuridNewConf[0] }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- End Form Group for new password -->
+                            <input type="hidden" name="type" value="2">
+
+                            <button type="submit" class="c-form-btn">Submit</button>
+                        </div>
+                    </form>
+                    <!-- End Form -->
+                </div>
+            </div>
+        </div>
+        </main>
     {% endif %}
-
-    <label for="noTel">No Telefon</label>
-    <input type="tel" name="noTel" value="{{ model.noTel }}"><br>
-    {% if model.errors.noTel is not empty %}
-        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.noTel[0] }}</div>
-    {% endif %}
-
-    <label for="nama">Nama Murid</label>
-    <input type="text" name="namaM" value="{{ model.namaM }}"><br>
-    {% if model.errors.namaM is not empty %}
-        <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.namaM[0] }}</div>
-    {% endif %}
-
-    <input type="hidden" name="type" value="1">
-    <button type="submit">Update Profile</button>
-</form>
-
-<hr>
-
-{% if not isAdmin %}
-    <form action="" method="POST">
-        <label for="oldpassword">Kata Laluan Sekarang</label>
-        <input type="password" name="kLMurid">
-        {% if model.errors.kLMurid is not empty %}
-            <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMurid[0] }}</div>
-        {% endif %}
-        <br>
-
-        <label for="kLMuridNew">Kata Laluan Baharu</label>
-        <input type="password" name="kLMuridNew">
-        {% if model.errors.kLMuridNew is not empty %}
-            <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMuridNew[0] }}</div>
-        {% endif %}
-        <br>
-
-        <label for="klMuridNewConf">Kata Laluan Baharu Confirm</label>
-        <input type="password" name="kLMuridNewConf">
-        {% if model.errors.kLMuridNewConf is not empty %}
-            <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMuridNewConf[0] }}</div>
-        {% endif %}
-        <br>
-
-        <input type="hidden" name="type" value="2">
-        <br>
-        <button type="submit">Update Password</button>
-    </form>
-{% endif %}
+{% endblock %}

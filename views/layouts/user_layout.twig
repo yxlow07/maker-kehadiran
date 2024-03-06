@@ -1,67 +1,83 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-white">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}NFC Attendance{% endblock %}</title>
     <link rel="stylesheet" href="{{ css('output.css') }}">
+    <script>{{ npm('/preline/dist/preline.js') }}</script>
+    <script src="{{ js('fontawesome.js') }}"></script>
+    <script src="{{ js('jquery.js') }}"></script>
+    <script src="{{ js('app.js') }}"></script>
 </head>
-<body class="min-h-screen dark:bg-slate-800">
-<!-- Announcements Section -->
-<div class="container mx-auto p-4">
-    <!-- Top Navigation Bar -->
-    <nav class="bg-slate-800 p-4 text-gray-200 flex justify-between items-center">
-        <!-- Left side - Banner -->
-        <div>
-            <a href="/">
-                <img class="h-12 w-auto" src="{{ img('banner_white.png') }}" alt="NFC Attendance">
-            </a>
-        </div>
+<body class="c-body">
 
-        <!-- Right side - Login/Register links -->
-        <div id="navbar-collapse-with-animation" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block">
-            {% if app.loggedIn %}
-                <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-                    {% for link, name in nav.general %}
-                        <a class="font-semibold{% if app.request.path == link %} text-gray-200 {% else %} text-gray-400 {% endif%}hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="{{ link }}">{{ name }}</a>
+<!-- ========== HEADER ========== -->
+<header class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white border-b text-sm py-2.5 md:py-4 dark:bg-slate-900 dark:border-gray-700">
+    <nav class="flex flex-nowrap basis-full items-center w-full mx-auto px-4 md:px-8 lg:max-w-[90rem]" aria-label="Global">
+        <a class="flex-none rounded-md dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/">
+            <img class="h-12 w-auto" src="{{ img('banner_white.png') }}" alt="NFC Attendance">
+        </a>
+
+        <div class="flex items-center ms-auto md:w-full md:gap-x-3 md:order-3 md:ms-0">
+           <div class="flex items-center relative z-10 ms-auto">
+                <div class="lg:ms-1 flex">
+                    {% for route, values in app.nav %}
+                        <div class="hs-tooltip inline-block [--placement:bottom]">
+                            <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ route }}">
+                                <i class="fa-duotone {{ values[0] }} fa-xl {% if app.request.path == route %} current-page fa-beat {% endif %}"></i>
+                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible c-tooltip" role="tooltip">
+                                {{ values[1] }}
+                            </span>
+                            </a>
+                        </div>
                     {% endfor %}
-                    {% if app.user.isAdmin %}
-                        {% for link, name in nav.admin %}
-                            <a class="font-semibold{% if app.request.path == link %} text-gray-200 {% else %} text-gray-400 {% endif%}hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="{{ link }}">{{ name }}</a>
-                        {% endfor %}
-                    {% else %}
-                        {% for link, name in nav.user %}
-                            <a class="font-semibold{% if app.request.path == link %} text-gray-200 {% else %} text-gray-400 {% endif%}hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="{{ link }}">{{ name }}</a>
-                        {% endfor %}
-                    {% endif%}
                 </div>
-            {% else %}
-                <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-                    <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="/login">Login</a>
-                    <a class="font-semibold text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-600" href="/register">Register</a>
-                </div>
-            {% endif %}
-
+            </div>
         </div>
-
     </nav>
+</header>
 
-    <!-- Horizontal Line -->
-    <hr class="my-3 mb-10 border-gray-300 dark:border-gray-600 p-4">
+<!-- END HEADER -->
+<div class="max-w-screen-xl container mx-auto px-5 py-5">
+
     {% if app.session.getFlashMessage('success') is not empty %}
-        <div class="bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500 mb-3 font-bold" role="alert">
-            {{ app.session.getFlashMessage('success').value }}
+        <div class="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 mb-4 dark:bg-teal-800/30" role="alert">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <span class="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400"><svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
+                </div>
+                <div class="ms-3">
+                    <h3 class="text-gray-800 font-semibold dark:text-white">
+                        Success!
+                    </h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-400">
+                        {{ app.session.getFlashMessage('success').value }}
+                    </p>
+                </div>
+            </div>
         </div>
     {% endif %}
 
     {% if app.session.getFlashMessage('error') is not empty %}
-        <div class="bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500 mb-3 font-bold" role="alert">
-            {{ app.session.getFlashMessage('error').value }}
+        <div class="bg-red-50 border-s-4 border-red-500 p-4 mb-4 dark:bg-red-800/30" role="alert">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <span class="inline-flex justify-center items-center size-8 rounded-full border-4 border-red-100 bg-red-200 text-red-800 dark:border-red-900 dark:bg-red-800 dark:text-red-400"><svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>
+                </div>
+                <div class="ms-3">
+                    <h3 class="text-gray-800 font-semibold dark:text-white">
+                        Error!
+                    </h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-400">
+                        {{ app.session.getFlashMessage('error').value }}
+                    </p>
+                </div>
+            </div>
         </div>
     {% endif %}
-    <pre class="text-gray-50">{{ dump(app.session.getSession) }}</pre>
+
     {% block content %} {% endblock %}
-    {#    <h2 class="text-3xl font-bold text-center mb-6 text-white">Users</h2>#}
 </div>
 </body>
 </html>

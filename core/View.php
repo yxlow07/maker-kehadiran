@@ -26,6 +26,8 @@ class View
             'debug' => true,
         ]);
         $this->environment->addExtension(new TwigFunctions());
+        $this->environment->addFilter(TwigFunctions::filter());
+        // TODO: remove debug extension on production
         $this->environment->addExtension(new DebugExtension());
     }
 
