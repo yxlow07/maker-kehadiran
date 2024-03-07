@@ -38,20 +38,8 @@ class AdminController extends Controller
     public function list_users(): void
     {
         $users = (array) App::$app->database->findAll('murid');
-        $kehadirans = App::$app->database->findAll('kehadiran');
-        $data = ['xaxis' => '[', 'yaxis' => '['];
 
-        foreach ($kehadirans as $kehadiran) {
-            $data['xaxis'] .= '"' . $kehadiran['idMurid'] . '",';
-            $data['yaxis'] .= count(array_filter(json_decode($kehadiran['kehadiran']))) . ',';
-        }
-
-        $data['xaxis'] = trim($data['xaxis'], ',');
-        $data['yaxis'] = trim($data['yaxis'], ',');
-        $data['xaxis'] .= ']';
-        $data['yaxis'] .= ']';
-
-        $this->render('users', ['users' => $users, 'data' => $data]);
+        $this->render('users', ['users' => $users]);
     }
 
     public function createUsers(): void
@@ -190,5 +178,23 @@ class AdminController extends Controller
             App::$app->session->setFlashMessage('success', 'Uploaded csv file!');
         }
         $this->render('upload_attendance', ['results' => $uploadResults]);
+    }
+
+    public function analysis_kehadiran()
+    {
+        $kehadirans = App::$app->database->findAll('kehadiran');
+        $data = ['xaxis' => '[', 'yaxis' => '['];
+
+        foreach ($kehadirans as $kehadiran) {
+            $data['xaxis'] .= '"' . $kehadiran['idMurid'] . '",';
+            $data['yaxis'] .= count(array_filter(json_decode($kehadiran['kehadiran']))) . ',';
+        }
+
+        $data['xaxis'] = trim($data['xaxis'], ',');
+        $data['yaxis'] = trim($data['yaxis'], ',');
+        $data['xaxis'] .= ']';
+        $data['yaxis'] .= ']';
+
+        $this->render('attendance', ['data' => $data]);
     }
 }

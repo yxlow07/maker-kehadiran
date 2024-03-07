@@ -35,4 +35,8 @@ if (file_exists($resourcePath)) {
     readfile($resourcePath);
 } else {
     header('HTTP/1.1 404 Not Found');
+    echo "<pre>";
+    var_dump($resourcePath);
+    echo "</pre>";
+    exit();
 }

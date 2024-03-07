@@ -1,15 +1,17 @@
-{% if app.session.getFlashMessage('success') is not empty %}
-    <div class="bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500 mb-3 font-bold" role="alert">
-        {{ app.session.getFlashMessage('success').value }}
+{% extends 'user_layout.twig' %}
 
-        {% for result in results %}
-            <div>{{ result }}</div>
-        {% endfor %}
-    </div>
-{% endif %}
+{% block title %}Upload Attendance CSV{% endblock %}
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data" class="max-w-md mx-auto p-4 bg-gray-500 border border-gray-300 rounded-md shadow-md my-auto">
+        <label for="csv" class="block text-sm font-medium text-gray-700 dark:text-white">Choose a CSV file:</label>
+        <input type="file" accept="text/csv" name="csv" id="csv" class="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600
+        file:bg-gray-50 file:border-0
+        file:me-4
+        file:py-2 file:px-4
+        dark:file:bg-gray-700 dark:file:text-gray-400">
 
-<form action="" method="post" enctype="multipart/form-data">
-    <input type="file" accept="text/csv" name="csv">
-    <br><br>
-    <button type="submit">Submit</button>
-</form>
+        <div class="mt-4 w-full">
+            <button type="submit" class="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">Submit</button>
+        </div>
+    </form>
+{% endblock %}

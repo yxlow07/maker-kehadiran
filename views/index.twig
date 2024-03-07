@@ -1,6 +1,45 @@
 {% extends 'user_layout.twig' %}
-
 {% block title %}Home Page{% endblock %}
 {% block content %}
-    <pre class="text-gray-50">{{ dump(app.nav) }}</pre>
+    <div class="flex-1 flex items-center justify-center h-screen overscroll-none" id="content">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">Welcome to NFC Attendance</h1>
+            <p class="text-gray-600 dark:text-gray-300 mb-8">Please use the below buttons to navigate.</p>
+
+            <div class="flex items-center justify-center relative z-10 ms-auto">
+                <div class="lg:ms-1 flex">
+                    {% for route, values in app.nav %}
+                        <div class="hs-tooltip inline-block [--placement:bottom]">
+                            <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ route }}">
+                                {% if values.2 %} {# Meaning that it is stackable icons #}
+                                    <span class="fa-stack {% if app.request.path == route %} current-page fa-beat {% endif %}">
+                                            <i class="fa-duotone fa-xl {{ values.0[0] }} fa-stack-1x"></i>
+                                            <i class="fa-duotone {{ values.0[1] }} fa-stack-4x text-teal-200" style="position: absolute; bottom: 0; right: 0;"></i>
+                                        </span>
+                                {% else %}
+                                    <i class="fa-duotone {{ values.0 }} fa-xl {% if app.request.path == route %} current-page fa-beat {% endif %}"></i>
+                                {% endif %}
+                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible c-tooltip" role="tooltip">
+                                        {{ values.1 }}
+                                    </span>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Calculate and set the height dynamically
+        function setDynamicHeight() {
+            let windowHeight = window.innerHeight;
+            let header = document.getElementById('header').offsetHeight;
+            let contentContainer = document.getElementById('content');
+            contentContainer.style.maxHeight = windowHeight-header-100 + 'px';
+        }
+
+        // Call the function on page load and window resize
+        window.addEventListener('load', setDynamicHeight);
+        window.addEventListener('resize', setDynamicHeight);
+    </script>
 {% endblock %}

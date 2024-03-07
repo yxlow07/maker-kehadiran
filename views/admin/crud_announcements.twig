@@ -1,90 +1,107 @@
-<style>
-    table, tr, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        padding: 10px;
-        text-align: center;
-        max-width: 100vw;
-    }
+{% extends 'user_layout.twig' %}
 
-    td {
-        text-align: left;
-    }
-</style>
+{% block title %}Edit Announcements{% endblock %}
+{% block content %}
+    <div class="flex flex-col w-full ">
+        <div class="-m-1.5 overflow-x-auto">
+            <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="overflow-hidden">
+                    <table class="max-w-screen-xl w-full divide-y divide-gray-200 dark:divide-gray-700" id="editable-table">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Title</th>
+                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Announcement</th>
+                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700 text-center">
+                        {% for value in data %}
+                            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <td contenteditable="true" class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ value.0|raw }}</td>
+                                <td contenteditable="true" class="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-200 max-w-screen-md">
+                                    {{ value.1|raw }}
+                                </td>
+                                <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                    <button type="button" class="delete-row py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<table id="editable-table">
-    <!-- Initial table content -->
-    <thead>
-    <tr>
-        <th>Title</th>
-        <th>Contents</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for value in data %}
-        <tr>
-            <td contenteditable="true">{{ value[0]|raw }}</td>
-            <td contenteditable="true">{{ value[1]|raw }}</td>
-            <td><button class="delete-row">Delete</button></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-<button id="add-row">Add Row</button>
-<button id="submit-table">Submit</button>
+    <div class="mt-4 space-x-5 flex justify-between">
+        <button id="add-row" type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-teal-500 text-white hover:bg-teal-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            Add Row
+        </button>
+        <button id="submit-table" type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-teal-500 text-white hover:bg-teal-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            Submit
+        </button>
+    </div>
+    <script>
+        $(document).ready(function () {
+            function addRow() {
+                let newRow = `
+                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <td contenteditable="true" class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"></td>
+                        <td contenteditable="true" class="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-200 max-w-screen-md"></td>
+                        <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                            <button type="button" class="delete-row py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                $('#editable-table tbody').append(newRow);
+            }
 
-<script src="{{ js('jquery.js') }}"></script>
-<script>
-    $(document).ready(function () {
-        function addRow() {
-            let newRow = '<tr>' +
-                '<td contenteditable="true"></td>' +
-                '<td contenteditable="true"></td>' +
-                '<td><button class="delete-row">Delete</button></td>' +
-                '</tr>';
-            $('#editable-table tbody').append(newRow);
-        }
+            function deleteRow() {
+                $(this).closest('tr').remove();
+            }
 
-        function deleteRow() {
-            $(this).closest('tr').remove();
-        }
+            // Add row button click event
+            $('#add-row').on('click', addRow);
 
-        // Add row button click event
-        $('#add-row').on('click', addRow);
+            // Delete row button click event
+            $('#editable-table').on('click', '.delete-row', deleteRow);
 
-        // Delete row button click event
-        $('#editable-table').on('click', '.delete-row', deleteRow);
-
-        $('#submit-table').on('click', function () {
-            let data = [];
-            $('#editable-table tbody tr').each(function () {
-                let row = [];
-                $(this).find('td').each(function () {
-                    row.push($(this).text())
+            $('#submit-table').on('click', function () {
+                let data = [];
+                $('#editable-table tbody tr').each(function () {
+                    let row = [];
+                    $(this).find('td').each(function (node, index) {
+                        if (index !== 2) {
+                            row.push($.trim(($(this).text())));
+                        }
+                    });
+                    data.push(row);
                 });
-                data.push(row);
-            });
 
-            $.ajax({
-                url: '/crud_announcements',
-                method: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify({data}),
-                success: function (res) {
-                    if (res.success) {
-                        alert(`Announcements updated successfully!`);
-                    } else {
-                        alert('Announcements failed to be updated (Internal server error)');
+                $.ajax({
+                    url: '/crud_announcements',
+                    method: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({data}),
+                    success: function (res) {
+                        if (res.success) {
+                            alert(`Announcements updated successfully!`);
+                        } else {
+                            alert('Announcements failed to be updated (Internal server error)');
+                        }
+                    },
+                    error: function (e) {
+                        alert(`Announcements failed to be updated. (Ajax error)`);
+                        console.error(e);
                     }
-                },
-                error: function (e) {
-                    alert(`Announcements failed to be updated. (Ajax error)`);
-                    console.error(e);
-                }
-            }).then(function () {
-                location.reload();
+                }).then(function () {
+                    location.reload();
+                });
             });
         });
-    });
-</script>
+    </script>
+{% endblock %}

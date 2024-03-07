@@ -1,62 +1,64 @@
-<style>
-    table, tr, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        padding: 10px;
-        text-align: center;
-        max-width: 100vw;
-    }
-    #attendanceChart {
-        max-width: 50vw;
-        max-height: 50vh;
-    }
-</style>
+{% extends 'user_layout.twig' %}
 
-{% if action == 'read' %}
-    <table>
-        <tbody>
-        {% for key, value in data %}
-            <tr>
-                <td>{{ key }}</td>
-                <td>{% if value is not iterable %}{{ value }}{% else %} {{ value|json_encode }}{% endif %}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <div>
-        <h1>Attendance analysis for Student {{ data.idMurid }}</h1>
-    </div>
-    <div>
-        <canvas id="attendanceChart"></canvas>
-    </div>
+{% block title %}User {% if action == 'read' %}Profile{% else %}Attendance{% endif %}{% endblock %}
+{% block content %}
+    {% if action == 'read' %}
+        <div class="flex flex-col w-full ">
+            <div class="-m-1.5 overflow-x-auto">
+                <div class="p-1.5 min-w-full inline-block align-middle">
+                    <div class="overflow-hidden">
+                        <table class="max-w-screen-xl w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700 text-center">
+                                {% for key, value in data %}
+                                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200 uppercase">{{ key }}</td>
+                                        <td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                            {% if value is not iterable %}
+                                                {{ value }}
+                                            {% else %}
+                                                {{ value|json_encode|raw }}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div>
+            <canvas id="attendanceChart"></canvas>
+        </div>
 
-    <script src="{{ asset('/js/chart.js') }}"></script>
+        <script src="{{ asset('/js/chart.js') }}"></script>
 
-    <script>
-        const ctx = document.getElementById('attendanceChart');
+        <script>
+            const ctx = document.getElementById('attendanceChart');
 
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: {{ data.xaxis|raw }},
-                datasets: [{
-                    label: 'Attendance',
-                    data: {{ data.kehadiran }},
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ data.xaxis|raw }},
+                    datasets: [{
+                        label: 'Attendance',
+                        data: {{ data.kehadiran }},
+                        borderWidth: 1
+                    }]
                 },
-                layout: {
-                    padding: 20,
-                },
-                responsive: true
-            }
-        });
-    </script>
-{% endif %}
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    layout: {
+                        padding: 20,
+                    },
+                    responsive: true
+                }
+            });
+        </script>
+    {% endif %}
+{% endblock %}

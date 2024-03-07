@@ -4,6 +4,7 @@ module.exports = {
     content: [
         './views/*.twig',
         './views/layouts/*.twig',
+        './views/admin/*.twig',
         './node_modules/preline/dist/*.js',
     ],
     theme: {

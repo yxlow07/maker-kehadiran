@@ -1,0 +1,61 @@
+{% extends 'user_layout.twig' %}
+
+{% block title %}Attendance Analysis{% endblock %}
+{% block content %}
+    <div>
+        <canvas id="attendanceChart" class="rounded"></canvas>
+    </div>
+
+    <script src="{{ asset('/js/chart.js') }}"></script>
+
+    <script>
+        const ctx = document.getElementById('attendanceChart');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ data.xaxis|raw }},
+                datasets: [{
+                    label: 'Attendance',
+                    data: {{ data.yaxis|raw }},
+                    backgroundColor: 'rgba(142,214,253,0.38)', // Set the bar color here
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 24
+                            }
+                        }
+                    },
+                    colors: {
+                        enabled: false
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'rgb(155,155,155)'
+                        },
+                        grid: {
+                            color: 'rgba(200,200,200,0.24)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'rgb(155, 155, 155)'
+                        }
+                    }
+                },
+                layout: {
+                    padding: 20,
+                },
+                responsive: true
+            }
+        });
+    </script>
+{% endblock %}

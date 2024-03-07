@@ -36,16 +36,17 @@
     - [x] Delete
 - General
   - [x] Middlewares
-  - [ ] Styling
+  - [x] Styling
 
 ## Known Limitations
 - [ ] Only supports one club [Multi activities supported by storing arrays/json objects in database]
 - [x] Announcements are hard coded (Solved)
-- [ ] Website looks like _s_
+- [x] Website looks like _s_
 - [ ] When updating password, all profile information disappeared
 - [ ] Duplicate noTel might be registered
 - [ ] $returns should not be used, instead straight throw exceptions and let main App catch them and render it
 - [ ] (Admin attendance update) The number of activities for everyone is arbitrary. Just hope admin don't luan delete
+- [ ] User list page, when too many users, will need pagination
 
 ## Solved Limitations
 - [x] Announcements are coded to be read from csv file

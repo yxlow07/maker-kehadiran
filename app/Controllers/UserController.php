@@ -27,8 +27,9 @@ class UserController extends Controller
                 '/profile' => ['fa-user', 'Profile'],
             ],
             'admin' => [
-                '/crud_users' => ['fa-users', 'Manage Users'],
-                '/crud_announcements' => ['fa-scroll', 'Manage Announcements'],
+                '/crud_users' => [['fa-users', 'fa-pencil-alt'], 'Manage Users', true],
+                '/analysis_attendance' => [['fa-users', 'fa-chart-pie-simple'], 'Analysis Kehadiran', true],
+                '/crud_announcements' => [['fa-megaphone', 'fa-pencil-alt'], 'Manage Announcements', true],
             ],
             'general' => [
                 '/' => ['fa-house', 'Home'],

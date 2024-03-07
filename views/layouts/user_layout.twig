@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}NFC Attendance{% endblock %}</title>
     <link rel="stylesheet" href="{{ css('output.css') }}">
-    <script>{{ npm('/preline/dist/preline.js') }}</script>
+    <script src="./node_modules/preline/dist/preline.js"></script>
     <script src="{{ js('fontawesome.js') }}"></script>
     <script src="{{ js('jquery.js') }}"></script>
     <script src="{{ js('app.js') }}"></script>
@@ -13,7 +13,7 @@
 <body class="c-body">
 
 <!-- ========== HEADER ========== -->
-<header class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white border-b text-sm py-2.5 md:py-4 dark:bg-slate-900 dark:border-gray-700">
+<header id="header" class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white border-b text-sm py-2.5 md:py-4 dark:bg-slate-900 dark:border-gray-700">
     <nav class="flex flex-nowrap basis-full items-center w-full mx-auto px-4 md:px-8 lg:max-w-[90rem]" aria-label="Global">
         <a class="flex-none rounded-md dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/">
             <img class="h-12 w-auto" src="{{ img('banner_white.png') }}" alt="NFC Attendance">
@@ -25,10 +25,17 @@
                     {% for route, values in app.nav %}
                         <div class="hs-tooltip inline-block [--placement:bottom]">
                             <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ route }}">
-                                <i class="fa-duotone {{ values[0] }} fa-xl {% if app.request.path == route %} current-page fa-beat {% endif %}"></i>
+                                {% if values.2 %} {# Meaning that it is stackable icons #}
+                                    <span class="fa-stack {% if app.request.path == route %} current-page fa-beat {% endif %}">
+                                        <i class="fa-duotone fa-xl {{ values.0[0] }} fa-stack-1x"></i>
+                                        <i class="fa-duotone {{ values.0[1] }} fa-stack-4x text-teal-200" style="position: absolute; bottom: 0; right: 0;"></i>
+                                    </span>
+                                {% else %}
+                                    <i class="fa-duotone {{ values.0 }} fa-xl {% if app.request.path == route %} current-page fa-beat {% endif %}"></i>
+                                {% endif %}
                                 <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible c-tooltip" role="tooltip">
-                                {{ values[1] }}
-                            </span>
+                                    {{ values.1 }}
+                                </span>
                             </a>
                         </div>
                     {% endfor %}
@@ -53,6 +60,9 @@
                     </h3>
                     <p class="text-sm text-gray-700 dark:text-gray-400">
                         {{ app.session.getFlashMessage('success').value }}
+                        {% for result in results %}
+                            <div class="text-sm text-gray-700 dark:text-gray-400">{{ result }}</div>
+                        {% endfor %}
                     </p>
                 </div>
             </div>

@@ -1,50 +1,63 @@
-<style>
-    table, tr, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        padding: 10px;
-        text-align: center;
-        max-width: 100vw;
-    }
-</style>
+{% extends 'user_layout.twig' %}
 
-<small>Drag rows to reorder</small>
-<table id="editable-table">
-    <!-- Initial table content -->
-    <thead>
-    <tr>
-        <th>Aktiviti No.</th>
-        <th>Attendance</th>
-        <th>Delete Aktiviti Attendance Record</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for key, value in data.kehadiran %}
-        <tr>
-            <td>#{{ key+1 }}</td>
-            <td><input type="checkbox" {{ value ? 'checked="true"' : '' }}></td>
-            <td><button class="delete-row">Delete</button></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+{% block title %}Edit User Attendance{% endblock %}
+{% block content %}
+    <div class="flex flex-col w-full ">
+        <div class="-m-1.5 overflow-x-auto">
+            <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="overflow-hidden">
+                    <table class="max-w-screen-xl w-full divide-y divide-gray-200 dark:divide-gray-700" id="editable-table">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Aktiviti. No</th>
+                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Attendance</th>
+                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Delete Aktiviti Attendance Record</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700 text-center">
+                        {% for key, value in data.kehadiran %}
+                            {% set id = user.idMurid %}
+                            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">#{{ key+1 }}</td>
+                                <td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                    <input type="checkbox" {{ value ? 'checked="true"' : '' }}>
+                                </td>
+                                <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                    <button type="button" class="delete-row py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<button id="add-row">Add Row</button>
-<button id="submit-table">Submit</button>
+    <div class="mt-4 space-x-5 flex justify-between">
+        <button id="add-row" type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-teal-500 text-white hover:bg-teal-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            Add Row
+        </button>
+        <button id="submit-table" type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-teal-500 text-white hover:bg-teal-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            Submit
+        </button>
+    </div>
 
-<script src="{{ js('jquery.js') }}"></script>
 <script src="{{ js('jquery-ui.js') }}"></script>
-<script src="{{ css('jquery-ui.css') }}"></script>
+<link rel="stylesheet" href="{{ css('jquery-ui.css') }}">
 <script>
     $(document).ready(function () {
         // Add Row functionality
         $('#add-row').click(function () {
             let rowCount = $('#editable-table tbody tr').length;
-            let newRow = '<tr>' +
-                '<td>#' + (rowCount + 1) + '</td>' +
-                '<td><input type="checkbox"></td>' +
-                '<td><button class="delete-row">Delete</button></td>' +
-                '</tr>';
+            let newRow = '<tr class="hover:bg-gray-100 dark:hover:bg-gray-700">' +
+                '<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">#' + (rowCount + 1) + '</td>' +
+                '<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200"> <input type="checkbox"> </td>' +
+                '<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">' +
+                '<button type="button" class="delete-row py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Delete</button>'+
+            '</td></tr>'
             $('#editable-table tbody').append(newRow);
         });
 
@@ -90,13 +103,13 @@
                 success: function (res) {
                     console.log(res)
                     if (res.success) {
-                        alert(`Announcements updated successfully!`);
+                        alert(`Attendance updated successfully!`);
                     } else {
-                        alert('Announcements failed to be updated (Internal server error)');
+                        alert('Attendance failed to be updated (Internal server error)');
                     }
                 },
                 error: function (e) {
-                    alert(`Announcements failed to be updated. (Ajax error)`);
+                    alert(`Attendance failed to be updated. (Ajax error)`);
                     console.error(e);
                 }
             }).then(function () {
@@ -105,3 +118,4 @@
         });
     })
 </script>
+{% endblock %}
