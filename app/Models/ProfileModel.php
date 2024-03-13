@@ -30,9 +30,9 @@ class ProfileModel extends ValidationModel
     public function rules(): array
     {
         return [
-            'idMurid' => [self::RULE_REQUIRED],
-            'noTel' => [self::RULE_REQUIRED],
-            'namaM' => [self::RULE_REQUIRED],
+            'idMurid' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 5], [self::RULE_MAX, 'max' => 20]],
+            'noTel' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 10], [self::RULE_MAX, 'max' => 12]],
+            'namaM' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 5], [self::RULE_MAX, 'max' => 100]],
         ];
     }
 

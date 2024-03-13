@@ -21,9 +21,9 @@ class RegisterModel extends ValidationModel
     public function rules(): array
     {
         return [
-            'idMurid' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 5]],
-            'noTel' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 10], [self::RULE_MAX, 'max' => 11]],
-            'kLMurid' => [self::RULE_REQUIRED],
+            'idMurid' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 5], [self::RULE_MAX, 'max' => 12]],
+            'noTel' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 10], [self::RULE_MAX, 'max' => 12]],
+            'kLMurid' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 5]],
             'confirmkLMurid' => [self::RULE_REQUIRED, [self::RULE_MATCH, 'match' => 'kLMurid', 'matchMsg' => 'must match with kLMurid']],
         ];
     }

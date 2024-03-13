@@ -15,7 +15,7 @@ class AdminModel extends ValidationModel
     {
         return [
             'idMurid' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 5]],
-            'password' => [self::RULE_REQUIRED],
+            'password' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 5]],
             'rememberMe' => []
         ];
     }
