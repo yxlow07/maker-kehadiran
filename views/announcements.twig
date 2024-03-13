@@ -1,37 +1,6 @@
 {% extends 'user_layout.twig' %}
 {% block title %}Announcements{% endblock %}
 {% block content %}
-{#    <style>#}
-{#        table, tr, th, td {#}
-{#            border: 1px solid black;#}
-{#            border-collapse: collapse;#}
-{#            padding: 10px;#}
-{#            text-align: center;#}
-{#            max-width: 100vw;#}
-{#        }#}
-
-{#        .content-start {#}
-{#            text-align: left;#}
-{#        }#}
-{#    </style>#}
-
-{#    <table>#}
-{#        <thead>#}
-{#        <th>Title</th>#}
-{#        <th>Announcement</th>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#        {% for announcement in announcements %}#}
-{#            {% if announcement[0] is not empty and announcement[1] is not empty %}#}
-{#                <tr>#}
-{#                    <td>{{ announcement[0] }}</td>#}
-{#                    <td class="content-start">{{ announcement[1]|raw }}</td>#}
-{#                </tr>#}
-{#            {% endif %}#}
-{#        {% endfor %}#}
-{#        </tbody>#}
-{#    </table>#}
-
     <div class="max-w-screen-xl mx-auto grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         {% for announcement in announcements %}
             {% if announcement[0] is not empty and announcement[1] is not empty %}
@@ -42,7 +11,7 @@
                         <h2 class="text-2xl font-semibold overflow-hidden line-clamp-1 font-chinese">{{ announcement[0] }}</h2>
                     </div>
                     <div class="p-6">
-                        <p class="text-gray-700 dark:text-gray-300 max-h-60 overflow-hidden">
+                        <p class="text-gray-700 dark:text-gray-300 max-h-60 overflow-hidden font-chinese">
                             {{ announcement[1]|raw }}
                         </p>
                         <div class="mt-4">
@@ -64,7 +33,7 @@
                                 <h3 class="mb-2 text-xl font-bold text-gray-800 dark:text-gray-200 font-chinese">
                                     {{ announcement[0] }}
                                 </h3>
-                                <p class="text-white font-chinese text-left p-3">{{ announcement[1]|raw }}</p>
+                                <p class="dark:text-white font-chinese text-left p-3">{{ announcement[1]|raw }}</p>
 
                                 <div class="mt-6 flex justify-center gap-x-4">
                                     <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" data-hs-overlay="#hs-task-created-alert-{{ hash }}">

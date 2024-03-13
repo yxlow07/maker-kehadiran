@@ -6,7 +6,7 @@
 
 .current-page {
     --fa-animation-duration: 2s;
-    @apply text-green-300;
+    @apply dark:text-green-300 text-green-700;
 }
 
 .c-nav-items-tooltip {
