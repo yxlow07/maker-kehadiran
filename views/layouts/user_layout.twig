@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}NFC Attendance{% endblock %}</title>
     <link rel="stylesheet" href="{{ css('output.css') }}">
-    <script src="./node_modules/preline/dist/preline.js"></script>
+    <script src="{{ npm('preline/dist/preline.js') }}"></script>
     <script src="{{ js('fontawesome.js') }}"></script>
     <script src="{{ js('jquery.js') }}"></script>
     <script src="{{ js('app.js') }}"></script>
@@ -15,7 +15,7 @@
 <!-- ========== HEADER ========== -->
 <header id="header" class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white border-b text-sm py-2.5 md:py-4 dark:bg-slate-900 dark:border-gray-700">
     <nav class="flex flex-nowrap basis-full items-center w-full mx-auto px-4 md:px-8 lg:max-w-[90rem]" aria-label="Global">
-        <a class="flex-none rounded-md dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/">
+        <a class="flex-none rounded-md dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{{ path() }}">
             <img class="h-12 w-auto logo dark:block hidden" src="{{ img('banner_white.png') }}" alt="NFC Attendance">
             <img class="h-12 w-auto logo dark:hidden block" src="{{ img('banner_black.png') }}" alt="NFC Attendance">
         </a>
@@ -25,7 +25,7 @@
                 <div class="lg:ms-1 flex">
                     {% for route, values in app.nav %}
                         <div class="hs-tooltip inline-block [--placement:bottom]">
-                            <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ route }}">
+                            <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ path(route) }}">
                                 {% if values.2 %} {# Meaning that it is stackable icons #}
                                     <span class="fa-stack {% if app.request.path == route %} current-page fa-beat {% endif %}">
                                         <i class="fa-duotone fa-xl {{ values.0[0] }} fa-stack-1x"></i>

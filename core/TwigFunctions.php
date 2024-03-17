@@ -24,7 +24,8 @@ class TwigFunctions extends AbstractExtension
             new TwigFunction('img', [$this, 'img']),
             new TwigFunction('backlink', [$this, 'previousReferrer']),
             new TwigFunction('json_decode', [$this, 'json_decode']),
-            new TwigFunction('npm', [$this, 'node_modules']),
+            new TwigFunction('npm', [$this, 'node_module']),
+            new TwigFunction('path', [$this, 'path'])
         ];
     }
 
@@ -45,7 +46,7 @@ class TwigFunctions extends AbstractExtension
 
     public function asset($filename)
     {
-        return '/resources/' . $filename;
+        return $this->path('/../resources/' . $filename);
     }
 
     public function previousReferrer()
@@ -58,8 +59,14 @@ class TwigFunctions extends AbstractExtension
         return json_decode($json_string);
     }
 
-    public function node_modules($file = '')
+    public function node_module($file = '')
     {
-        require_once App::$app->config['dir'] . "/node_modules/$file";
+        return $this->path('/../node_modules/' . $file);
+    }
+
+    public function path($url='')
+    {
+        $base_url = $_ENV['LOCALHOST_URL'] ?? '';
+        return ($base_url . $url);
     }
 }

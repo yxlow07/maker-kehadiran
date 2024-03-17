@@ -36,13 +36,17 @@ class Request
         return $data;
     }
 
-    public function path(): string
+    public function path($remove = null): string
     {
         $path = preg_replace('#/+#', '/', rawurldecode($_SERVER['REQUEST_URI']));
         $position = strpos($path, '?');
 
         if (is_int($position)) {
-            return substr($path, 0, $position);
+            $path = substr($path, 0, $position);
+        }
+
+        if (!is_null($remove) || isset($_ENV['LOCALHOST_URL'])) {
+            $path = str_replace($remove ?? $_ENV['LOCALHOST_URL'], '', $path);
         }
 
         return $path;

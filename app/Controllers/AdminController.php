@@ -50,7 +50,7 @@ class AdminController extends Controller
         if (App::$app->request->isMethod('post')) {
             if ($model->validate($this->createUsersRules()) && $model->verifyNoDuplicate() && $model->registerUser() && $model->registerName()) {
                 App::$app->session->setFlashMessage('success', 'Successfully registered user.');
-                header('Location: /crud_users');
+                redirect('/crud_users');
             }
         }
 
@@ -202,13 +202,12 @@ class AdminController extends Controller
     public function add_admin()
     {
         $model = new AdminModel();
-
         if (App::$app->request->isMethod('post')) {
             $model = new AdminModel(App::$app->request->data());
 
             if ($model->validate($model->newAdminRules()) && $model->verifyNoDuplicate() && $model->updateDatabase()) {
                 App::$app->session->setFlashMessage('success', 'Admin Created Successfully!');
-                header('Location: /');
+                redirect();
             }
         }
 

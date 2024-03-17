@@ -29,7 +29,7 @@ class Router
     public function dispatch(): void
     {
         $method = Request::method();
-        $url = $this->request->path();
+        $url = $this->request->path($_ENV['LOCALHOST_URL']);
 
         try {
             $this->middlewareHandler->handleMiddlewares();

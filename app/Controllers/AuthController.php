@@ -21,7 +21,7 @@ class AuthController extends Controller
         if (App::$app->request->isMethod('post')) {
             if ($model->validate() && $model->verifyNoDuplicate() && $model->registerUser()) {
                 App::$app->session->setFlashMessage('success', 'Successfully registered user. Login now!');
-                header('Location: /login');
+                redirect('/login');
             }
         }
 
@@ -41,7 +41,7 @@ class AuthController extends Controller
                 if ($model->rememberMe && !App::$app->user->isAdmin) {
                     App::$app->user->setCookies();
                 }
-                header("Location: /");
+                redirect();
             }
         }
 
@@ -60,7 +60,7 @@ class AuthController extends Controller
         }
 
         Cookies::unsetCookies(['idMurid', 'sessionID']);
-        header('Location: /');
+        redirect();
     }
 
 }

@@ -10,7 +10,7 @@
                 <div class="lg:ms-1 flex">
                     {% for route, values in app.nav %}
                         <div class="hs-tooltip inline-block [--placement:bottom]">
-                            <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ route }}">
+                            <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ path(route) }}">
                                 {% if values.2 %} {# Meaning that it is stackable icons #}
                                     <span class="fa-stack {% if app.request.path == route %} current-page fa-beat {% endif %}">
                                             <i class="fa-duotone fa-xl {{ values.0[0] }} fa-stack-1x"></i>

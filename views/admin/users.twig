@@ -23,7 +23,7 @@
                                 <td class="px-0 py-3 whitespace-normal text-center text-gray-700 dark:text-gray-300 text-sm font-medium">
                                     <!-- Icon for READ start -->
                                     <div class="hs-tooltip inline-block [--placement:bottom]">
-                                        <a class="c-nav-items-tooltip hs-tooltip-toggle" href="/users/{{ id }}/read">
+                                        <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ path() }}/users/{{ id }}/read">
                                             <i class="fa-duotone fa-book fa-xl"></i>
                                             <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible c-tooltip" role="tooltip">Read User Data</span>
                                         </a>
@@ -32,7 +32,7 @@
 
                                     <!-- Icon for EDIT start -->
                                     <div class="hs-tooltip inline-block [--placement:bottom]">
-                                        <a class="c-nav-items-tooltip hs-tooltip-toggle" href="/users/{{ id }}/update">
+                                        <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ path() }}/users/{{ id }}/update">
                                             <i class="fa-duotone fa-pencil fa-xl"></i>
                                             <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible c-tooltip" role="tooltip">Edit User Data</span>
                                         </a>
@@ -50,7 +50,7 @@
 
                                     <!-- Icon for ANALYSIS start -->
                                     <div class="hs-tooltip inline-block [--placement:bottom]">
-                                        <a class="c-nav-items-tooltip hs-tooltip-toggle" href="/users/{{ id }}/analysis">
+                                        <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ path() }}/users/{{ id }}/analysis">
                                             <i class="fa-duotone fa-chart-pie-simple fa-xl"></i>
                                             <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible c-tooltip" role="tooltip">User Attendance Analysis</span>
                                         </a>
@@ -59,7 +59,7 @@
 
                                     <!-- Icon for ATTENDANCE start -->
                                     <div class="hs-tooltip inline-block [--placement:bottom]">
-                                        <a class="c-nav-items-tooltip hs-tooltip-toggle" href="/users/{{ id }}/kehadiran">
+                                        <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ path() }}/users/{{ id }}/kehadiran">
                                             <i class="fa-duotone fa-clipboard-user fa-xl"></i>
                                             <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible c-tooltip" role="tooltip">Edit Attendance</span>
                                         </a>
@@ -75,8 +75,8 @@
         </div>
     </div>
     <div class="mt-4 space-x-5 flex justify-between">
-        <a href="/users/create" class="inline-block px-4 py-2 bg-teal-500 dark:bg-teal-700 dark:hover:bg-teal-900 text-white rounded-md hover:bg-teal-600 transition duration-300">Create New User <i class="fa-duotone fa-user-plus"></i></a>
-        <a href="/kehadiran/upload" class="inline-block px-4 py-2 bg-gray-400 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-800 dark:text-white rounded-md hover:bg-gray-600 hover:text-gray-300 transition duration-300">Upload Attendance CSV <i class="fa-duotone fa-upload"></i></a>
+        <a href="{{ path() }}/users/create" class="inline-block px-4 py-2 bg-teal-500 dark:bg-teal-700 dark:hover:bg-teal-900 text-white rounded-md hover:bg-teal-600 transition duration-300">Create New User <i class="fa-duotone fa-user-plus"></i></a>
+        <a href="{{ path() }}/kehadiran/upload" class="inline-block px-4 py-2 bg-gray-400 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-800 dark:text-white rounded-md hover:bg-gray-600 hover:text-gray-300 transition duration-300">Upload Attendance CSV <i class="fa-duotone fa-upload"></i></a>
     </div>
 
     <script src="{{ asset('/js/users_list.js') }}"></script>
