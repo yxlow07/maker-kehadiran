@@ -26,6 +26,7 @@ $routes->GET('/announcements', [UserController::class, 'announcements']);
 
 //Admin pages
 $routes->GET('/crud_users', [AdminController::class, 'list_users'])->only($admin);
+$routes->GETPOST('/add_admin', [AdminController::class, 'add_admin'])->only($admin);
 $routes->GET('/analysis_attendance', [AdminController::class, 'analysis_kehadiran'])->only($admin);
 $routes->GETPOST('/crud_announcements', [AdminController::class, 'crud_announcements'])->only($admin);
 $routes->GETPOST('/users/create', [AdminController::class, 'createUsers'])->only($admin);

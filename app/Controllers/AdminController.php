@@ -4,6 +4,7 @@ namespace app\Controllers;
 
 use app\Exceptions\MethodNotAllowedException;
 use app\Exceptions\UserNotFoundException;
+use app\Models\AdminModel;
 use app\Models\LoginModel;
 use app\Models\ProfileModel;
 use app\Models\RegisterModel;
@@ -196,5 +197,21 @@ class AdminController extends Controller
         $data['yaxis'] .= ']';
 
         $this->render('attendance', ['data' => $data]);
+    }
+
+    public function add_admin()
+    {
+        $model = new AdminModel();
+
+        if (App::$app->request->isMethod('post')) {
+            $model = new AdminModel(App::$app->request->data());
+
+            if ($model->validate($model->newAdminRules()) && $model->verifyNoDuplicate() && $model->updateDatabase()) {
+                App::$app->session->setFlashMessage('success', 'Admin Created Successfully!');
+                header('Location: /');
+            }
+        }
+
+        $this->render('add_admin', ['model' => $model, 'isAdmin' => true]);
     }
 }

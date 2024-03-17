@@ -57,7 +57,7 @@ abstract class ValidationModel extends BaseModel
     public function addError(bool $eval, string $attribute, string $ruleName, mixed $ruleValue = []): bool
     {
         if($eval) return true;
-        $subject = str_replace("{field}", $this->fieldNames()[$attribute], self::ERROR_MESSAGES[$ruleName]);
+        $subject = str_replace("{field}", $this->fieldNames()[$attribute] ?? $attribute, self::ERROR_MESSAGES[$ruleName]);
         $this->errors[$attribute][] = empty($ruleValue) ? $subject : str_replace("{{$ruleValue[0]}}", $ruleValue[1], $subject);
         return false;
     }
