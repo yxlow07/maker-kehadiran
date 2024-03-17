@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\NoReturn;
+
 function dd(mixed $data, $html = true): void
 {
     echo $html ? "<pre>" : '';
@@ -8,8 +10,14 @@ function dd(mixed $data, $html = true): void
     exit;
 }
 
-function rd(string $loc)
+#[NoReturn]
+function redirect(string $loc = '/'): void
 {
-    header('Location: /');
+    header('Location: ' . path($loc));
     die;
+}
+
+function path(string $location): string
+{
+    return ($_ENV['LOCALHOST_URL'] ?? '') . $location;
 }

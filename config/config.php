@@ -16,9 +16,10 @@ return [
     'cache_path' => $dir . '/views/cache/',
     'layout_path' => $dir . '/views/layouts/',
     'resources_path' => $dir . '/resources/',
+    'web_url' => $_ENV['LOCALHOST_URL'],
     'db' => [
         'DSN' => $_ENV['DSN'],
-        'USERNAME' => $_ENV['USERNAME'],
+        'USERNAME' => $_ENV['DBUSERNAME'],
         'PASSWORD' => $_ENV['PASSWORD'],
     ],
     'middlewares' => MiddlewareMap::middlewares,

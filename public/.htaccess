@@ -2,11 +2,11 @@ RewriteEngine on
 Options +Multiviews
 
 # Error Documents
-ErrorDocument 400 /public/index.php?error=400
-ErrorDocument 401 /public/index.php?error=401
-ErrorDocument 403 /public/index.php?error=403
-ErrorDocument 404 /public/index.php?error=404
-ErrorDocument 500 /public/index.php?error=405
+ErrorDocument 400 /index.php
+ErrorDocument 401 /index.php
+ErrorDocument 403 /index.php
+ErrorDocument 404 /index.php
+ErrorDocument 500 /index.php
 
 # Prevent viewing of .htaccess file
 <Files .htaccess>
@@ -24,13 +24,13 @@ Options All -Indexes
 #RewriteRule .(js|css|ico|gif|jpg|png)$ assets.php [NC]
 #RewriteRule !.(js|css|ico|gif|jpg|png)$ index.php [NC]
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule \.(js|css|ico|gif|jpg|png)$ assets.php [NC,L]
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule \.(js|css|ico|gif|jpg|png)$ assets.php [NC,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule !\.(js|css|ico|gif|jpg|png)$ index.php [NC,L]
+RewriteRule ^ index.php [NC,L]
 
 # Cache Settings
 #<FilesMatch "\.(jpg|jpeg|png|gif|swf|css|js)$">
