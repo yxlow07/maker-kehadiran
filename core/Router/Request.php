@@ -5,6 +5,7 @@ namespace core\Router;
 class Request
 {
     private array $routeParams = [];
+    private array $validResourceExtensions = ['js', 'css', 'ico', 'gif', 'png', 'jpg'];
 
     public static function method(): string
     {
@@ -81,5 +82,28 @@ class Request
     public function getRouteParams(): array
     {
         return $this->routeParams;
+    }
+
+    public function getExtension($path): array|string
+    {
+        return pathinfo($path, PATHINFO_EXTENSION);
+    }
+
+    public function setHeader($extension): void
+    {
+        match ($extension) {
+            'js' => header('Content-Type: application/javascript'),
+            'css' => header('Content-Type: text/css'),
+            'ico' => header('Content-Type: image/x-icon'),
+            'gif' => header('Content-Type: image/gif'),
+            'jpg' => header('Content-Type: image/jpeg'),
+            'png' => header('Content-Type: image/png'),
+            default => null,
+        };
+    }
+
+    public function isResource($extension): bool
+    {
+        return in_array($extension, $this->validResourceExtensions);
     }
 }
