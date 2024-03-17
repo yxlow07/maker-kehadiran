@@ -15,7 +15,7 @@ class AdminMiddleware extends BaseMiddleware
             return true;
         else:
             App::$app->session->setFlashMessage('error', 'You cannot view because you are not an admin');
-            rd('/');
+            redirect();
         endif;
     }
 

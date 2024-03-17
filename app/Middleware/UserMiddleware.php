@@ -14,7 +14,7 @@ class UserMiddleware extends BaseMiddleware
             return true;
         else:
             App::$app->session->setFlashMessage('error', 'Not authorized to view!');
-            rd('/');
+            redirect();
         endif;
     }
 

@@ -15,7 +15,7 @@ class GuestMiddleware extends BaseMiddleware
             return true;
         else:
             App::$app->session->setFlashMessage('error', 'Already logged in!');
-            rd('/');
+            redirect();
         endif;
     }
 
