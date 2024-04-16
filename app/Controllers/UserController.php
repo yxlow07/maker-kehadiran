@@ -30,6 +30,7 @@ class UserController extends Controller
             'admin' => [
                 '/add_admin' => [['fa-user-tie', 'fa-plus'], 'Tambah Admin', true],
                 '/crud_users' => [['fa-users', 'fa-pencil-alt'], 'Edit Murid', true],
+                '/find_user' => [['fa-users', 'fa-magnifying-glass'], 'Cari Rekod Murid', true],
                 '/analysis_attendance' => [['fa-users', 'fa-chart-pie-simple'], 'Analisis Kehadiran', true],
                 '/crud_announcements' => [['fa-megaphone', 'fa-pencil-alt'], 'Edit Pengumuman', true],
             ],

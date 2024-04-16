@@ -86,10 +86,27 @@ class Database
         }
     }
 
-    public function findOne(string $table, array $conditions = [], array $selectAttributes = ['*'], $class = null, bool $fetchObject = true)
+    /**
+     * @param string $table
+     * @param array $conditions
+     * @param array $selectAttributes
+     * @param $class
+     * @param bool $fetchObject
+     * @param bool $isSearch
+     * @return false|mixed|object|\stdClass|null
+     */
+    public function findOne($table, $conditions = [], $selectAttributes = ['*'], $class = null, $fetchObject = true, $isSearch = false)
     {
         $selectAttributes = implode(',', $selectAttributes);
-        $selectConditions = implode(' OR ', array_map(fn($attr) => "$attr = :$attr", array_keys($conditions)));
+        if (!$isSearch) {
+            $selectConditions = implode(' OR ', array_map(fn($attr) => "$attr = :$attr", array_keys($conditions)));
+        } else {
+            $conditionsArray = [];
+            foreach ($conditions as $attribute => $searchPattern) {
+                $conditionsArray[] = "$attribute LIKE :$attribute";
+            }
+            $selectConditions = implode(' OR ', $conditionsArray);
+        }
 
 
         $sql = "SELECT $selectAttributes FROM $table WHERE $selectConditions";
@@ -104,14 +121,22 @@ class Database
         return $fetchObject ? $statement->fetchObject($class) : $statement->fetchColumn();
     }
 
-    public function findAll(string $table, array $selectAttributes = ['*'], array $conditions = [], $class = null, bool $fetchObject = false): false|array
+    public function findAll(string $table, array $selectAttributes = ['*'], array $conditions = [], $class = null, bool $fetchObject = false, bool $isSearch = false): false|array
     {
         $selectAttributes = implode(',', $selectAttributes);
 
-        // Build the WHERE clause based on conditions
-        $selectConditions = '';
-        if (!empty($conditions)) {
-            $selectConditions = 'WHERE ' . implode(' AND ', array_map(fn($attr) => "$attr = :$attr", array_keys($conditions)));
+        if (!$isSearch) {
+            // Build the WHERE clause based on conditions
+            $selectConditions = '';
+            if (!empty($conditions)) {
+                $selectConditions = 'WHERE ' . implode(' AND ', array_map(fn($attr) => "$attr = :$attr", array_keys($conditions)));
+            }
+        } else {
+            $conditionsArray = [];
+            foreach ($conditions as $attribute => $searchPattern) {
+                $conditionsArray[] = "$attribute LIKE :$attribute";
+            }
+            $selectConditions = 'WHERE ' . implode(' OR ', $conditionsArray);
         }
 
         $sql = "SELECT $selectAttributes FROM $table $selectConditions";

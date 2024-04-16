@@ -1,0 +1,88 @@
+{% extends 'user_layout.twig' %}
+{% block title %}Cari Rekod Murid{% endblock %}
+{% block content %}
+    <div class="flex flex-col">
+        <div class="-m-1.5 overflow-x-auto">
+            <div class="p-1.5 min-w-full inline-block align-middle">
+                <div class="border rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
+                    <div class="py-3 px-4">
+                        <div class="relative max-w-xl flex content-center items-center mx-auto">
+                            <label for="hs-table-search" class="sr-only">Carikan</label>
+                            <input type="text" name="hs-table-search" id="hs-table-search" class="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Cari IDMurid atau Nombor Telefon">
+                            <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
+                                <svg class="size-4 text-gray-400 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <path d="m21 21-4.3-4.3"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col w-full ">
+                        <div class="-m-1.5 overflow-x-auto">
+                            <div class="p-1.5 min-w-full inline-block align-middle">
+                                <div class="overflow-hidden">
+                                    <table class="max-w-screen-xl w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">ID Murid</th>
+                                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">No. Telefon</th>
+                                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Baca, Edit, Hapus Rekod Murid, Analisis Kehadiran Individu Murid</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700 text-center" id="search-result">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#hs-table-search').keyup(function (e) {
+                let query = $(this).val();
+                if (query) {
+                    $.ajax({
+                        url: `{{path()}}/find_user`,
+                        method: `POST`,
+                        data: {query: query},
+                        success: function(response) {
+                            // Clear previous search results
+                            $('#search-result').empty();
+
+                            response.forEach(function(user) {
+                                let row = '<tr class="hover:bg-gray-100 dark:hover:bg-gray-700">';
+                                row += '<td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">' + user.idMurid + '</td>';
+                                row += '<td class="px-6 py-3 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">' + user.noTel + '</td>';
+                                row += '<td class="px-0 py-3 whitespace-normal text-center text-gray-700 dark:text-gray-300 text-sm font-medium">';
+                                row += '<div class="hs-tooltip inline-block [--placement:bottom]">';
+                                row += '<a class="c-nav-items-tooltip hs-tooltip-toggle" href="' + `{{ path() }}` + '/users/' + user.idMurid + '/read">';
+                                row += '<i class="fa-duotone fa-book fa-xl"></i>';
+                                row += '<span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible c-tooltip" role="tooltip">Baca data murid</span>';
+                                row += '</a></div>';
+                                row += '<div class="hs-tooltip inline-block [--placement:bottom]">';
+                                row += '<a class="c-nav-items-tooltip hs-tooltip-toggle" href="' + `{{ path() }}` + '/users/' + user.idMurid + '/update">';
+                                row += '<i class="fa-duotone fa-pencil fa-xl"></i>';
+                                row += '<span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible c-tooltip" role="tooltip">Kemaskini data murid</span>';
+                                row += '</a></div>';
+                                row += '<div class="hs-tooltip inline-block [--placement:bottom]">';
+                                row += '<a class="c-nav-items-tooltip hs-tooltip-toggle" href="' + `{{ path() }}` + '/users/' + user.idMurid + '/analysis">';
+                                row += '<i class="fa-duotone fa-chart-pie-simple fa-xl"></i>';
+                                row += '<span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible c-tooltip" role="tooltip">Analisis Kehadiran Individu Murid</span>';
+                                row += '</a></div>';
+                                row += '</td></tr>';
+                                $('#search-result').append(row);
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+{% endblock %}

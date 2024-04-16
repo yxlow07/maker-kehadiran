@@ -102,6 +102,7 @@ class Request
             'gif' => header('Content-Type: image/gif'),
             'jpg' => header('Content-Type: image/jpeg'),
             'png' => header('Content-Type: image/png'),
+            'json' => header('Content-Type: application/json'),
             default => null,
         };
     }

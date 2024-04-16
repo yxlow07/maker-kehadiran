@@ -26,4 +26,12 @@ class Response
     {
         http_response_code($code);
     }
+
+    public function sendJson(mixed $data, bool $exit = false)
+    {
+        echo json_encode($data);
+        if ($exit) {
+            exit(200);
+        }
+    }
 }

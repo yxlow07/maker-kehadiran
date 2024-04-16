@@ -17,6 +17,7 @@ use core\Exceptions\ViewNotFoundException;
 use core\Filesystem;
 use core\Models\BaseModel;
 use core\Models\ValidationModel;
+use core\Router\Request;
 use core\View;
 
 class AdminController extends Controller
@@ -213,5 +214,19 @@ class AdminController extends Controller
         }
 
         $this->render('add_admin', ['model' => $model, 'isAdmin' => true]);
+    }
+
+    public function find_student()
+    {
+        $data = [];
+
+        if (App::$app->request->isMethod('post')) {
+            $query = '%' . App::$app->request->data()['query'] . '%';
+            $data = App::$app->database->findAll('murid', conditions: ['idMurid' => $query, 'noTel' => $query], isSearch: true);
+            App::$app->request->setHeader('json');
+            App::$app->response->sendJson($data, true);
+        }
+
+        $this->render('search', ['users' => $data]);
     }
 }
