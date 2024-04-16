@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}NFC Attendance{% endblock %}</title>
+    <title>{% block title %}Maker Attendance{% endblock %}</title>
     <link rel="stylesheet" href="{{ css('output.css') }}">
     <script src="{{ npm('preline/dist/preline.js') }}"></script>
     <script src="{{ js('fontawesome.js') }}"></script>
@@ -16,8 +16,7 @@
 <header id="header" class="sticky top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white border-b text-sm py-2.5 md:py-4 dark:bg-slate-900 dark:border-gray-700">
     <nav class="flex flex-nowrap basis-full items-center w-full mx-auto px-4 md:px-8 lg:max-w-[90rem]" aria-label="Global">
         <a class="flex-none rounded-md dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{{ path() }}">
-            <img class="h-12 w-auto logo dark:block hidden" src="{{ img('banner_white.png') }}" alt="NFC Attendance">
-            <img class="h-12 w-auto logo dark:hidden block" src="{{ img('banner_black.png') }}" alt="NFC Attendance">
+            <img class="h-12 w-auto logo dark:block block" src="{{ img('banner_white.png') }}" alt="NFC Attendance">
         </a>
 
         <div class="flex items-center ms-auto md:w-full md:gap-x-3 md:order-3 md:ms-0">
@@ -135,10 +134,10 @@
 
                    <div id="selectThemeDropdown" class="hs-dropdown-menu hs-dropdown-open:opacity-100 mt-2 hidden z-10 transition-[margin,opacity] opacity-0 duration-300 mb-2 origin-bottom-left bg-white shadow-md rounded-lg p-2 space-y-1 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700">
                        <button type="button" class="hs-default-mode-active:bg-gray-100 w-full flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" data-hs-theme-click-value="default">
-                           Light Mode
+                           Mode Terang
                        </button>
                        <button type="button" class="hs-dark-mode-active:bg-gray-700 w-full flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" data-hs-theme-click-value="dark">
-                           Dark
+                           Mode Malam
                        </button>
                    </div>
                </div>
@@ -158,7 +157,7 @@
                 </div>
                 <div class="ms-3">
                     <h3 class="text-gray-800 font-semibold dark:text-white">
-                        Success!
+                        Berjaya!
                     </h3>
                     <p class="text-sm text-gray-700 dark:text-gray-400">
                         {{ app.session.getFlashMessage('success').value }}
@@ -179,7 +178,7 @@
                 </div>
                 <div class="ms-3">
                     <h3 class="text-gray-800 font-semibold dark:text-white">
-                        Error!
+                        Kesalahan Berlaku!
                     </h3>
                     <p class="text-sm text-gray-700 dark:text-gray-400">
                         {{ app.session.getFlashMessage('error').value }}

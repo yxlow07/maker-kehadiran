@@ -1,6 +1,6 @@
 {% extends 'user_layout.twig' %}
 
-{% block title %}Attendance Analysis{% endblock %}
+{% block title %}Analisis Kehadiran{% endblock %}
 {% block content %}
     <div>
         <canvas id="attendanceChart" class="rounded"></canvas>
@@ -16,7 +16,7 @@
             data: {
                 labels: {{ data.xaxis|raw }},
                 datasets: [{
-                    label: 'Attendance',
+                    label: 'Kehadiran',
                     data: {{ data.yaxis|raw }},
                     backgroundColor: 'rgba(142,214,253,0.38)', // Set the bar color here
                     borderWidth: 1

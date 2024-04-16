@@ -20,7 +20,7 @@ class AuthController extends Controller
 
         if (App::$app->request->isMethod('post')) {
             if ($model->validate() && $model->verifyNoDuplicate() && $model->registerUser()) {
-                App::$app->session->setFlashMessage('success', 'Successfully registered user. Login now!');
+                App::$app->session->setFlashMessage('success', 'Berjaya cipta rekod murid! Log masuk sekarang!');
                 redirect('/login');
             }
         }
@@ -36,7 +36,7 @@ class AuthController extends Controller
         if (App::$app->request->isMethod('post')) {
             if ($model->validate() && $model->verifyUser()) {
                 App::$app->session->set('user', App::$app->user);
-                App::$app->session->setFlashMessage('success', 'Login successfully');
+                App::$app->session->setFlashMessage('success', 'Berjaya log masuk');
 
                 if ($model->rememberMe && !App::$app->user->isAdmin) {
                     App::$app->user->setCookies();
@@ -50,7 +50,7 @@ class AuthController extends Controller
 
     public function logout(): void
     {
-        App::$app->session->setFlashMessage('success', 'Logout successful');
+        App::$app->session->setFlashMessage('success', 'Berjaya Log Keluar');
         App::$app->session->delete('user');
 
         $sessionID = Cookies::getCookie('sessionID');

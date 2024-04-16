@@ -1,11 +1,11 @@
 {% extends 'user_layout.twig' %}
-{% block title %}Add an Admin{% endblock %}
+{% block title %}Tambah Admin{% endblock %}
 {% block content %}
     <main class="w-full max-w-md mx-auto p-6">
         <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
             <div class="p-4 sm:p-7">
                 <div class="text-center">
-                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Create new Admin</h1>
+                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Tambah Admin Baharu</h1>
                 </div>
 
                 <div class="mt-5">
@@ -15,7 +15,7 @@
                             <!-- Form Group for idAdmin -->
                             <div>
                                 <div class="flex items-center justify-between">
-                                    <label for="idAdmin" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Admin ID</label>
+                                    <label for="idAdmin" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">ID Admin</label>
                                 </div>
                                 <div class="mt-2">
                                     <input name="idAdmin" value="{{ model.idAdmin }}" type="text" class="c-input {{ model.errors.idAdmin is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.idAdmin is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
@@ -43,7 +43,7 @@
                             <!-- Form Group for password -->
                             <div>
                                 <div class="flex items-center justify-between">
-                                    <label for="kLAdmin" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Password</label>
+                                    <label for="kLAdmin" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Kata Laluan Admin</label>
                                 </div>
                                 <div class="mt-2">
                                     <div class="relative">
@@ -66,7 +66,7 @@
                             </div>
                             <!-- End Form Group for password -->
 
-                            <button type="submit" class="c-form-btn">Register</button>
+                            <button type="submit" class="c-form-btn">Hantar</button>
                         </div>
                     </form>
                     <!-- End Registration Form -->

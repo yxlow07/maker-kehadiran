@@ -1,5 +1,5 @@
 {% extends 'user_layout.twig' %}
-{% block title %}Announcements{% endblock %}
+{% block title %}Pengumuman{% endblock %}
 {% block content %}
     <div class="max-w-screen-xl mx-auto grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         {% for announcement in announcements %}
@@ -15,7 +15,7 @@
                             {{ announcement[1]|raw }}
                         </p>
                         <div class="mt-4">
-                            <a href="#" class="text-blue-500 hover:underline" data-hs-overlay="#hs-task-created-alert-{{ hash }}">Read More</a>
+                            <a href="#" class="text-blue-500 hover:underline" data-hs-overlay="#hs-task-created-alert-{{ hash }}">Baca Lagi</a>
                         </div>
                     </div>
                 </div>

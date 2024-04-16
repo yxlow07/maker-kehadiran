@@ -23,26 +23,26 @@ class UserController extends Controller
     {
         $navItems = [
             'user' => [
-                '/check_attendance' => ['fa-clipboard-user', 'Check Attendance'],
-                '/edit_attendance' => [['fa-clipboard-user', 'fa-pencil-alt'], 'Check Attendance', true],
-                '/profile' => ['fa-user', 'Profile'],
+                '/check_attendance' => ['fa-clipboard-user', 'Semak Kehadiran'],
+                '/edit_attendance' => [['fa-clipboard-user', 'fa-pencil-alt'], 'Kemaskini Kehadiran', true],
+                '/profile' => ['fa-user', 'Profil Murid'],
             ],
             'admin' => [
-                '/add_admin' => [['fa-user-tie', 'fa-plus'], 'Add Admin', true],
-                '/crud_users' => [['fa-users', 'fa-pencil-alt'], 'Manage Users', true],
-                '/analysis_attendance' => [['fa-users', 'fa-chart-pie-simple'], 'Analysis Kehadiran', true],
-                '/crud_announcements' => [['fa-megaphone', 'fa-pencil-alt'], 'Manage Announcements', true],
+                '/add_admin' => [['fa-user-tie', 'fa-plus'], 'Tambah Admin', true],
+                '/crud_users' => [['fa-users', 'fa-pencil-alt'], 'Edit Murid', true],
+                '/analysis_attendance' => [['fa-users', 'fa-chart-pie-simple'], 'Analisis Kehadiran', true],
+                '/crud_announcements' => [['fa-megaphone', 'fa-pencil-alt'], 'Edit Pengumuman', true],
             ],
             'general' => [
-                '/' => ['fa-house', 'Home'],
-                '/announcements' => ['fa-megaphone', 'Announcements'],
+                '/' => ['fa-house', 'Laman Utama'],
+                '/announcements' => ['fa-megaphone', 'Pengumuman'],
             ],
             'end' => [
-                '/logout' => ['fa-person-from-portal', 'Logout'],
+                '/logout' => ['fa-person-from-portal', 'Log Keluar'],
             ],
             'guest' => [
-                '/login' => ['fa-person-to-door', 'Login'],
-                '/register' => ['fa-user-plus', 'Register'],
+                '/login' => ['fa-person-to-door', 'Log Masuk'],
+                '/register' => ['fa-user-plus', 'Cipta Akaun'],
             ],
         ];
 
@@ -73,7 +73,7 @@ class UserController extends Controller
     private function handleUpdateProfile(ProfileModel $model): void
     {
         if ($model->validate() && $model->verifyNoDuplicate() && $model->updateDatabase()) {
-            App::$app->session->setFlashMessage('success', 'Profile Updated Successfully!');
+            App::$app->session->setFlashMessage('success', 'Berjaya kemaskini!');
             LoginModel::setNewUpdatedUserData($model->idMurid);
         }
     }
@@ -81,7 +81,7 @@ class UserController extends Controller
     private function handleUpdatePassword(ProfileModel $model): void
     {
         if ($model->validate($model->rulesUpdatePassword()) && $model->checkPassword() && $model->updateDatabasePasswordOnly()) {
-            App::$app->session->setFlashMessage('success', 'Password Updated Successfully!');
+            App::$app->session->setFlashMessage('success', 'Berjaya kemaskini!');
             LoginModel::setNewUpdatedUserData(App::$app->user->idMurid);
         }
     }

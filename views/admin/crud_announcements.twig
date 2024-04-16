@@ -1,6 +1,6 @@
 {% extends 'user_layout.twig' %}
 
-{% block title %}Edit Announcements{% endblock %}
+{% block title %}Kemaskini Pengumuman{% endblock %}
 {% block content %}
     <div class="flex flex-col w-full ">
         <div class="-m-1.5 overflow-x-auto">
@@ -9,9 +9,9 @@
                     <table class="max-w-screen-xl w-full divide-y divide-gray-200 dark:divide-gray-700" id="editable-table">
                         <thead>
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Title</th>
-                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Announcement</th>
-                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Delete</th>
+                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Tajuk</th>
+                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Pengumuman</th>
+                            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Hapus</th>
                         </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700 text-center">
@@ -23,7 +23,7 @@
                                 </td>
                                 <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                                     <button type="button" class="delete-row py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                                        Delete
+                                        Hapus
                                     </button>
                                 </td>
                             </tr>
@@ -37,10 +37,10 @@
 
     <div class="mt-4 space-x-5 flex justify-between">
         <button id="add-row" type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-teal-500 text-white hover:bg-teal-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-            Add Row
+            Tambah
         </button>
         <button id="submit-table" type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-teal-500 text-white hover:bg-teal-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-            Submit
+            Hantar
         </button>
     </div>
     <script>
@@ -52,7 +52,7 @@
                         <td contenteditable="true" class="px-6 py-3 text-start text-sm font-medium text-gray-800 dark:text-gray-200 max-w-screen-md"></td>
                         <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
                             <button type="button" class="delete-row py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                                Delete
+                                Hapus
                             </button>
                         </td>
                     </tr>
@@ -83,19 +83,19 @@
                 });
 
                 $.ajax({
-                    url: '/crud_announcements',
+                    url: '{{ path() }}/crud_announcements',
                     method: 'POST',
                     contentType: 'application/json; charset=utf-8',
                     data: JSON.stringify({data}),
                     success: function (res) {
                         if (res.success) {
-                            alert(`Announcements updated successfully!`);
+                            alert(`Berjaya Kemaskini`);
                         } else {
-                            alert('Announcements failed to be updated (Internal server error)');
+                            alert('Gagal..server');
                         }
                     },
                     error: function (e) {
-                        alert(`Announcements failed to be updated. (Ajax error)`);
+                        alert(`Gagal..ajax`);
                         console.error(e);
                     }
                 }).then(function () {

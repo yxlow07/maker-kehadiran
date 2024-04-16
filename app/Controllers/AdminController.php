@@ -49,7 +49,7 @@ class AdminController extends Controller
 
         if (App::$app->request->isMethod('post')) {
             if ($model->validate($this->createUsersRules()) && $model->verifyNoDuplicate() && $model->registerUser() && $model->registerName()) {
-                App::$app->session->setFlashMessage('success', 'Successfully registered user.');
+                App::$app->session->setFlashMessage('success', 'Rekod Murid Dicipta Berjaya!');
                 redirect('/crud_users');
             }
         }
@@ -96,7 +96,7 @@ class AdminController extends Controller
             $model = new ProfileModel(App::$app->request->data());
 
             if ($model->validate() && $model->verifyNoDuplicate($data) && $model->updateDatabase($data)) {
-                App::$app->session->setFlashMessage('success', 'Profile Updated Successfully!');
+                App::$app->session->setFlashMessage('success', 'Berjaya kemaskini!');
             }
         }
 
@@ -170,14 +170,14 @@ class AdminController extends Controller
             foreach ($result as $idMurid => $attendanceData) {
                 $exists = LoginModel::getUserFromDB($idMurid);
                 if (!$exists) {
-                    $uploadResults[] = "Attendance for user $idMurid is not uploaded due to user not existing in database";
+                    $uploadResults[] = "$idMurid tidak ditemui dalam pangkalan data!";
                     continue;
                 }
                 $success = UserModel::updateAttendanceRecord($idMurid, $attendanceData) ? 'successfully' : 'unsuccessfully';
-                $uploadResults[] = "Attendance for user $idMurid has $success been updated";
+                $uploadResults[] = "Berjaya kemaskini untuk murid $idMurid!";
             }
             
-            App::$app->session->setFlashMessage('success', 'Uploaded csv file!');
+            App::$app->session->setFlashMessage('success', 'Berjaya muat naik fail csv!');
         }
         $this->render('upload_attendance', ['results' => $uploadResults]);
     }
@@ -207,7 +207,7 @@ class AdminController extends Controller
             $model = new AdminModel(App::$app->request->data());
 
             if ($model->validate($model->newAdminRules()) && $model->verifyNoDuplicate() && $model->updateDatabase()) {
-                App::$app->session->setFlashMessage('success', 'Admin Created Successfully!');
+                App::$app->session->setFlashMessage('success', 'Berjaya mencipta rekod admin');
                 redirect();
             }
         }

@@ -1,15 +1,15 @@
 {% extends 'user_layout.twig' %}
-{% block title %}Register{% endblock %}
+{% block title %}Cipta Akaun{% endblock %}
 {% block content %}
     <main class="w-full max-w-md mx-auto p-6">
         <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
             <div class="p-4 sm:p-7">
                 <div class="text-center">
-                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Register</h1>
+                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Mencipta Akaun</h1>
                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        Already have an account?
+                        Sudah mencipta akaun?
                         <a class="c-links" href="{{ path() }}/login">
-                            Sign in here
+                            Log Masuk!
                         </a>
                     </p>
                 </div>
@@ -21,10 +21,10 @@
                             <!-- Form Group for idMurid -->
                             <div>
                                 <div class="flex items-center justify-between">
-                                    <label for="idMurid" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Student ID</label>
+                                    <label for="idMurid" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">ID Murid</label>
                                 </div>
                                 <div class="mt-2">
-                                    <input name="idMurid" value="{{ model.idMurid }}" type="text" class="c-input {{ model.errors.idMurid is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.idMurid is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    <input name="idMurid" placeholder="Masukkan idMurid di sini" value="{{ model.idMurid }}" type="text" class="c-input {{ model.errors.idMurid is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.idMurid is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
                                     {% if model.errors.idMurid is not empty %}
                                         <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.idMurid[0] }}</div>
                                     {% endif %}
@@ -35,10 +35,10 @@
                             <!-- Form Group for noTel -->
                             <div>
                                 <div class="flex items-center justify-between">
-                                    <label for="noTel" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Phone Number</label>
+                                    <label for="noTel" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Nombor Telefon</label>
                                 </div>
                                 <div class="mt-2">
-                                    <input name="noTel" value="{{ model.noTel }}" type="tel" class="c-input {{ model.errors.noTel is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.noTel is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    <input name="noTel" placeholder="Masukkan nombor telefon anda, min 10 digit" value="{{ model.noTel }}" type="tel" class="c-input {{ model.errors.noTel is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.noTel is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
                                     {% if model.errors.noTel is not empty %}
                                         <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.noTel[0] }}</div>
                                     {% endif %}
@@ -49,11 +49,11 @@
                             <!-- Form Group for password -->
                             <div>
                                 <div class="flex items-center justify-between">
-                                    <label for="kLMurid" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Password</label>
+                                    <label for="kLMurid" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Kata Laluan</label>
                                 </div>
                                 <div class="mt-2">
                                     <div class="relative">
-                                        <input id="kLMurid" name="kLMurid" type="password" autocomplete="new-password" class="c-input {{ model.errors.kLMurid is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.kLMurid is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                        <input id="kLMurid" placeholder="Masukkan kata laluan murid" name="kLMurid" type="password" autocomplete="new-password" class="c-input {{ model.errors.kLMurid is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.kLMurid is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
                                         <button type="button" data-hs-toggle-password='{"target": "#kLMurid"}' class="absolute top-0 end-0 p-3.5 rounded-e-md dark:focus:outline-none">
                                             <svg class="flex-shrink-0 size-3.5 text-gray-400 dark:text-neutral-600" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <path class="hs-password-active:hidden" d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
@@ -75,11 +75,11 @@
                             <!-- Form Group for confirmkLMurid  -->
                             <div>
                                 <div class="flex items-center justify-between">
-                                    <label for="confirmkLMurid" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Confirm Password</label>
+                                    <label for="confirmkLMurid" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Kata Laluan Lagi</label>
                                 </div>
                                 <div class="mt-2">
                                     <div class="relative">
-                                        <input id="confirmkLMurid" name="confirmkLMurid" type="password" class="c-input {{ model.errors.confirmkLMurid is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.confirmkLMurid is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                        <input id="confirmkLMurid" placeholder="Masukkan kata laluan sekali lagi" name="confirmkLMurid" type="password" class="c-input {{ model.errors.confirmkLMurid is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.confirmkLMurid is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
                                         <button type="button" data-hs-toggle-password='{"target": "#confirmkLMurid"}' class="absolute top-0 end-0 p-3.5 rounded-e-md dark:focus:outline-none">
                                             <svg class="flex-shrink-0 size-3.5 text-gray-400 dark:text-neutral-600" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <path class="hs-password-active:hidden" d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
@@ -98,7 +98,7 @@
                             </div>
                             <!-- End Form Group for confirmkLMurid  -->
 
-                            <button type="submit" class="c-form-btn">Register</button>
+                            <button type="submit" class="c-form-btn">Cipta Akaun</button>
                         </div>
                     </form>
                     <!-- End Registration Form -->

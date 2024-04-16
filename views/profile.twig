@@ -1,11 +1,11 @@
 {% extends 'user_layout.twig' %}
-{% block title %}Profile Page{% endblock %}
+{% block title %}Kemaskini Data Murid{% endblock %}
 {% block content %}
     <main class="w-full max-w-xl mx-auto p-6">
         <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
             <div class="p-4 sm:p-7">
                 <div class="text-center">
-                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Update Profile</h1>
+                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Kemaskini Profil</h1>
                 </div>
 
                 <div class="mt-5">
@@ -15,10 +15,10 @@
                             <!-- Form Group for idMurid -->
                             <div>
                                 <div class="flex items-center justify-between">
-                                    <label for="idMurid" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Student ID</label>
+                                    <label for="idMurid" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">ID Murid</label>
                                 </div>
                                 <div class="mt-2">
-                                    <input name="idMurid" type="text" value="{{ model.idMurid }}" class="c-input {{ model.errors.idMurid is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.idMurid is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    <input name="idMurid" placeholder="Masukkan ID Murid" type="text" value="{{ model.idMurid }}" class="c-input {{ model.errors.idMurid is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.idMurid is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
                                     {% if model.errors.idMurid is not empty %}
                                         <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.idMurid[0] }}</div>
                                     {% endif %}
@@ -29,10 +29,10 @@
                             <!-- Form Group for noTel -->
                             <div>
                                 <div class="flex items-center justify-between">
-                                    <label for="noTel" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Telephone Number</label>
+                                    <label for="noTel" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Nombor Telefon</label>
                                 </div>
                                 <div class="mt-2">
-                                    <input name="noTel" type="text" value="{{ model.noTel }}" class="c-input {{ model.errors.noTel is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.noTel is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    <input name="noTel" type="text" placeholder="Masukkan nombor murid" value="{{ model.noTel }}" class="c-input {{ model.errors.noTel is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.noTel is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
                                     {% if model.errors.noTel is not empty %}
                                         <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.noTel[0] }}</div>
                                     {% endif %}
@@ -43,10 +43,10 @@
                             <!-- Form Group for namaM -->
                             <div>
                                 <div class="flex items-center justify-between">
-                                    <label for="namaM" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Student Name</label>
+                                    <label for="namaM" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Nama Murid</label>
                                 </div>
                                 <div class="mt-2">
-                                    <input name="namaM" type="text" value="{{ model.namaM }}" class="c-input {{ model.errors.namaM is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.namaM is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    <input name="namaM" placeholder="Masukkan nama murid" type="text" value="{{ model.namaM }}" class="c-input {{ model.errors.namaM is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.namaM is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
                                     {% if model.errors.namaM is not empty %}
                                         <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.namaM[0] }}</div>
                                     {% endif %}
@@ -55,7 +55,7 @@
                             <!-- End Form Group for namaM -->
                             <input type="hidden" name="type" value="1">
 
-                            <button type="submit" class="c-form-btn">Submit</button>
+                            <button type="submit" class="c-form-btn">Hantar</button>
                         </div>
                     </form>
                     <!-- End Form -->
@@ -71,7 +71,7 @@
             <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
             <div class="p-4 sm:p-7">
                 <div class="text-center">
-                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Update Password</h1>
+                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white">Tukar Kata Laluan</h1>
                 </div>
 
                 <div class="mt-5">
@@ -81,10 +81,10 @@
                             <!-- Form Group for password -->
                             <div>
                                 <div class="flex items-center justify-between">
-                                    <label for="kLMurid" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Old Password</label>
+                                    <label for="kLMurid" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Kata Laluan Lama</label>
                                 </div>
                                 <div class="mt-2">
-                                    <input name="kLMurid" type="password" autocomplete="current-password" class="c-input {{ model.errors.kLMurid is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.kLMurid is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    <input name="kLMurid" placeholder="Masukkan kata laluan lama" type="password" autocomplete="current-password" class="c-input {{ model.errors.kLMurid is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.kLMurid is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
                                     {% if model.errors.kLMurid is not empty %}
                                         <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMurid[0] }}</div>
                                     {% endif %}
@@ -95,10 +95,10 @@
                             <!-- Form Group for new password -->
                             <div>
                                 <div class="flex items-center justify-between">
-                                    <label for="kLMuridNew" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">New Password</label>
+                                    <label for="kLMuridNew" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Kata Laluan Baharu</label>
                                 </div>
                                 <div class="mt-2">
-                                    <input name="kLMuridNew" type="password" class="c-input {{ model.errors.kLMuridNew is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.kLMuridNew is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    <input name="kLMuridNew" placeholder="Masukkan kata laluan baharu" type="password" class="c-input {{ model.errors.kLMuridNew is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.kLMuridNew is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
                                     {% if model.errors.kLMuridNew is not empty %}
                                         <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMuridNew[0] }}</div>
                                     {% endif %}
@@ -109,10 +109,10 @@
                             <!-- Form Group for confirm new password -->
                             <div>
                                 <div class="flex items-center justify-between">
-                                    <label for="kLMuridNewConf" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Confirm New Password</label>
+                                    <label for="kLMuridNewConf" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Kata Laluan Baharu Lagi</label>
                                 </div>
                                 <div class="mt-2">
-                                    <input name="kLMuridNewConf" type="password" class="c-input {{ model.errors.kLMuridNewConf is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.kLMuridNewConf is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
+                                    <input name="kLMuridNewConf" placeholder="Masukkan kata laluan baharu lagi" type="password" class="c-input {{ model.errors.kLMuridNewConf is not empty ? 'ring-red-500' : 'dark:ring-gray-300' }} focus:{{ model.errors.kLMuridNewConf is not empty ? 'ring-red-500 focus:border-red-500' : 'ring-blue-500 focus:border-blue-500' }}">
                                     {% if model.errors.kLMuridNewConf is not empty %}
                                         <div class="mt-1 text-red-500 text-sm first-letter:capitalize">{{ model.errors.kLMuridNewConf[0] }}</div>
                                     {% endif %}
@@ -121,7 +121,7 @@
                             <!-- End Form Group for new password -->
                             <input type="hidden" name="type" value="2">
 
-                            <button type="submit" class="c-form-btn">Submit</button>
+                            <button type="submit" class="c-form-btn">Hantar</button>
                         </div>
                     </form>
                     <!-- End Form -->

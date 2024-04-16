@@ -1,6 +1,6 @@
 {% extends 'user_layout.twig' %}
 
-{% block title %}User {% if action == 'read' %}Profile{% else %}Attendance{% endif %}{% endblock %}
+{% block title %}Murid: {% if action == 'read' %}Profil{% else %}Kehadiran{% endif %}{% endblock %}
 {% block content %}
     {% if action == 'read' %}
         <div class="flex flex-col w-full ">
@@ -42,7 +42,7 @@
                 data: {
                     labels: {{ data.xaxis|raw }},
                     datasets: [{
-                        label: 'Attendance',
+                        label: 'Kehadiran',
                         data: {{ data.kehadiran }},
                         borderWidth: 1
                     }]
