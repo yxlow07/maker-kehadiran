@@ -132,8 +132,9 @@ class AdminController extends Controller
         exit();
     }
 
-    public function kehadiran($idMurid)
+    public function kehadiran()
     {
+        $idMurid = App::$app->user->idMurid;
         $exists = LoginModel::getUserFromDB($idMurid);
 
         if (!$exists) {

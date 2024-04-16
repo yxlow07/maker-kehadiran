@@ -24,6 +24,7 @@ class UserController extends Controller
         $navItems = [
             'user' => [
                 '/check_attendance' => ['fa-clipboard-user', 'Check Attendance'],
+                '/edit_attendance' => [['fa-clipboard-user', 'fa-pencil-alt'], 'Check Attendance', true],
                 '/profile' => ['fa-user', 'Profile'],
             ],
             'admin' => [

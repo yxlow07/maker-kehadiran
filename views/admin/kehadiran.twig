@@ -96,7 +96,7 @@
             // console.log(data);
 
             $.ajax({
-                url: '/users/{{ data.idMurid }}/kehadiran',
+                url: '{{ path() }}/edit_attendance',
                 method: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify({ data }),
