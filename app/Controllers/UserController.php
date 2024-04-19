@@ -43,7 +43,7 @@ class UserController extends Controller
             ],
             'guest' => [
                 '/login' => ['fa-person-to-door', 'Log Masuk'],
-                '/register' => ['fa-user-plus', 'Cipta Akaun'],
+                '/register' => ['fa-user-plus', 'Daftar Akaun'],
             ],
         ];
 

@@ -21,7 +21,7 @@
                         <div class="-m-1.5 overflow-x-auto">
                             <div class="p-1.5 min-w-full inline-block align-middle">
                                 <div class="overflow-hidden">
-                                    <table class="max-w-screen-xl w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                    <table class="max-w-screen-xl w-full divide-y divide-gray-200 dark:divide-gray-700" id="res">
                                         <thead>
                                         <tr>
                                             <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">ID Murid</th>
@@ -38,10 +38,21 @@
                     </div>
                 </div>
             </div>
+            <div class="mt-4 space-x-5 flex justify-between">
+                <a href="#" id="cetak" class="inline-block px-4 py-2 bg-teal-500 dark:bg-teal-700 dark:hover:bg-teal-900 text-white rounded-md hover:bg-teal-600 transition duration-300">Cetak Laporan</a>
+            </div>
         </div>
+        
     </div>
     <script>
         $(document).ready(function () {
+            $('#cetak').click(function(e) {
+                let printContents = $('#res')[0].outerHTML;
+                let originalContents = $('body').html();
+                $('body').html(printContents);
+                window.print();
+                $('body').html(originalContents);
+            })
             $('#hs-table-search').keyup(function (e) {
                 let query = $(this).val();
                 if (query) {

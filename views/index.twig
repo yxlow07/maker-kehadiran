@@ -1,50 +1,33 @@
 {% extends 'user_layout.twig' %}
 {% block title %}Laman Utama{% endblock %}
 {% block content %}
-    <div class="flex-1 flex items-center justify-center h-screen overscroll-none" id="content">
+    <div class="flex-1 flex items-center justify-center overscroll-none" id="content">
         <div class="text-center">
-            <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">Selamat datang ke Maker Kehadiran</h1>
             <p class="text-gray-600 dark:text-gray-300 mb-8">Sila gunakan butang di bawah untuk menggunakan fungsi laman ini.</p>
 
-            <div class="flex items-center justify-center relative z-10 ms-auto">
-                <div class="lg:ms-1">
-                    {% for route, values in app.nav %}
-                        <div class="hs-tooltip inline-block [--placement:bottom] flex align-baseline">
-                            <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ path(route) }}">
-                                {% if values.2 %} {# Meaning that it is stackable icons #}
-                                    <span class="fa-stack {% if app.request.path == route %} current-page fa-beat {% endif %}">
-                                            <i class="fa-duotone fa-xl {{ values.0[0] }} fa-stack-1x"></i>
-                                            <i class="fa-duotone {{ values.0[1] }} fa-stack-4x text-teal-400" style="position: absolute; bottom: 0; right: 0;"></i>
-                                    </span>
-
-                                {% else %}
-                                    <i class="fa-duotone {{ values.0 }} fa-xl {% if app.request.path == route %} current-page fa-beat {% endif %}"></i>
-                                {% endif %}
-                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible c-tooltip" role="tooltip">
-                                        {{ values.1 }}
-                                    </span>
-                            </a>
-                            <div class="pt-3">
-                                <a href="{{ path(route) }}" class="c-links"><span>{{ values.1 }}</span></a>
-                            </div>
-                        </div>
-                        <br>
-                    {% endfor %}
-                </div>
+            <div class="grid grid-cols-4 gap-4">
+    {% for route, values in app.nav %}
+        <div class="hs-tooltip flex flex-col items-center">
+            <a class="c-nav-items-tooltip hs-tooltip-toggle" href="{{ path(route) }}">
+                {% if values.2 %}
+                    <span class="fa-stack {% if app.request.path == route %} current-page fa-beat {% endif %}">
+                        <i class="fa-duotone fa-xl {{ values.0[0] }} fa-stack-1x"></i>
+                        <i class="fa-duotone {{ values.0[1] }} fa-stack-4x text-teal-400" style="position: absolute; bottom: 0; right: 0;"></i>
+                    </span>
+                {% else %}
+                    <i class="fa-duotone {{ values.0 }} fa-xl {% if app.request.path == route %} current-page fa-beat {% endif %}"></i>
+                {% endif %}
+                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible c-tooltip" role="tooltip">
+                    {{ values.1 }}
+                </span>
+            </a>
+            <div class="pt-3">
+                <a href="{{ path(route) }}" class="c-links"><span>{{ values.1 }}</span></a>
             </div>
         </div>
-    </div>
-    <script>
-        // Calculate and set the height dynamically
-        function setDynamicHeight() {
-            let windowHeight = window.innerHeight;
-            let header = document.getElementById('header').offsetHeight;
-            let contentContainer = document.getElementById('content');
-            contentContainer.style.maxHeight = windowHeight-header-100 + 'px';
-        }
+    {% endfor %}
+</div>
 
-        // Call the function on page load and window resize
-        window.addEventListener('load', setDynamicHeight);
-        window.addEventListener('resize', setDynamicHeight);
-    </script>
+        </div>
+    </div>
 {% endblock %}

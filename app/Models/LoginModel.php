@@ -20,8 +20,8 @@ class LoginModel extends ValidationModel
     public function rules(): array
     {
         return [
-            'idMurid' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 5]],
-            'password' => [self::RULE_REQUIRED],
+            'idMurid' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 5], [self::RULE_MAX, 'max' => 10]],
+            'password' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 5], [self::RULE_MAX, 'max' => 15]],
             'rememberMe' => []
         ];
     }

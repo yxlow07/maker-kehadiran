@@ -50,7 +50,7 @@ class AdminController extends Controller
 
         if (App::$app->request->isMethod('post')) {
             if ($model->validate($this->createUsersRules()) && $model->verifyNoDuplicate() && $model->registerUser() && $model->registerName()) {
-                App::$app->session->setFlashMessage('success', 'Rekod Murid Dicipta Berjaya!');
+                App::$app->session->setFlashMessage('success', 'Rekod Murid Didaftar Berjaya!');
                 redirect('/crud_users');
             }
         }
@@ -208,7 +208,7 @@ class AdminController extends Controller
             $model = new AdminModel(App::$app->request->data());
 
             if ($model->validate($model->newAdminRules()) && $model->verifyNoDuplicate() && $model->updateDatabase()) {
-                App::$app->session->setFlashMessage('success', 'Berjaya mencipta rekod admin');
+                App::$app->session->setFlashMessage('success', 'Berjaya mendaftar rekod admin');
                 redirect();
             }
         }

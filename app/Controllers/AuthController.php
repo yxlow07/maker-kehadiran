@@ -20,7 +20,7 @@ class AuthController extends Controller
 
         if (App::$app->request->isMethod('post')) {
             if ($model->validate() && $model->verifyNoDuplicate() && $model->registerUser()) {
-                App::$app->session->setFlashMessage('success', 'Berjaya cipta rekod murid! Log masuk sekarang!');
+                App::$app->session->setFlashMessage('success', 'Berjaya daftar rekod murid! Log masuk sekarang!');
                 redirect('/login');
             }
         }
