@@ -3,6 +3,7 @@
 namespace core\Database;
 
 use core\App;
+use core\Exceptions\FileNotFoundException;
 
 class CSVDatabase
 {
@@ -25,5 +26,20 @@ class CSVDatabase
         }
 
         return $data;
+    }
+
+    public static function saveToDatabase($filename, $data): bool
+    {
+        $path = @file_exists($filename) ? $filename : App::$app->config['resources_path'].'/data/'.$filename;
+        $handler = fopen($path, 'a');
+        if (!$handler) {
+            throw new FileNotFoundException();
+        } else {
+            foreach ($data as $row) {
+                fputcsv($handler, [$row]);
+            }
+            fclose($handler);
+            return true;
+        }
     }
 }

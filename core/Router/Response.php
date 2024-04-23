@@ -4,12 +4,9 @@ namespace core\Router;
 
 use core\App;
 use core\Exceptions\ViewNotFoundException;
-use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\NoReturn;
 
 class Response
 {
-    #[NoReturn]
     public static function loadResource(string $resourcePath): void
     {
         if (file_exists($resourcePath)) {

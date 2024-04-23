@@ -79,4 +79,27 @@ class UserModel
     {
         return App::$app->database->findOne('kehadiran', ['idMurid' => $idMurid]);
     }
+
+    public function setIdMurid(string $idMurid): UserModel
+    {
+        $this->idMurid = $idMurid;
+        return $this;
+    }
+
+    public function setNoTel(string $noTel): UserModel
+    {
+        $this->noTel = $noTel;
+        return $this;
+    }
+
+    public function setKLMurid(string $kLMurid): UserModel
+    {
+        $this->kLMurid = password_hash($kLMurid, PASSWORD_BCRYPT);
+        return $this;
+    }
+
+    public function isBasicDataSet(): bool
+    {
+        return !empty($this->idMurid) && !empty($this->kLMurid) && !empty($this->noTel);
+    }
 }

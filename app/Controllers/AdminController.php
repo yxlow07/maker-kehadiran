@@ -18,6 +18,7 @@ use core\Filesystem;
 use core\Models\BaseModel;
 use core\Models\ValidationModel;
 use core\Router\Request;
+use core\Router\Response;
 use core\View;
 
 class AdminController extends Controller
@@ -145,8 +146,9 @@ class AdminController extends Controller
         $kehadiran = (array) UserModel::getAttendanceFromDatabase($idMurid);
         $kehadiran['kehadiran'] = json_decode($kehadiran['kehadiran']);
 
+
         if (App::$app->request->isMethod('post')) {
-            header('Content-Type: application/json;charset=utf-8');
+            App::$app->request->setHeader('json');
             $data = json_decode(App::$app->request->data(true), true)['data'];
             echo json_encode(['success' => UserModel::updateAttendanceRecord($idMurid, $data)]);
             exit;
@@ -181,6 +183,38 @@ class AdminController extends Controller
             App::$app->session->setFlashMessage('success', 'Berjaya muat naik fail csv!');
         }
         $this->render('upload_attendance', ['results' => $uploadResults]);
+    }
+
+    public function uploadUsers()
+    {
+        $uploadResults = [];
+
+        if (App::$app->request->isMethod('post') && isset($_FILES['csv']) && $_FILES['csv']['error'] == UPLOAD_ERR_OK) {
+            $csv = file($_FILES['csv']['tmp_name'], FILE_IGNORE_NEW_LINES);
+            $result = [];
+            $gagal = 0;
+            foreach ($csv as $line) {
+                $data = str_getcsv($line);
+                $userModel = new UserModel();
+                $userModel->setIdMurid($data[0] ?? '')->setNoTel($data[1] ?? '')->setKLMurid($data[2] ?? '12345');
+
+                if ($userModel->isBasicDataSet()) {
+                    try {
+                        if (App::$app->database->insert('murid', ['idMurid', 'noTel', 'kLMurid'], $userModel)) {
+                            $uploadResults[] = "Berjaya masukkan rekod murid $data[0]";
+                        } else {
+                            $uploadResults[] = "Gagal masukkan rekod murid $data[0]";
+                            $gagal++;
+                        }
+                    } catch (\Exception $exception) {
+                        $uploadResults[] = "Gagal masukkan rekod murid $data[0]";
+                        $gagal++;
+                    }
+                }
+            }
+            App::$app->session->setFlashMessage($gagal == 0 ? 'success' : 'error', 'CSV Dimuatnaik!');
+        }
+        $this->render('upload_users', ['results' => $uploadResults]);
     }
 
     public function analysis_kehadiran()
@@ -228,5 +262,19 @@ class AdminController extends Controller
         }
 
         $this->render('search', ['users' => $data]);
+    }
+
+    public function set_date(): void
+    {
+        $data = CSVDatabase::returnAllData('dates.csv');
+
+        if (App::$app->request->isMethod('post')) {
+            $dates = App::$app->request->data()['dates'] ?? [];
+
+            App::$app->request->setHeader('json');
+            App::$app->response->sendJson(CSVDatabase::saveToDatabase('dates.csv', $dates) ? 'Berjaya' : 'Gagal', true);
+        }
+
+        $this->render('setdate', ['data' => $data]);
     }
 }

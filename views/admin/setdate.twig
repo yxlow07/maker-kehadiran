@@ -1,0 +1,88 @@
+{% extends 'user_layout.twig' %}
+{% block title %}Tetapkan Hari Aktiviti{% endblock %}
+{% block content %}
+    <!-- Date Selector -->
+    <div class="mb-4 flex justify-center">
+        <input type="date" id="datepicker" class="border border-gray-300 p-2 rounded-md mr-3 dark:bg-slate-700 dark:text-white">
+        <button id="addDateBtn" class="bg-blue-500 text-white px-3 rounded-md ml-2">Tambah Tarikh</button>
+    </div>
+
+    <!-- Table to Display Dates -->
+    <table class="max-w-screen-xl w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead>
+        <tr>
+            <th scope="col" class="px-6 py-3 text-center font-bold text-xs text-gray-500 dark:text-gray-300 uppercase">Tarikh Aktiviti</th>
+        </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 dark:divide-gray-700 text-center" id="dateTableBody">
+        {% for date in data %}
+            <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                <td class="dark:text-white p-2">{{ date[0] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <!-- Submit Button -->
+    <div class="flex justify-end">
+        <button id="submitBtn" class="bg-green-500 text-white px-4 py-2 rounded-md mt-4 ">Hantar</button>
+    </div>
+
+    <script>
+        document.getElementById('addDateBtn').addEventListener('click', function() {
+            let datePicker = document.getElementById('datepicker');
+            let selectedDate = datePicker.value;
+            if (selectedDate) {
+                // Check if selected date is not earlier than today
+                let today = new Date();
+                today.setHours(0, 0, 0, 0);
+                let selectedDateObj = new Date(selectedDate);
+                if (selectedDateObj < today) {
+                    alert("Anda hanya boleh tambah aktiviti untuk hari ini atau hari akan datang.");
+                    return;
+                }
+
+                // Check if table already contains selected date
+                let tableRows = document.querySelectorAll('#dateTableBody tr');
+                for (let row of tableRows) {
+                    let dateCell = row.querySelector('td');
+                    if (dateCell.textContent.trim() === selectedDate) {
+                        alert("Tarikh ini sudah ada dalam senarai.");
+                        return;
+                    }
+                }
+
+                // Add selected date to the table
+                let tableBody = document.getElementById('dateTableBody');
+                let newRow = document.createElement('tr');
+                let newCell = document.createElement('td');
+                newCell.textContent = selectedDate;
+                newRow.classList.add('hover:bg-gray-100', 'dark:hover:bg-gray-700')
+                newCell.classList.add('dark:text-white', 'p-2');
+                newRow.appendChild(newCell);
+                tableBody.appendChild(newRow);
+            }
+        });
+        $(document).ready(function() {
+            $('#submitBtn').click(function() {
+                // Collect dates from the table
+                let dates = [];
+                $('#dateTableBody td').each(function() {
+                    dates.push($(this).text());
+                });
+
+                // Send AJAX request
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ path() }}/set_date', // Replace with your PHP script URL
+                    data: { dates: dates },
+                    success: function(response) {
+                        alert('Berjaya: ' + response);
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Gagal: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

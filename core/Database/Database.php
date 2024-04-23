@@ -37,7 +37,7 @@ class Database
         foreach (explode(',', $attributes) as $attribute) {
             // For anyone that don't understand, basically I check if it is an object, if it is then straight query the attribute of the object
             // If not, then I check if values is an associative array, if it is I straight access it with [] operation, if not then I use integer accessing and ++ (CP Knowledge)
-            $value = !($values instanceof BaseModel) ? (array_key_exists($attribute, $values) ? $values[$attribute] : $values[$counter++]) : $values->{$attribute};
+            $value = !(is_object($values)) ? (array_key_exists($attribute, $values) ? $values[$attribute] : $values[$counter++]) : $values->{$attribute};
             $statement->bindValue(":$attribute", $value);
         }
 

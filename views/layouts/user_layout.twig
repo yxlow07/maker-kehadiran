@@ -9,6 +9,24 @@
     <script src="{{ js('fontawesome.js') }}"></script>
     <script src="{{ js('jquery.js') }}"></script>
     <script src="{{ js('app.js') }}"></script>
+    <script>
+        // Function to update the timer
+        function updateTimer() {
+            let timerElement = document.getElementById('timer');
+            let currentTime = new Date();
+            let hours = currentTime.getHours() % 12 || 12; // Convert to 12-hour format
+            let minutes = currentTime.getMinutes().toString().padStart(2, '0');
+            let seconds = currentTime.getSeconds().toString().padStart(2, '0');
+            let ampm = currentTime.getHours() >= 12 ? 'PM' : 'AM'; // Determine AM/PM
+            timerElement.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+        }
+
+        // Update the timer every second
+        setInterval(updateTimer, 1000);
+
+        // Call updateTimer initially to set the initial time
+        updateTimer();
+    </script>
 </head>
 <body class="c-body">
 
@@ -108,9 +126,12 @@
                     <h3 class="text-gray-800 font-semibold dark:text-white">
                         Kesalahan Berlaku!
                     </h3>
-                    <p class="text-sm text-gray-700 dark:text-gray-400">
-                        {{ app.session.getFlashMessage('error').value }}
-                    </p>
+                    <div class="text-sm text-gray-700 dark:text-gray-400">
+                        {{ app.session.getFlashMessage('success').value }}
+                        {% for result in results %}
+                            <div class="text-sm text-gray-700 dark:text-gray-400">{{ result }}</div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -121,6 +142,9 @@
         </div>
         {% block content %} {% endblock %}
     </div>
+</div>
+<div class="timer-container">
+    <span id="timer">00:00:00</span>
 </div>
 </body>
 </html>
