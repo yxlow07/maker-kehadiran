@@ -19,7 +19,7 @@ class AuthController extends Controller
         $model = new RegisterModel($data);
 
         if (App::$app->request->isMethod('post')) {
-            if ($model->validate() && $model->verifyNoDuplicate() && $model->registerUser()) {
+            if ( $model->validate() && $model->verifyValidID()  && $model->verifyNoDuplicate() && $model->registerUser()) {
                 App::$app->session->setFlashMessage('success', 'Berjaya daftar rekod murid! Log masuk sekarang!');
                 redirect('/login');
             }

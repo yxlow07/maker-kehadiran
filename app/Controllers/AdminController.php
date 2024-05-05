@@ -272,7 +272,7 @@ class AdminController extends Controller
             $dates = App::$app->request->data()['dates'] ?? [];
 
             App::$app->request->setHeader('json');
-            App::$app->response->sendJson(CSVDatabase::saveToDatabase('dates.csv', $dates) ? 'Berjaya' : 'Gagal', true);
+            App::$app->response->sendJson(CSVDatabase::saveToDatabase('dates.csv', $dates, 'w') ? 'Berjaya' : 'Gagal', true);
         }
 
         $this->render('setdate', ['data' => $data]);

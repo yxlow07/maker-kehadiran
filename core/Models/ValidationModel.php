@@ -13,13 +13,20 @@ abstract class ValidationModel extends BaseModel
     const RULE_UNDEFINED = 'undefined';
 
     const ERROR_MESSAGES = [
-        self::RULE_REQUIRED => '{field} is required',
-        self::RULE_MIN => '{field} must be at least {min} characters',
-        self::RULE_MAX => '{field} must be at most {max} characters',
-        self::RULE_EMAIL => '{field} must be a valid email',
+//        self::RULE_REQUIRED => '{field} is required',
+//        self::RULE_MIN => '{field} must be at least {min} characters',
+//        self::RULE_MAX => '{field} must be at most {max} characters',
+//        self::RULE_EMAIL => '{field} must be a valid email',
+//        self::RULE_MATCH => '{field} {match}',
+//        self::RULE_UNIQUE => 'Record with this {field} already exists',
+//        self::RULE_UNDEFINED => 'Undefined error occured. Contact an admin',
+        self::RULE_REQUIRED => '{field} diperlukan',
+        self::RULE_MIN => '{field} mesti sekurang-kurangnya {min} aksara',
+        self::RULE_MAX => '{field} mesti tidak melebihi {max} aksara',
+        self::RULE_EMAIL => '{field} mesti berupa emel yang sah',
         self::RULE_MATCH => '{field} {match}',
-        self::RULE_UNIQUE => 'Record with this {field} already exists',
-        self::RULE_UNDEFINED => 'Undefined error occured. Contact an admin',
+        self::RULE_UNIQUE => 'Rekod dengan {field} ini sudah wujud',
+        self::RULE_UNDEFINED => 'Ralat tak ditakrifkan berlaku. Hubungi pentadbir',
     ];
 
     public array $errors = [];

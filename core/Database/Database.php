@@ -121,7 +121,16 @@ class Database
         return $fetchObject ? $statement->fetchObject($class) : $statement->fetchColumn();
     }
 
-    public function findAll(string $table, array $selectAttributes = ['*'], array $conditions = [], $class = null, bool $fetchObject = false, bool $isSearch = false): false|array
+    /**
+     * @param string $table
+     * @param array $selectAttributes
+     * @param array $conditions
+     * @param $class
+     * @param bool $fetchObject
+     * @param bool $isSearch
+     * @return false|array
+     */
+    public function findAll($table, $selectAttributes = ['*'], $conditions = [], $class = null, $fetchObject = false, $isSearch = false)
     {
         $selectAttributes = implode(',', $selectAttributes);
 

@@ -60,6 +60,15 @@ class RegisterModel extends ValidationModel
         return $check;
     }
 
+    public function verifyValidID(): bool
+    {
+        $check = preg_match('/^[a-zA-Z0-9]+$/', $this->idMurid);
+        if (!$check) {
+            $this->addError(false, 'idMurid', self::RULE_MATCH, ['match', 'hanya boleh guna a-z dan 0-9']);
+        }
+        return $check;
+    }
+
     /**
      * @param string $idMurid
      * @return bool If user exists, then return false

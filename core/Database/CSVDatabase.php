@@ -28,10 +28,10 @@ class CSVDatabase
         return $data;
     }
 
-    public static function saveToDatabase($filename, $data): bool
+    public static function saveToDatabase($filename, $data, $mode = 'a'): bool
     {
         $path = @file_exists($filename) ? $filename : App::$app->config['resources_path'].'/data/'.$filename;
-        $handler = fopen($path, 'a');
+        $handler = fopen($path, $mode);
         if (!$handler) {
             throw new FileNotFoundException();
         } else {
